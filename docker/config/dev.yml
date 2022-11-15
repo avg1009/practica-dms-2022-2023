@@ -29,6 +29,7 @@ services:
   frontend:
     build:
       context: ../images/service
+
     image: dms2223-service
     container_name: dms2223frontend
     volumes:
@@ -38,6 +39,8 @@ services:
     networks:
       dms2223:
         ipv4_address: 172.10.1.30
+    ports:
+      - "8080:8080"
 
 networks:
   dms2223:
