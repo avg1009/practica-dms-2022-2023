@@ -9,7 +9,7 @@ from dms2223frontend.data.config import FrontendConfiguration
 from dms2223frontend.data.rest import AuthService, BackendService
 from dms2223frontend.presentation.web import \
     AdminEndpoints, CommonEndpoints, SessionEndpoints, DiscussionEndpoints, ModeratorEndpoints
-
+#TODO
 cfg: FrontendConfiguration = FrontendConfiguration()
 cfg.load_from_file(cfg.default_config_file())
 auth_service_cfg: Dict = cfg.get_auth_service()

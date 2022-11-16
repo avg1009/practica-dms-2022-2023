@@ -1,6 +1,5 @@
 """ DiscussionEndpoints class module.
 """
-
 from typing import Text, Union
 from flask import redirect, url_for, session, render_template
 from werkzeug.wrappers import Response
@@ -8,6 +7,7 @@ from dms2223common.data import Role
 from dms2223frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
 
+#TODO
 
 class DiscussionEndpoints():
     """ Monostate class responsible of handling the discussion web endpoint requests.
