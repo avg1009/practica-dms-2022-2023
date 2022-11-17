@@ -1,10 +1,13 @@
 
+import string
+
+
 class Pregunta:
 
     def __init__(self, descripcion):
-        self.descripcion= descripcion
-        self.visible= True
-        self.respuestas=[]
+        self.descripcion: string = descripcion
+        self.visible: bool = True
+        self.respuestas = []
 
     def getDescripcion(self):
         return self.descripcion

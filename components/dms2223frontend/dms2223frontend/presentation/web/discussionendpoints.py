@@ -6,8 +6,15 @@ from werkzeug.wrappers import Response
 from dms2223common.data import Role
 from dms2223frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
+from dms2223common.data.Pregunta import Pregunta
 
 #TODO
+
+preguntas= [
+    Pregunta("Pregunta 1"),
+    Pregunta("Pregunta 2"),
+    Pregunta("Pregunta 3")
+]
 
 class DiscussionEndpoints():
     """ Monostate class responsible of handling the discussion web endpoint requests.
@@ -27,4 +34,4 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('discussion.html', name=name, roles=session['roles'])
+        return render_template('discussion.html', name=name, roles=session['roles'], preguntas=preguntas)
