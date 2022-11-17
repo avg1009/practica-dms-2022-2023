@@ -18,8 +18,8 @@
         {% for pregunta in preguntas %}
             <div class="questiondiv">
                 <a class="questiontext">{{pregunta.titulo}}</a><br>
-                <a class="questiontext">{{pregunta.descripcion}}</a>
-                <p class="questiontext">{{pregunta.creador}}</p>
+                <p class="questiontext">{{pregunta.descripcion}}<br>
+                    {{pregunta.creador}}</p>
             </div>
         {% endfor %}
     {% endblock %}
