@@ -50,7 +50,7 @@ class DiscussionEndpoints():
 
         if request.form['pregunta'] == "":
             flash('Introduce pregunta', 'error')
-            return redirect(url_for('get_admin_users_new'))
+            return redirect(url_for('get_discussion'))
         
         preguntas.append(Pregunta(request.form['pregunta'],session['user']))
         return render_template('discussion.html', name=name, roles=session['roles'], preguntas=preguntas)
