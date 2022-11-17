@@ -7,6 +7,7 @@ class Respuesta :
         self.respuesta = respuesta
         self.visible = True
         self.votos = 0
+        self.comentarios = list()
 
     # votar respuesta
     def votarRespuesta(self):
@@ -19,3 +20,7 @@ class Respuesta :
     # visibilidad respuesta
     def cambiarVisibilidad(self):
         self.visible = not self.visible
+
+    #crear comentario
+    def crearComentario(self, comentario):
+        self.comentarios.append(comentario)
