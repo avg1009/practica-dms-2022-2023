@@ -1,7 +1,7 @@
 """ DiscussionEndpoints class module.
 """
 from typing import Text, Union
-from flask import redirect, url_for, session, render_template
+from flask import redirect, request, flash, url_for, session, render_template
 from werkzeug.wrappers import Response
 from dms2223common.data import Role
 from dms2223frontend.data.rest.authservice import AuthService
@@ -34,4 +34,23 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
+        
+        return render_template('discussion.html', name=name, roles=session['roles'], preguntas=preguntas)
+
+    @staticmethod
+    def post_discussion(auth_service: AuthService) -> Union[Response,Text]:
+
+
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.DISCUSSION.name not in session['roles']:
+            return redirect(url_for('get_home'))
+        name = session['user']
+        
+
+        if request.form['pregunta'] == "":
+            flash('Introduce pregunta', 'error')
+            return redirect(url_for('get_admin_users_new'))
+        
+        preguntas.append(Pregunta(request.form['pregunta'],session['user']))
         return render_template('discussion.html', name=name, roles=session['roles'], preguntas=preguntas)

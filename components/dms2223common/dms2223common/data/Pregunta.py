@@ -4,10 +4,11 @@ import string
 
 class Pregunta:
 
-    def __init__(self, descripcion):
+    def __init__(self, descripcion,autor=""):
         self.descripcion: string = descripcion
         self.visible: bool = True
         self.respuestas = []
+        self.autor = autor
 
     def getDescripcion(self):
         return self.descripcion
