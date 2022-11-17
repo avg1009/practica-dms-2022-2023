@@ -1,7 +1,7 @@
 from datetime import datetime
 class Comentario:
 
-    def __init__(self, creador, descripcion):
+    def __init__(self, creador = "", descripcion = ""):
         self.creador = creador
         self.descripcion= descripcion
         self.fechaCreacion = datetime.now()

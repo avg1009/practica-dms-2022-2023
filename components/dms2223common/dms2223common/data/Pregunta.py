@@ -3,19 +3,13 @@ import string
 from datetime import datetime
 
 class Pregunta:
-
-<<<<<<< HEAD
-    def __init__(self, descripcion,autor=""):
-=======
-    def __init__(self, creador, titulo, descripcion):
+    def __init__(self, creador = "", titulo = "", descripcion = ""):
         self.creador = creador
         self.titulo = titulo
->>>>>>> a80054d (Añadidos los campos faltantes a las clases)
         self.descripcion: string = descripcion
         self.fechaCreacion = datetime.now()
         self.visible: bool = True
         self.respuestas = []
-        self.autor = autor
 
     def getDescripcion(self):
         return self.descripcion
