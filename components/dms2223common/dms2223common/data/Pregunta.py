@@ -3,7 +3,7 @@ import string
 from datetime import datetime
 
 class Pregunta:
-    def __init__(self, creador = "", titulo = "", descripcion = ""):
+    def __init__(self, creador, titulo, descripcion):
         self.creador = creador
         self.titulo = titulo
         self.descripcion: string = descripcion

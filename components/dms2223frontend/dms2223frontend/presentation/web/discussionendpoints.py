@@ -11,9 +11,9 @@ from dms2223common.data.Pregunta import Pregunta
 #TODO
 
 preguntas= [
-    Pregunta("Pregunta 1"),
-    Pregunta("Pregunta 2"),
-    Pregunta("Pregunta 3")
+    Pregunta("Autor 1","Titulo 1","Descripcion 1"),
+    Pregunta("Autor 2","Titulo 2","Descripcion 2"),
+    Pregunta("Autor 3","Titulo 3","Descripcion 3")
 ]
 
 class DiscussionEndpoints():
@@ -48,9 +48,9 @@ class DiscussionEndpoints():
         name = session['user']
         
 
-        if request.form['pregunta'] == "":
+        if request.form['titulo'] == "" or request.form['descripcion'] == "":
             flash('Introduce pregunta', 'error')
             return redirect(url_for('get_discussion'))
         
-        preguntas.append(Pregunta(request.form['pregunta'],session['user']))
+        preguntas.append(Pregunta(session['user'],request.form['titulo'],request.form['descripcion']))
         return render_template('discussion.html', name=name, roles=session['roles'], preguntas=preguntas)

@@ -9,15 +9,17 @@
             <dl>
                 <dt>Pregunta</dt>
                 <dd>
-                    <input type="text" name="pregunta" placeholder="pregunta" autofocus />
+                    <input type="text" name="titulo" placeholder="Titulo" autofocus /><br>
+                    <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
                 </dd>
             </dl>
             <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
         </form>
         {% for pregunta in preguntas %}
             <div class="questiondiv">
+                <a class="questiontext">{{pregunta.titulo}}</a><br>
                 <a class="questiontext">{{pregunta.descripcion}}</a>
-                <p class="questiontext">{{pregunta.autor}}</p>
+                <p class="questiontext">{{pregunta.creador}}</p>
             </div>
         {% endfor %}
     {% endblock %}
