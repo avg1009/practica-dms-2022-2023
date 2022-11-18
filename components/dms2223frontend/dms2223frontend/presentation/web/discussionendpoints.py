@@ -7,6 +7,8 @@ from dms2223common.data import Role
 from dms2223frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
 from dms2223common.data.Pregunta import Pregunta
+from dms2223common.data.Respuesta import Respuesta
+from dms2223common.data.Comentario import Comentario
 
 #TODO
 
@@ -54,3 +56,86 @@ class DiscussionEndpoints():
         
         preguntas.append(Pregunta(session['user'],request.form['titulo'],request.form['descripcion']))
         return render_template('discussion.html', name=name, roles=session['roles'], preguntas=preguntas)
+
+    
+    @staticmethod
+    def get_answers(auth_service: AuthService) -> Union[Response, Text]:
+        """ Handles the GET requests to the discussion root endpoint.
+
+        Args:
+            - auth_service (AuthService): The authentication service.
+
+        Returns:
+            - Union[Response,Text]: The generated response to the request.
+        """
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.DISCUSSION.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+        pregunta = session['pregunta']
+        
+        return render_template('answers.html', name=name, roles=session['roles'], pregunta=pregunta)
+
+
+    @staticmethod
+    def post_answers(auth_service: AuthService) -> Union[Response,Text]:
+
+
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.DISCUSSION.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+        pregunta = session['pregunta']        
+
+        if request.form['titulo'] == "" or request.form['descripcion'] == "":
+            flash('Introduce pregunta', 'error')
+            return redirect(url_for('get_answer'))
+        
+        pregunta.addRespuesta(Respuesta(session['user'],request.form['descripcion']))
+        return render_template('answers.html', name=name, roles=session['roles'], pregunta=pregunta)
+
+    @staticmethod
+    def get_comment(auth_service: AuthService) -> Union[Response, Text]:
+        """ Handles the GET requests to the discussion root endpoint.
+
+        Args:
+            - auth_service (AuthService): The authentication service.
+
+        Returns:
+            - Union[Response,Text]: The generated response to the request.
+        """
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.DISCUSSION.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+        pregunta = session['pregunta']
+        answer = session['answer']
+        
+        return render_template('answer.html', name=name, roles=session['roles'], pregunta=pregunta, answer=answer)
+
+
+    @staticmethod
+    def post_comment(auth_service: AuthService) -> Union[Response,Text]:
+
+
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.DISCUSSION.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+        pregunta = session['pregunta']        
+        answer = session['answer']
+
+        if request.form['titulo'] == "" or request.form['descripcion'] == "":
+            flash('Introduce pregunta', 'error')
+            return redirect(url_for('get_answer'))
+        
+        answer.crearComentario(Comentario(session['user'],request.form['descripcion']))
+        return render_template('answer.html', name=name, roles=session['roles'], pregunta=pregunta)

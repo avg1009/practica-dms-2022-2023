@@ -205,4 +205,26 @@ table th {
     color: #777;
 }
 
+.answerdiv {
+    margin: 10px;
+    padding: 5px;
+    border: #ddd 1px solid;
+    border-left: #ddd 5px solid;
+}
+
+.answertext {
+    margin-top: 0;
+}
+
+.commenttdiv {
+    margin: 20px;
+    padding: 5px;
+    border: #ddd 1px solid;
+    border-left: #ddd 5px solid;
+}
+
+.commenttext {
+    margin-top: 0;
+}
+
 /*TODO*/

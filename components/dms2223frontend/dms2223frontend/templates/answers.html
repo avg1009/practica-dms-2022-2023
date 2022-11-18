@@ -1,0 +1,45 @@
+{% extends "base_logged_in.html" %}
+{% from "macros/buttons.html" import submit_button, button %}
+{% block title %}{% block subtitle %}{% endblock %}Discussion{% endblock %}
+{% block contentheading %} {{ pregunta.titulo }} {% endblock %}
+{% block contentsubheading %} {{ pregunta.descripcion }} {% endblock %}
+{% block maincontent %}
+    {% block answercontent %}
+        <form action="/answer" method="post">
+            <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+            <dl>
+                <dt>Respuesta</dt>
+                <dd>
+                    <input type="text" name="titulo" placeholder="Titulo" autofocus /><br>
+                    <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
+                </dd>
+            </dl>
+            <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+        </form>
+        {% for answer in pregunta.respuestas %}
+            <div class="commentdiv">
+                <p class="commenttext">{{comment.descripcion}}</p><br>
+                <p class="commenttext">{{comment.creador}}</p>
+            </div>
+            <form action="/comment" method="post">
+                <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+                <dl>
+                    <dt>Respuesta</dt>
+                    <dd>
+                        <input type="text" name="titulo" placeholder="Titulo" autofocus /><br>
+                        <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
+                    </dd>
+                </dl>
+                <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+            </form>
+            {% block commentcontent %}
+                {% for coment in answer.comentarios %}
+                <div class="commenttdiv">
+                    <a class="commenttext">{{comment.descripcion}}</a><br>
+                    <p class="commenttext">{{comment.creador}}<br>
+                </div>
+                {% endfor %}
+            {% endblock %}
+        {% endfor %}
+    {% endblock %}
+{% endblock %}
