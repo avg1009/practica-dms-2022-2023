@@ -74,8 +74,13 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
 
         name = session['user']
-        pregunta = session['pregunta']
-        
+        titulo = str(request.args.get('titulo'))
+
+        pregunta: Pregunta
+        for preguntaAux in preguntas:
+            if preguntaAux.titulo == titulo:
+                pregunta = preguntaAux
+                break
         return render_template('answers.html', name=name, roles=session['roles'], pregunta=pregunta)
 
 
@@ -89,7 +94,13 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
 
         name = session['user']
-        pregunta = session['pregunta']        
+        titulo = str(request.args.get('titulo'))
+
+        pregunta: Pregunta
+        for preguntaAux in preguntas:
+            if preguntaAux.titulo == titulo:
+                pregunta = preguntaAux
+                break       
 
         if request.form['titulo'] == "" or request.form['descripcion'] == "":
             flash('Introduce pregunta', 'error')

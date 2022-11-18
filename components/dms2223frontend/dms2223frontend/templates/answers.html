@@ -5,8 +5,7 @@
 {% block contentsubheading %} {{ pregunta.descripcion }} {% endblock %}
 {% block maincontent %}
     {% block answercontent %}
-        <form action="/answer" method="post">
-            <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+        <form action="/discussion/answers?titulo={{pregunta.titulo}}" method="post">
             <dl>
                 <dt>Respuesta</dt>
                 <dd>
@@ -17,11 +16,11 @@
             <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
         </form>
         {% for answer in pregunta.respuestas %}
-            <div class="commentdiv">
-                <p class="commenttext">{{comment.descripcion}}</p><br>
-                <p class="commenttext">{{comment.creador}}</p>
+            <div class="questiondiv">
+                <p class="questiontext">{{answer.descripcion}}</p><br>
+                <p class="questiontext">{{answer.creador}}</p>
             </div>
-            <form action="/comment" method="post">
+            <form action="discussion/answers/comments" method="post">
                 <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
                 <dl>
                     <dt>Respuesta</dt>
@@ -32,14 +31,12 @@
                 </dl>
                 <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
             </form>
-            {% block commentcontent %}
-                {% for coment in answer.comentarios %}
-                <div class="commenttdiv">
-                    <a class="commenttext">{{comment.descripcion}}</a><br>
-                    <p class="commenttext">{{comment.creador}}<br>
+            {% for comment in answer.comentarios %}
+                <div class="questiondiv">
+                    <a class="questiontext">{{comment.descripcion}}</a><br>
+                    <p class="questiontext">{{comment.creador}}<br>
                 </div>
-                {% endfor %}
-            {% endblock %}
+            {% endfor %}
         {% endfor %}
     {% endblock %}
 {% endblock %}

@@ -59,19 +59,19 @@ def get_discussion():
 def post_discussion():
     return DiscussionEndpoints.post_discussion(auth_service)
 
-@app.route("/answers", methods=['GET'])
+@app.route("/discussion/answers", methods=['GET'])
 def get_answers():
     return DiscussionEndpoints.get_answers(auth_service)
 
-@app.route("/answers", methods=['POST'])
+@app.route("/discussion/answers", methods=['POST'])
 def post_answers():
     return DiscussionEndpoints.post_answers(auth_service)
 
-@app.route("/answers", methods=['GET'])
+@app.route("/discussion/answers/comments", methods=['GET'])
 def get_commentss():
     return DiscussionEndpoints.get_comments(auth_service)
 
-@app.route("/answers", methods=['POST'])
+@app.route("/discussion/answers/comments", methods=['POST'])
 def post_comments():
     return DiscussionEndpoints.comments(auth_service)
 
