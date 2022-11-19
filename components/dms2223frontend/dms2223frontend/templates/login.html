@@ -4,13 +4,16 @@
 {% block title %}Log in{% endblock %}
 {% block pagecontent %}
     {{ flashedmessages() }}
+        
+    <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet"><link rel="stylesheet" href="/static/login.css">
     <div id="login-form">
-        <h4 class="aligncenter">Log in</h4>
-        <form action="login" method="post">
+        
+        <form action="login" method="post" class="login">
+            <h1 class="aligncenter">Log in</h1>
             <input type="text" name="user" placeholder="Username" autofocus />
             <input type="password" name="pass" placeholder="Password" />
-            <p class="aligncenter">{{ submit_button('bluebg', 'Log in') }}</p>
+            <p class="aligncenter">{{ submit_button('redfire', 'Log in') }}</p>
         </form>
     </div>
 {% endblock %}
-//TODO
+
