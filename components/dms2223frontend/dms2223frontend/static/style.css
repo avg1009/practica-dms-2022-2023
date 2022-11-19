@@ -49,11 +49,12 @@ a {
 }
 
 #footer {
-    padding: 1em;
-    background-color: #eee;
-    border-top: 2px solid #ddd;
-    margin-top: 1em;
-    font-size: smaller;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color:#eee;
+    text-align: center;
     color: #777;
 }
 
@@ -161,7 +162,10 @@ table th {
 .button:active {
     box-shadow: 0 0.3em 0.1em inset rgb(0 0 0 / 20%);
 }
-
+.redfire {
+    background-color: #f45b69;
+    color:#fff;
+}
 .bluebg {
     background-color: #253aa7;
     color: #fff;
@@ -227,4 +231,3 @@ table th {
     margin-top: 0;
 }
 
-/*TODO*/
