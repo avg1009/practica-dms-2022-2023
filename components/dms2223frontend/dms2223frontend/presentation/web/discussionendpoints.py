@@ -84,7 +84,47 @@ class DiscussionEndpoints():
 
         return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
 
+    @staticmethod
+    def post_question(auth_service: AuthService) -> Union[Response,Text]:
 
+
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.DISCUSSION.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+        tipo = request.form.get('tipo')
+        id_p = int(request.form.get('id_pregunta'))
+
+
+        pregunta: Pregunta
+        for preguntaAux in preguntas:
+            if preguntaAux.id== id_p:
+                pregunta = preguntaAux
+                break
+
+        if (tipo == "respuesta") :
+            if request.form['descripcion'] == "":
+                flash('Introduce respuesta', 'error')
+            else:
+                pregunta.addRespuesta(Respuesta(session['user'],request.form['descripcion'],pregunta))
+        elif (tipo == "comentario"):   
+            id_r = int(request.form.get('id_respuesta'))
+            respuesta: Respuesta
+            for respuestaAux in pregunta.getRespuestas():
+                if respuestaAux.id== id_r:
+                    respuesta = respuestaAux
+                    break
+            if request.form['descripcion'] == "" or request.form['sentimiento'] == "":
+                flash('Introduce comentario', 'error')
+            else:
+                respuesta.addComentario(Comentario(session['user'],request.form['descripcion'],respuesta,int(request.form['sentimiento'])))
+        
+        return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
+
+
+    '''
     @staticmethod
     def post_answer(auth_service: AuthService) -> Union[Response,Text]:
 
@@ -139,5 +179,5 @@ class DiscussionEndpoints():
             respuesta.addComentario(Comentario(session['user'],request.form['descripcion'],respuesta,int(request.form['sentimiento'])))
         
         return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
-
-
+    '''
+   

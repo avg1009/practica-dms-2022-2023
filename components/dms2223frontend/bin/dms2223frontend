@@ -63,6 +63,11 @@ def post_discussion():
 def get_question():
     return DiscussionEndpoints.get_question(auth_service)
 
+@app.route("/discussion/question", methods=['POST'])
+def post_question():
+    return DiscussionEndpoints.post_question(auth_service)
+
+'''
 @app.route("/discussion/question/answer", methods=['POST'])
 def post_answer():
     return DiscussionEndpoints.post_answer(auth_service)
@@ -70,10 +75,23 @@ def post_answer():
 @app.route("/discussion/question/answer/comment", methods=['POST'])
 def post_comment():
     return DiscussionEndpoints.post_comment(auth_service)
+'''
 
 @app.route("/moderator", methods=['GET'])
 def get_moderator():
     return ModeratorEndpoints.get_moderator(auth_service)
+
+@app.route("/moderator/report/question", methods=['POST'])
+def post_report_question():
+    return ModeratorEndpoints.post_question(auth_service)
+
+@app.route("/moderator/report/answer", methods=['POST'])
+def post_report_answer():
+    return ModeratorEndpoints.post_answer(auth_service)
+
+@app.route("/moderator/report/comment", methods=['POST'])
+def post_report_comment():
+    return ModeratorEndpoints.post_comment(auth_service)
 
 @app.route("/admin", methods=['GET'])
 def get_admin():

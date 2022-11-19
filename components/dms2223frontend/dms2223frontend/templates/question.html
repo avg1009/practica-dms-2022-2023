@@ -16,12 +16,14 @@
                 </dl>
                 <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
             </form>
-            <form action="/discussion/question/answer" method="post">
+            <form action="/discussion/question?id_p={{ pregunta.id }}" method="post">
+            <!--<form action="/discussion/question/answer" method="post">-->
                 <dl>
                     <dt>Añadir respuesta:</dt>
                     <dd>
                         <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
                         <input name="id_pregunta" type="hidden" value="{{pregunta.id}}" />
+                        <input name="tipo" type="hidden" value="respuesta" />
                     </dd>
                 </dl>
                 <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
@@ -43,7 +45,8 @@
                     </dl>
                     <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
                 </form>
-                <form action="/discussion/question/answer/comment" method="post">
+                <form action="/discussion/question?id_p={{ pregunta.id }}" method="post">
+                <!--<form action="/discussion/question/answer/comment" method="post">-->
                     <dl>
                         <dt>Añadir comentario</dt>
                         <dd>
@@ -53,6 +56,7 @@
                             <input name="sentimiento" type="radio" value="3" />Negativo
                             <input name="id_pregunta" type="hidden" value="{{pregunta.id}}" />
                             <input name="id_respuesta" type="hidden" value="{{respuesta.id}}" />
+                            <input name="tipo" type="hidden" value="comentario" />
                         </dd>
                     </dl>
                     <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
