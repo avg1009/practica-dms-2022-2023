@@ -12,12 +12,8 @@ class Pregunta:
         self.fechaCreacion = datetime.now()
         self.visible = True
         self.respuestas = []
-<<<<<<< HEAD
-        
-=======
         self.reporte = False
-
->>>>>>> dbdabce (Cambios para hacer la parte del moderador)
+        
     def getDescripcion(self):
         return self.descripcion
 

@@ -111,7 +111,6 @@ class DiscussionEndpoints():
 
     @staticmethod
     def get_comments(auth_service: AuthService) -> Union[Response, Text]:
-
         """ Handles the GET requests to the discussion root endpoint.
 
         Args:
@@ -126,10 +125,22 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
 
         name = session['user']
-        pregunta = session['pregunta']
-        answer = session['answer']
-        
-        return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta, answer=answer)
+        id_p = int(request.args.get('id_p'))
+        id_r = int(request.args.get('id_r'))
+
+        pregunta: Pregunta
+        for preguntaAux in preguntas:
+            if preguntaAux.id== id_p:
+                pregunta = preguntaAux
+                break
+
+        respuesta: Respuesta
+        for respuestaAux in pregunta.getRespuestas():
+            if respuestaAux.id== id_r:
+                respuesta = respuestaAux
+                break
+
+        return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta, respuesta=respuesta)
 
 
     @staticmethod
@@ -142,12 +153,25 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
 
         name = session['user']
-        pregunta = session['pregunta']        
-        answer = session['answer']
+        id_p = int(request.args.get('id_p'))
+        id_r = int(request.args.get('id_r'))
 
-        if request.form['titulo'] == "" or request.form['descripcion'] == "":
-            flash('Introduce pregunta', 'error')
-            return redirect(url_for('get_answer'))
+
+        pregunta: Pregunta
+        for preguntaAux in preguntas:
+            if preguntaAux.id== id_p:
+                pregunta = preguntaAux
+                break
+
+        respuesta: Respuesta
+        for respuestaAux in pregunta.getRespuestas():
+            if respuestaAux.id== id_r:
+                respuesta = respuestaAux
+                break
+
+        if request.form['descripcion'] != "" and request.form['sentimiento'] != "":
+            respuesta.addComentario(Comentario(session['user'],request.form['descripcion'],respuesta,int(request.form['sentimiento'])))
         
-        answer.crearComentario(Comentario(session['user'],request.form['descripcion']))
         return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
+
+

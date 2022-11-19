@@ -44,7 +44,7 @@ class Respuesta :
         return self.visible
 
     #crear comentario
-    def crearComentario(self, comentario):
+    def addComentario(self, comentario):
         self.comentarios.append(comentario)
 
     def getPregunta(self):
