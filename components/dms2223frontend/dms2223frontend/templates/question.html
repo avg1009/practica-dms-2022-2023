@@ -30,7 +30,8 @@
         {% for respuesta in pregunta.respuestas %}
             <div class="answerdiv">
                 <p class="answertext">{{respuesta.descripcion}}</p><br>
-                <p class="answertext">{{respuesta.creador}}</p>            
+                <p class="answertext">{{respuesta.creador}}</p>
+                <p class="datetext">{{respuesta.fechaCreacion.strftime("%A, %d of %B %Y at %I:%M %p")}}</p>            
                 <form action="/discussion/question/answers?id_p={{pregunta.id}}" method="post">
                     <dl>
                         <dt>Reportar respuesta:</dt>
@@ -67,6 +68,7 @@
                 {% endif %} 
                     <p class="commenttext">{{comentario.descripcion}}</p><br>
                     <p class="commenttext">{{comentario.creador}}</p>
+                    <p class="datetext">{{comentario.fechaCreacion.strftime("%A, %d of %B %Y at %I:%M %p")}}</p>
                     <form action="/discussion/question/answers?id_p={{pregunta.id}}" method="post">
                         </dl>
                             <dt>Reportar respuesta:</dt>
