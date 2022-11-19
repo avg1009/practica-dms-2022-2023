@@ -58,7 +58,13 @@
                 </form>
             </div>
             {% for comentario in respuesta.comentarios %}
-                <div class="commentdiv">
+                {% if comentario.sentimiento == 1%}
+                    <div class="commentdiv1">
+                {% elif comentario.sentimiento == 2 %}
+                    <div class="commentdiv2">
+                {% elif comentario.sentimiento == 3 %}
+                    <div class="commentdiv3">
+                {% endif %} 
                     <a class="commenttext">{{comentario.descripcion}}</a><br>
                     <p class="commenttext">{{comentario.creador}}</p>
                     <form action="/discussion/question/answers?id_p={{pregunta.id}}" method="post">
