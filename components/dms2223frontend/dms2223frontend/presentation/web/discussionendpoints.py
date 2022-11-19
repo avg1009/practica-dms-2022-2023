@@ -74,6 +74,7 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
 
         name = session['user']
+        #id_p = int(request.form.get('id_pregunta'))
         id_p = int(request.args.get('id_p'))
 
         pregunta: Pregunta
@@ -81,6 +82,7 @@ class DiscussionEndpoints():
             if preguntaAux.id== id_p:
                 pregunta = preguntaAux
                 break
+
         return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
 
 
@@ -94,6 +96,7 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
 
         name = session['user']
+        #id_p = int(request.form.get('id_pregunta'))
         id_p = int(request.args.get('id_p'))
 
         pregunta: Pregunta
@@ -126,7 +129,9 @@ class DiscussionEndpoints():
 
         name = session['user']
         id_p = int(request.args.get('id_p'))
-        id_r = int(request.args.get('id_r'))
+        #id_r = int(request.args.get('id_r'))
+        #id_p = int(request.form.get('id_pregunta'))
+        id_r = int(request.form.get('id_respuesta'))
 
         pregunta: Pregunta
         for preguntaAux in preguntas:
@@ -154,8 +159,9 @@ class DiscussionEndpoints():
 
         name = session['user']
         id_p = int(request.args.get('id_p'))
-        id_r = int(request.args.get('id_r'))
-
+        #id_r = int(request.args.get('id_r'))
+        #id_p = int(request.form.get('id_pregunta'))
+        id_r = int(request.form.get('id_respuesta'))
 
         pregunta: Pregunta
         for preguntaAux in preguntas:

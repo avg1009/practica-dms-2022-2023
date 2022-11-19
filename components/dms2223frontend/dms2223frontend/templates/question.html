@@ -5,66 +5,76 @@
 {% block contentsubheading %} {{ pregunta.descripcion }} {% endblock %}
 {% block maincontent %}
     {% block answercontent %}
-        <form action="discussion/question?id={{pregunta.id}}" method="post">
-            <dl>
-                <dt>Reportar pregunta:</dt>
-                <dd>
-                    <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
-                </dd>
-            </dl>
-            <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
-        </form>
-        <form action="/discussion/question?id_p={{pregunta.id}}" method="post">
-            <dl>
-                <dt>Añadir respuesta:</dt>
-                <dd>
-                    <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
-                </dd>
-            </dl>
-            <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
-        </form>
-        {% for respuesta in pregunta.respuestas %}
-            <div class="answerdiv">
-                <a class="answertext">{{respuesta.descripcion}}</a><br>
-                <p class="answertext">{{respuesta.creador}}</p>
-            </div>
-            <form action="/discussion/question/answers?id_p={{pregunta.id}}&id_r={{respuesta.id}}" method="post">
+        <div class="answerquestiondiv">
+            <form action="discussion/question?id_p={{pregunta.id}}" method="post">
                 <dl>
-                    <dt>Reportar respuesta:</dt>
+                    <dt>Reportar pregunta:</dt>
                     <dd>
-                        <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
+                        <input type="text" name="descripcion" placeholder="Descripcion" />
+                        <input name="id_pregunta" type="hidden" value="{{pregunta.id}}" />
                     </dd>
                 </dl>
                 <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
             </form>
-            {% for comentario in respuesta.comentarios %}
-                <div class="commentdiv">
-                    <a class="commenttext">{{comentario.descripcion}}</a><br>
-                    <p class="commenttext">{{comentario.creador}}</p>
-                </div>
-                <form action="/discussion/question/answers?id_p={{pregunta.id}}&id_r={{respuesta.id}}&id_c={{comentario.id}}" method="post">
-                    <dl>
-                        <dt>Reportar comentario</dt>
-                        <dd>
-                            <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
-                        </dd>
-                    </dl>
-                    <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
-                </form>
-            {% endfor %}
-            <form action="/discussion/question/answers?id_p={{pregunta.id}}&id_r={{respuesta.id}}" method="post">
+            <form action="/discussion/question?id_p={{pregunta.id}}" method="post">
                 <dl>
-                    <dt>Añadir comentario</dt>
+                    <dt>Añadir respuesta:</dt>
                     <dd>
-                        <input type="text" name="descripcion" placeholder="Descripcion" autofocus /><br>
-                        <input name="sentimiento" type="radio" value="1" />Positivo
-                        <input name="sentimiento" type="radio" value="2" />Neutral
-                        <input name="sentimiento" type="radio" value="3" />Negativo
-                        <input name="id_respuesta" type="hidden" value="{{respuesta.id}}" />
+                        <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
+                        <input name="id_pregunta" type="hidden" value="{{pregunta.id}}" />
                     </dd>
                 </dl>
                 <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
             </form>
+        </div>
+        {% for respuesta in pregunta.respuestas %}
+            <div class="answerdiv">
+                <a class="answertext">{{respuesta.descripcion}}</a><br>
+                <p class="answertext">{{respuesta.creador}}</p>            
+                <form action="/discussion/question/answers?id_p={{pregunta.id}}" method="post">
+                    <dl>
+                        <dt>Reportar respuesta:</dt>
+                        <dd>
+                            <input type="text" name="descripcion" placeholder="Descripcion" />
+                            <input name="id_pregunta" type="hidden" value="{{pregunta.id}}" />
+                            <input name="id_respuesta" type="hidden" value="{{respuesta.id}}" />
+                        </dd>
+                    </dl>
+                    <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+                </form>
+                <form action="/discussion/question/answers?id_p={{pregunta.id}}" method="post">
+                    <dl>
+                        <dt>Añadir comentario</dt>
+                        <dd>
+                            <input type="text" name="descripcion" placeholder="Descripcion" /><br>
+                            <input name="sentimiento" type="radio" value="1" />Positivo
+                            <input name="sentimiento" type="radio" value="2" checked />Neutral
+                            <input name="sentimiento" type="radio" value="3" />Negativo
+                            <input name="id_pregunta" type="hidden" value="{{pregunta.id}}" />
+                            <input name="id_respuesta" type="hidden" value="{{respuesta.id}}" />
+                        </dd>
+                    </dl>
+                    <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+                </form>
+            </div>
+            {% for comentario in respuesta.comentarios %}
+                <div class="commentdiv">
+                    <a class="commenttext">{{comentario.descripcion}}</a><br>
+                    <p class="commenttext">{{comentario.creador}}</p>
+                    <form action="/discussion/question/answers?id_p={{pregunta.id}}" method="post">
+                        </dl>
+                            <dt>Reportar respuesta:</dt>
+                            <dd>
+                                <input type="text" name="descripcion" placeholder="Descripcion" />
+                                <input name="id_pregunta" type="hidden" value="{{pregunta.id}}" />
+                                <input name="id_respuesta" type="hidden" value="{{respuesta.id}}" />
+                                <input name="id_comentario" type="hidden" value="{{comentario.id}}" />
+                            </dd>
+                        </dl>
+                        <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+                    </form>
+                </div>
+            {% endfor %}
         {% endfor %}
         
     {% endblock %}
