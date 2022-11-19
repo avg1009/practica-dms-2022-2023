@@ -2,7 +2,7 @@ from datetime import datetime
 import itertools
 class Comentario:
     id_iter=itertools.count()
-    def __init__(self, creador, descripcion, respuesta):
+    def __init__(self, creador, descripcion, respuesta, sentimiento):
         self.id=next(self.id_iter)
         self.creador = creador
         self.descripcion= descripcion
@@ -10,6 +10,7 @@ class Comentario:
         self.visible= True
         self.votos= 0
         self.respuesta=respuesta
+        self.sentimiento=sentimiento
         
     def getDescripcion(self):
         return self.descripcion
@@ -43,4 +44,10 @@ class Comentario:
     
     def getId(self):
         return self.id
+
+    def getSentimiento(self):
+        return self.sentimiento
+
+    def setSentimiento(self,sentimiento):
+        self.sentimiento=sentimiento
 

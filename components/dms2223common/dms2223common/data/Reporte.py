@@ -5,12 +5,13 @@ import itertools
 class Reporte:
 
     id_iter=itertools.count()
-    def __init__(self, descripcion,autor,elemento):
+    def __init__(self, descripcion,autor,elemento, estado):
         self.id=next(self.id_iter)
         self.descripcion: string = descripcion
         self.autor= autor
         self.fechaReporte = datetime.now()
         self.elemento= elemento
+        self.estado=estado
         
 
     def getDescripcion(self):
@@ -36,3 +37,9 @@ class Reporte:
     
     def getId(self):
         return self.id
+
+    def setEstado(self,estado):
+        self.estado=estado
+    
+    def getEstado(self):
+        return self.estado
