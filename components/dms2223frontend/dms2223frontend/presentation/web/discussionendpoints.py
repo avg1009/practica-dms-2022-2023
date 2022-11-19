@@ -12,11 +12,12 @@ from dms2223common.data.Comentario import Comentario
 
 #TODO
 
-preguntas= [
-    Pregunta("Autor 1","Titulo 1","Descripcion 1"),
-    Pregunta("Autor 2","Titulo 2","Descripcion 2"),
-    Pregunta("Autor 3","Titulo 3","Descripcion 3")
-]
+preguntas= {
+    0: Pregunta("Autor 1","Titulo 1","Descripcion 1"),
+    1: Pregunta("Autor 2","Titulo 2","Descripcion 2"),
+    2: Pregunta("Autor 3","Titulo 3","Descripcion 3")
+}
+
 
 class DiscussionEndpoints():
     """ Monostate class responsible of handling the discussion web endpoint requests.
@@ -54,7 +55,8 @@ class DiscussionEndpoints():
             flash('Introduce pregunta', 'error')
             return redirect(url_for('get_discussion'))
         
-        preguntas.append(Pregunta(session['user'],request.form['titulo'],request.form['descripcion']))
+        pregunta: Pregunta = Pregunta(session['user'],request.form['titulo'],request.form['descripcion'])
+        preguntas[pregunta.getId()]=pregunta
         return render_template('discussion.html', name=name, roles=session['roles'], preguntas=preguntas)
 
     
@@ -76,11 +78,7 @@ class DiscussionEndpoints():
         name = session['user']
         id_p = int(request.args.get('id_p'))
 
-        pregunta: Pregunta
-        for preguntaAux in preguntas:
-            if preguntaAux.id== id_p:
-                pregunta = preguntaAux
-                break
+        pregunta: Pregunta = preguntas.get(id_p)
 
         return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
 
@@ -98,13 +96,9 @@ class DiscussionEndpoints():
         id_p = int(request.form.get('id_pregunta'))
 
 
-        pregunta: Pregunta
-        for preguntaAux in preguntas:
-            if preguntaAux.id== id_p:
-                pregunta = preguntaAux
-                break
+        pregunta: Pregunta = preguntas.get(id_p)
 
-        if (tipo == "respuesta") :
+        if (tipo == "respuesta"):
             if request.form['descripcion'] == "":
                 flash('Introduce respuesta', 'error')
             else:

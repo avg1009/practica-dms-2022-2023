@@ -16,7 +16,7 @@
 
             </dl>
         </form>
-        {% for pregunta in preguntas %}
+        {% for pregunta in preguntas.values() %}
             <div class="questiondiv">
                 <a class="questiontext" href="/discussion/question?id_p={{ pregunta.id }}" name="pregunta">{{pregunta.titulo}}</a><br>
                 <p class="questiontext">{{pregunta.descripcion}}<br>
