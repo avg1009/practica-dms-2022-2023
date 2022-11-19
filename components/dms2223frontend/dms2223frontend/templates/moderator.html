@@ -9,14 +9,16 @@
             <dl>
                 <dt>Reportes</dt>
             </dl>
-            <p class="alignleft">{{ submit_button('bluebg', 'Reportes de preguntas') }}<br>{{ submit_button('bluebg', 'Reportes de comentarios') }}</p>
+            <!--p class="alignleft">{{ submit_button('bluebg', 'Reportes de preguntas') }}{{ submit_button('bluebg', 'Reportes de comentarios') }}</p>-->
         </form>
+        {% for report in reportes %}
+            <div class="reportdiv">
+                <a class="reporttext" href="/moderator/report?id_p={{ reporte.id }}" name="reporte">{{report.descripcion}}</a><br>
+                <p class="reporttext">{{report.autor}}<br>
+                    {{report.fechaReporte}}</p>
+            </div>
+        {% endfor %}
+
         
     {% endblock %}
 {% endblock %}
-
-<!--
-    La pagina de moderador tendra el listado de preguntas con reporte 
-    La pagina de moderador tendra el listado de comentarios con reporte 
-    En cada reporte habra un boton para cambiar el estado del reporte uno para aceptarlo y otro para denegarlo
--->
