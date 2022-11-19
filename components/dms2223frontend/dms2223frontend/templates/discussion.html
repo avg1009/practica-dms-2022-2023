@@ -8,12 +8,14 @@
             <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
             <dl>
                 <dt>Pregunta</dt>
-                <dd>
-                    <input type="text" name="titulo" placeholder="Titulo" autofocus /><br>
-                    <input type="text" name="descripcion" placeholder="Descripcion" autofocus />                
-                </dd>
+
+                <input type="text" name="titulo" placeholder="Titulo" autofocus  /><br>
+                <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
+
+                <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ submit_button('bluebg', 'Cancelar') }}</p>
+
             </dl>
-            <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+            <p class="alignright">{{ submit_button('bluebg', 'Crear') }}</p>
         </form>
         {% for pregunta in preguntas %}
             <div class="questiondiv">

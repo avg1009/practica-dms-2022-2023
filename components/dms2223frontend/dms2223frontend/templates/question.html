@@ -19,9 +19,14 @@
                 <a class="answertext">{{respuesta.descripcion}}</a><br>
                 <p class="answertext">{{respuesta.creador}}</p>
             </div>
+<<<<<<< HEAD
             <form action="discussion/question?id_p={{pregunta.id}}" method="post">
+=======
+        
+            <form method="post">
+>>>>>>> dbdabce (Cambios para hacer la parte del moderador)
                 <dl>
-                    <dt>Comentarios</dt>
+                    <dt>&nbsp;&nbsp;&nbsp;&nbsp;Comentarios</dt>
                     <dd>
                         <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
                     </dd>
@@ -33,7 +38,36 @@
                     <a class="commenttext">{{comentario.descripcion}}</a><br>
                     <p class="commenttext">{{comentario.creador}}</p>
                 </div>
+
+                <form method="post">
+                    <dl>
+                        <dt>&nbsp;&nbsp;&nbsp;&nbsp;Reportar comentario</dt>
+                        <dd>
+                            <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
+                        </dd>
+                    </dl>
+                    <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+                </form>
+
             {% endfor %}
+            <form action="discussion/question?id={{pregunta.id}}" method="post">
+                <dl>
+                    <dt>&nbsp;&nbsp;Reportar respuesta</dt>
+                    <dd>
+                        <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
+                    </dd>
+                </dl>
+                <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+            </form>
         {% endfor %}
+        <form action="discussion/question?id={{pregunta.id}}" method="post">
+            <dl>
+                <dt>Reportar pregunta</dt>
+                <dd>
+                    <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
+                </dd>
+            </dl>
+            <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+        </form>
     {% endblock %}
 {% endblock %}

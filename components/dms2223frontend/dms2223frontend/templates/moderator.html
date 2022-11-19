@@ -1,8 +1,22 @@
 {% extends "base_logged_in.html" %}
-{% block title %}{% block subtitle %}{% endblock %}Moderator{% endblock %}
-{% block contentheading %}Moderators panel{% endblock %}
+{% from "macros/buttons.html" import submit_button, button %}
+{% block title %}{% block subtitle %}{% endblock %}Moderation{% endblock %}
+{% block contentheading %}Moderation panel{% endblock %}
 {% block maincontent %}
     {% block moderatorcontent %}
-    <p class="yellowbg">Under construction</p>
+        <form action="/moderator" method="get">
+            <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+            <dl>
+                <dt>Reportes</dt>
+            </dl>
+            <p class="alignleft">{{ submit_button('bluebg', 'Reportes de preguntas') }}<br>{{ submit_button('bluebg', 'Reportes de comentarios') }}</p>
+        </form>
+        
     {% endblock %}
 {% endblock %}
+
+<!--
+    La pagina de moderador tendra el listado de preguntas con reporte 
+    La pagina de moderador tendra el listado de comentarios con reporte 
+    En cada reporte habra un boton para cambiar el estado del reporte uno para aceptarlo y otro para denegarlo
+-->
