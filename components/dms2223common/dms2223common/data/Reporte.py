@@ -1,10 +1,12 @@
 import string
 import datetime
-
+import itertools
 
 class Reporte:
 
+    id_iter=itertools.count()
     def __init__(self, descripcion,autor,elemento):
+        self.id=next(self.id_iter)
         self.descripcion: string = descripcion
         self.autor= autor
         self.fechaReporte = datetime.now()
@@ -31,3 +33,6 @@ class Reporte:
     
     def getFechaReporte(self):
         return self.fechaReporte
+    
+    def getId(self):
+        return self.id
