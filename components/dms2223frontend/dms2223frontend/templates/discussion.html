@@ -10,14 +10,14 @@
                 <dt>Pregunta</dt>
                 <dd>
                     <input type="text" name="titulo" placeholder="Titulo" autofocus /><br>
-                    <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
+                    <input type="text" name="descripcion" placeholder="Descripcion" autofocus />                
                 </dd>
             </dl>
             <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
         </form>
         {% for pregunta in preguntas %}
             <div class="questiondiv">
-                <a class="questiontext" href="/discussion/answers?titulo={{ pregunta.titulo }}" name="pregunta">{{pregunta.titulo}}</a><br>
+                <a class="questiontext" href="/discussion/question?titulo={{ pregunta.titulo }}" name="pregunta">{{pregunta.titulo}}</a><br>
                 <p class="questiontext">{{pregunta.descripcion}}<br>
                     {{pregunta.creador}}</p>
             </div>

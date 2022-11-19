@@ -5,36 +5,34 @@
 {% block contentsubheading %} {{ pregunta.descripcion }} {% endblock %}
 {% block maincontent %}
     {% block answercontent %}
-        <form action="/discussion/answers?titulo={{pregunta.titulo}}" method="post">
+        <form action="/discussion/question?titulo={{pregunta.titulo}}" method="post">
             <dl>
                 <dt>Respuesta</dt>
                 <dd>
-                    <input type="text" name="titulo" placeholder="Titulo" autofocus /><br>
                     <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
                 </dd>
             </dl>
             <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
         </form>
         {% for answer in pregunta.respuestas %}
-            <div class="questiondiv">
-                <p class="questiontext">{{answer.descripcion}}</p><br>
-                <p class="questiontext">{{answer.creador}}</p>
+            <div class="answerdiv">
+                <a class="answertext">{{answer.descripcion}}</a><br>
+                <p class="answertext">{{answer.creador}}</p>
             </div>
-            <form action="discussion/answers/comments" method="post">
+            <form action="discussion/question/answer/comments" method="post">
                 <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
                 <dl>
-                    <dt>Respuesta</dt>
+                    <dt>Comentarios</dt>
                     <dd>
-                        <input type="text" name="titulo" placeholder="Titulo" autofocus /><br>
                         <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
                     </dd>
                 </dl>
                 <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
             </form>
             {% for comment in answer.comentarios %}
-                <div class="questiondiv">
-                    <a class="questiontext">{{comment.descripcion}}</a><br>
-                    <p class="questiontext">{{comment.creador}}<br>
+                <div class="commentdiv">
+                    <a class="commenttext">{{comment.descripcion}}</a><br>
+                    <p class="commenttext">{{comment.creador}}</p>
                 </div>
             {% endfor %}
         {% endfor %}

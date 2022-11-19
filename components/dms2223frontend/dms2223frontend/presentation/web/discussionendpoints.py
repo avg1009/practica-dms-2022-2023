@@ -81,7 +81,7 @@ class DiscussionEndpoints():
             if preguntaAux.titulo == titulo:
                 pregunta = preguntaAux
                 break
-        return render_template('answers.html', name=name, roles=session['roles'], pregunta=pregunta)
+        return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
 
 
     @staticmethod
@@ -102,15 +102,16 @@ class DiscussionEndpoints():
                 pregunta = preguntaAux
                 break       
 
-        if request.form['titulo'] == "" or request.form['descripcion'] == "":
+        if request.form['descripcion'] == "":
             flash('Introduce pregunta', 'error')
             return redirect(url_for('get_answer'))
         
-        pregunta.addRespuesta(Respuesta(session['user'],request.form['descripcion']))
-        return render_template('answers.html', name=name, roles=session['roles'], pregunta=pregunta)
+        pregunta.addRespuesta(Respuesta(session['user'],request.form['descripcion'],pregunta))
+        return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
 
     @staticmethod
-    def get_comment(auth_service: AuthService) -> Union[Response, Text]:
+    def get_comments(auth_service: AuthService) -> Union[Response, Text]:
+
         """ Handles the GET requests to the discussion root endpoint.
 
         Args:
@@ -132,7 +133,7 @@ class DiscussionEndpoints():
 
 
     @staticmethod
-    def post_comment(auth_service: AuthService) -> Union[Response,Text]:
+    def post_comments(auth_service: AuthService) -> Union[Response,Text]:
 
 
         if not WebAuth.test_token(auth_service):
