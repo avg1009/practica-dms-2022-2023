@@ -60,20 +60,16 @@ def post_discussion():
     return DiscussionEndpoints.post_discussion(auth_service)
 
 @app.route("/discussion/question", methods=['GET'])
-def get_answers():
-    return DiscussionEndpoints.get_answers(auth_service)
+def get_question():
+    return DiscussionEndpoints.get_question(auth_service)
 
-@app.route("/discussion/question", methods=['POST'])
-def post_answers():
-    return DiscussionEndpoints.post_answers(auth_service)
+@app.route("/discussion/question/answer", methods=['POST'])
+def post_answer():
+    return DiscussionEndpoints.post_answer(auth_service)
 
-@app.route("/discussion/question/answers", methods=['GET'])
-def get_commentss():
-    return DiscussionEndpoints.get_comments(auth_service)
-
-@app.route("/discussion/question/answers", methods=['POST'])
-def post_comments():
-    return DiscussionEndpoints.post_comments(auth_service)
+@app.route("/discussion/question/answer/comment", methods=['POST'])
+def post_comment():
+    return DiscussionEndpoints.post_comment(auth_service)
 
 @app.route("/moderator", methods=['GET'])
 def get_moderator():

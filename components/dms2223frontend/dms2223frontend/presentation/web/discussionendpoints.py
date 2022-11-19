@@ -59,7 +59,7 @@ class DiscussionEndpoints():
 
     
     @staticmethod
-    def get_answers(auth_service: AuthService) -> Union[Response, Text]:
+    def get_question(auth_service: AuthService) -> Union[Response, Text]:
         """ Handles the GET requests to the discussion root endpoint.
 
         Args:
@@ -74,7 +74,6 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
 
         name = session['user']
-        #id_p = int(request.form.get('id_pregunta'))
         id_p = int(request.args.get('id_p'))
 
         pregunta: Pregunta
@@ -87,7 +86,7 @@ class DiscussionEndpoints():
 
 
     @staticmethod
-    def post_answers(auth_service: AuthService) -> Union[Response,Text]:
+    def post_answer(auth_service: AuthService) -> Union[Response,Text]:
 
 
         if not WebAuth.test_token(auth_service):
@@ -96,8 +95,7 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
 
         name = session['user']
-        #id_p = int(request.form.get('id_pregunta'))
-        id_p = int(request.args.get('id_p'))
+        id_p = int(request.form.get('id_pregunta'))
 
         pregunta: Pregunta
         for preguntaAux in preguntas:
@@ -113,43 +111,7 @@ class DiscussionEndpoints():
         return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
 
     @staticmethod
-    def get_comments(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the GET requests to the discussion root endpoint.
-
-        Args:
-            - auth_service (AuthService): The authentication service.
-
-        Returns:
-            - Union[Response,Text]: The generated response to the request.
-        """
-        if not WebAuth.test_token(auth_service):
-            return redirect(url_for('get_login'))
-        if Role.DISCUSSION.name not in session['roles']:
-            return redirect(url_for('get_home'))
-
-        name = session['user']
-        id_p = int(request.args.get('id_p'))
-        #id_r = int(request.args.get('id_r'))
-        #id_p = int(request.form.get('id_pregunta'))
-        id_r = int(request.form.get('id_respuesta'))
-
-        pregunta: Pregunta
-        for preguntaAux in preguntas:
-            if preguntaAux.id== id_p:
-                pregunta = preguntaAux
-                break
-
-        respuesta: Respuesta
-        for respuestaAux in pregunta.getRespuestas():
-            if respuestaAux.id== id_r:
-                respuesta = respuestaAux
-                break
-
-        return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta, respuesta=respuesta)
-
-
-    @staticmethod
-    def post_comments(auth_service: AuthService) -> Union[Response,Text]:
+    def post_comment(auth_service: AuthService) -> Union[Response,Text]:
 
 
         if not WebAuth.test_token(auth_service):
@@ -158,9 +120,7 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
 
         name = session['user']
-        id_p = int(request.args.get('id_p'))
-        #id_r = int(request.args.get('id_r'))
-        #id_p = int(request.form.get('id_pregunta'))
+        id_p = int(request.form.get('id_pregunta'))
         id_r = int(request.form.get('id_respuesta'))
 
         pregunta: Pregunta

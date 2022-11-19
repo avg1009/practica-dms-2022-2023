@@ -6,7 +6,7 @@
 {% block maincontent %}
     {% block answercontent %}
         <div class="answerquestiondiv">
-            <form action="discussion/question?id_p={{pregunta.id}}" method="post">
+            <form action="discussion/report/question" method="post">
                 <dl>
                     <dt>Reportar pregunta:</dt>
                     <dd>
@@ -16,7 +16,7 @@
                 </dl>
                 <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
             </form>
-            <form action="/discussion/question?id_p={{pregunta.id}}" method="post">
+            <form action="/discussion/question/answer" method="post">
                 <dl>
                     <dt>Añadir respuesta:</dt>
                     <dd>
@@ -32,7 +32,7 @@
                 <p class="answertext">{{respuesta.descripcion}}</p><br>
                 <p class="answertext">{{respuesta.creador}}</p>
                 <p class="datetext">{{respuesta.fechaCreacion.strftime("%A, %d of %B %Y at %I:%M %p")}}</p>            
-                <form action="/discussion/question/answers?id_p={{pregunta.id}}" method="post">
+                <form action="/discussion/report/question/answer" method="post">
                     <dl>
                         <dt>Reportar respuesta:</dt>
                         <dd>
@@ -43,7 +43,7 @@
                     </dl>
                     <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
                 </form>
-                <form action="/discussion/question/answers?id_p={{pregunta.id}}" method="post">
+                <form action="/discussion/question/answer/comment" method="post">
                     <dl>
                         <dt>Añadir comentario</dt>
                         <dd>
@@ -69,7 +69,7 @@
                     <p class="commenttext">{{comentario.descripcion}}</p><br>
                     <p class="commenttext">{{comentario.creador}}</p>
                     <p class="datetext">{{comentario.fechaCreacion.strftime("%A, %d of %B %Y at %I:%M %p")}}</p>
-                    <form action="/discussion/question/answers?id_p={{pregunta.id}}" method="post">
+                    <form action="/discussion/report/question/answer/comment" method="post">
                         </dl>
                             <dt>Reportar respuesta:</dt>
                             <dd>
@@ -83,7 +83,6 @@
                     </form>
                 </div>
             {% endfor %}
-        {% endfor %}
-        
+        {% endfor %}        
     {% endblock %}
 {% endblock %}
