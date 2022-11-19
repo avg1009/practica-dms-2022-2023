@@ -5,11 +5,13 @@
 {% block contentsubheading %} {{ report.autor }} {% endblock %}
 {% block maincontent %}
     {% block answercontent %}
-        <form action="/moderator/report/report?id_p={{report.id}}&id_r={{report.id}}" method="post">
+        <form action="/discussion/question/report?id_p={{report.id}}&id_r={{prpegunta.id}}" method="post">
             <dl>
-                <dt>Resolver reporte</dt>
+                <dt>Aceptar reporte</dt>
                 <dd>
-                    <p class="aligncenter"> { button('bluebg', href="/moderator/", 'Aceptar') }}{{ button('redbg', href="/moderator/", 'Denegar') }}</p>
+                    <input type = "hidden" name = "aceptar" value = "DELETE"/>
+                    <p class="alignright">{{ submit_button('bluebg', 'Aceptar') }}{{ submit_button('bluebg', 'Denegar') }}</p>
+
                 </dd>
             </dl>
         </form>
