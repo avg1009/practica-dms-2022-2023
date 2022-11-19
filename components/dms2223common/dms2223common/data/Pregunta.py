@@ -3,11 +3,12 @@ import string
 from datetime import datetime
 import itertools
 class Pregunta:
-    id_iter=itertools.count()
+    id_iter= itertools.count()
+
 
     def __init__(self, creador, titulo, descripcion):
         
-        self.id=next(self.id_iter)
+        self.id=next(Pregunta.id_iter)
         self.creador = creador
         self.titulo = titulo
         self.descripcion: string = descripcion

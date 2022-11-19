@@ -5,7 +5,7 @@
 {% block contentsubheading %} {{ pregunta.descripcion }} {% endblock %}
 {% block maincontent %}
     {% block answercontent %}
-        <form action="/discussion/question?titulo={{pregunta.titulo}}" method="post">
+        <form action="/discussion/question?id={{pregunta.id}}" method="post">
             <dl>
                 <dt>Respuesta</dt>
                 <dd>
