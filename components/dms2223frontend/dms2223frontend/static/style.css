@@ -16,12 +16,12 @@ a {
     height: 1em;
     padding: 0.5em;
     font-size: 90%;
-    background-color: #333;
+    background-color:  rgb(23, 21, 22);
     color: #eee;
 }
 
 #page-top a {
-    color: #aaa;
+    color: rgb(217, 217, 217);
 }
 
 #page-top a:hover {
@@ -78,24 +78,30 @@ a {
 
 #main-content {
     padding: 1em;
+   
+
 }
 
 #contentheader {
+    background-color: #f17d86;
+
     padding: 1em;
     margin: 0;
     box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
 }
 
 #contentheader h1,h2 {
+    
+
     margin: 0.2em 0;
 }
 
 #contentheader h2 {
-    color: #9b0015;
+    color: #150709;
 }
 
 a {
-    color: #253aa7;
+    color: #1c275d;
 }
 
 dd {
@@ -167,7 +173,7 @@ table th {
     color:#fff;
 }
 .bluebg {
-    background-color: #253aa7;
+    background-color: #5e72da;
     color: #fff;
 }
 
@@ -176,7 +182,7 @@ table th {
 }
 
 .redbg {
-    background-color: #9b0015;
+    background-color: #c64f5f;
     color: #fff;
 }
 
@@ -185,7 +191,7 @@ table th {
 }
 
 .yellowbg {
-    background-color: #ffc930;
+    background-color: #e7cf90;
     color: #000;
 }
 
