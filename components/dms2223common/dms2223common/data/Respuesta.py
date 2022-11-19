@@ -1,18 +1,21 @@
 from datetime import datetime
 import itertools
 
+from dms2223common.data import Pregunta
+
 class Respuesta :
+
     id_iter= itertools.count()
 
     def __init__(self, creador, descripcion, pregunta):
-        self.id=next(self.id_iter)
+        self.id=next(Respuesta.id_iter)
         self.creador = creador
         self.fechaCreacion = datetime.now()
         self.descripcion = descripcion
         self.visible = True
         self.votos = 0
         self.comentarios = list()
-        self.pregunta =pregunta
+        self.pregunta: Pregunta = pregunta
 
     def getCreador(self):
         return self.creador

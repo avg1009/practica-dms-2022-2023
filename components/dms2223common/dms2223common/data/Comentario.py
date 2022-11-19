@@ -1,16 +1,20 @@
 from datetime import datetime
 import itertools
+
+from dms2223common.data import Respuesta, sentiment
 class Comentario:
+
     id_iter=itertools.count()
+
     def __init__(self, creador, descripcion, respuesta, sentimiento):
-        self.id=next(self.id_iter)
+        self.id=next(Comentario.id_iter)
         self.creador = creador
-        self.descripcion= descripcion
+        self.descripcion: str= descripcion
         self.fechaCreacion = datetime.now()
         self.visible= True
         self.votos= 0
-        self.respuesta=respuesta
-        self.sentimiento=sentimiento
+        self.respuesta: Respuesta =respuesta
+        self.sentimiento: sentiment =sentimiento
         
     def getDescripcion(self):
         return self.descripcion

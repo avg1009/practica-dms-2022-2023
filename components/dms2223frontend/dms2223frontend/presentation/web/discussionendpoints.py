@@ -74,11 +74,11 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
 
         name = session['user']
-        id = int(request.args.get('id'))
+        id_p = int(request.args.get('id_p'))
 
         pregunta: Pregunta
         for preguntaAux in preguntas:
-            if preguntaAux.id== id:
+            if preguntaAux.id== id_p:
                 pregunta = preguntaAux
                 break
         return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
@@ -94,16 +94,16 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
 
         name = session['user']
-        id = int(request.args.get('id'))
+        id_p = int(request.args.get('id_p'))
 
         pregunta: Pregunta
         for preguntaAux in preguntas:
-            if preguntaAux.id== id:
+            if preguntaAux.id== id_p:
                 pregunta = preguntaAux
                 break     
 
         if request.form['descripcion'] == "":
-            flash('Introduce pregunta', 'error')
+            flash('Introduce respuesta', 'error')
             return redirect(url_for('get_answer'))
         
         pregunta.addRespuesta(Respuesta(session['user'],request.form['descripcion'],pregunta))
@@ -129,7 +129,7 @@ class DiscussionEndpoints():
         pregunta = session['pregunta']
         answer = session['answer']
         
-        return render_template('answer.html', name=name, roles=session['roles'], pregunta=pregunta, answer=answer)
+        return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta, answer=answer)
 
 
     @staticmethod
@@ -150,4 +150,4 @@ class DiscussionEndpoints():
             return redirect(url_for('get_answer'))
         
         answer.crearComentario(Comentario(session['user'],request.form['descripcion']))
-        return render_template('answer.html', name=name, roles=session['roles'], pregunta=pregunta)
+        return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)

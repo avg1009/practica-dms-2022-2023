@@ -5,7 +5,7 @@
 {% block contentsubheading %} {{ pregunta.descripcion }} {% endblock %}
 {% block maincontent %}
     {% block answercontent %}
-        <form action="/discussion/question?id={{pregunta.id}}" method="post">
+        <form action="/discussion/question?id_p={{pregunta.id}}" method="post">
             <dl>
                 <dt>Respuesta</dt>
                 <dd>
@@ -14,13 +14,12 @@
             </dl>
             <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
         </form>
-        {% for answer in pregunta.respuestas %}
+        {% for respuesta in pregunta.respuestas %}
             <div class="answerdiv">
-                <a class="answertext">{{answer.descripcion}}</a><br>
-                <p class="answertext">{{answer.creador}}</p>
+                <a class="answertext">{{respuesta.descripcion}}</a><br>
+                <p class="answertext">{{respuesta.creador}}</p>
             </div>
-            <form action="discussion/question/answer/comments" method="post">
-                <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+            <form action="discussion/question?id_p={{pregunta.id}}" method="post">
                 <dl>
                     <dt>Comentarios</dt>
                     <dd>
@@ -29,10 +28,10 @@
                 </dl>
                 <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
             </form>
-            {% for comment in answer.comentarios %}
+            {% for comentario in respuesta.comentarios %}
                 <div class="commentdiv">
-                    <a class="commenttext">{{comment.descripcion}}</a><br>
-                    <p class="commenttext">{{comment.creador}}</p>
+                    <a class="commenttext">{{comentario.descripcion}}</a><br>
+                    <p class="commenttext">{{comentario.creador}}</p>
                 </div>
             {% endfor %}
         {% endfor %}

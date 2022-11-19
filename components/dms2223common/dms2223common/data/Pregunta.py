@@ -1,21 +1,18 @@
-
-import string
 from datetime import datetime
 import itertools
 class Pregunta:
+
     id_iter= itertools.count()
-
-
+    
     def __init__(self, creador, titulo, descripcion):
-        
         self.id=next(Pregunta.id_iter)
         self.creador = creador
-        self.titulo = titulo
-        self.descripcion: string = descripcion
+        self.titulo: str = titulo
+        self.descripcion: str = descripcion
         self.fechaCreacion = datetime.now()
-        self.visible: bool = True
+        self.visible = True
         self.respuestas = []
-
+        
     def getDescripcion(self):
         return self.descripcion
 
