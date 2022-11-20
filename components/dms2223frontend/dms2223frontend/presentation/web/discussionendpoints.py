@@ -134,6 +134,7 @@ class DiscussionEndpoints():
         
         return redirect(url_for("get_question",id_pregunta=pregunta.id))
 
+    @staticmethod
     def vote_answers(auth_service: AuthService,id_pregunta: int, id_respuesta: int)-> Union[Response,Text]:
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
@@ -158,6 +159,7 @@ class DiscussionEndpoints():
         respuesta.votos+=1
         return redirect(url_for("get_question",id_pregunta=pregunta.id))
 
+    @staticmethod
     def vote_comments(auth_service: AuthService,id_pregunta: int, id_respuesta: int, id_comentario: int)-> Union[Response,Text]:
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
@@ -186,6 +188,7 @@ class DiscussionEndpoints():
         comentario.votos+=1
         return redirect(url_for("get_question",id_pregunta=pregunta.id))
 
+    @staticmethod
     def report_answers(auth_service: AuthService,id_pregunta: int, id_respuesta: int)-> Union[Response,Text]:
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
@@ -207,11 +210,12 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(name,descripcion,respuesta,ReportStatus.PENDING)
+        reporte = Reporte(name,descripcion,respuesta,1)
         reportes[reporte.id] = reporte
         
         return redirect(url_for("get_question",id_pregunta=pregunta.id))
 
+    @staticmethod
     def report_comments(auth_service: AuthService,id_pregunta: int, id_respuesta: int, id_comentario: int)-> Union[Response,Text]:
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
@@ -238,11 +242,12 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(name,descripcion,comentario,ReportStatus.PENDING)
+        reporte = Reporte(name,descripcion,comentario,1)
         reportes[reporte.id] = reporte
         
         return redirect(url_for("get_question",id_pregunta=pregunta.id))
 
+    @staticmethod
     def report_questions(auth_service: AuthService,id_pregunta: int)-> Union[Response,Text]:
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
