@@ -7,17 +7,9 @@ from werkzeug.wrappers import Response
 from dms2223common.data import Role
 from dms2223frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
-from dms2223common.data.Reporte import Reporte
 from dms2223common.data.reportstatus import ReportStatus
-from dms2223frontend.presentation.web.discussionendpoints import preguntas
-from dms2223frontend.presentation.web.discussionendpoints import respuestas
-from dms2223frontend.presentation.web.discussionendpoints import comentarios
 
-reportes = {
-    0: Reporte("Descripcion 1", "Autor 1", preguntas[0], 1),
-    1: Reporte("Descripcion 2", "Autor 2", respuestas[0], 1),
-    2: Reporte("Descripcion 3", "Autor 3", comentarios[0], 1),
-}
+reportes = {}
 class ModeratorEndpoints():
     """ Monostate class responsible of handing the moderator web endpoint requests.
     """

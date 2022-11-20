@@ -11,7 +11,7 @@ class Reporte:
     def __init__(self, descripcion, autor, elemento, estado):
         self.id=next(Reporte.id_iter)
         self.descripcion: string = descripcion
-        self.autor= autor
+        self.autor = autor
         self.fechaReporte = datetime.now()
         self.elemento = elemento
         self.estado: reportstatus = estado

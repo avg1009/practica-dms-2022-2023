@@ -3,13 +3,16 @@
 from typing import Text, Union
 from flask import redirect, request, flash, url_for, session, render_template
 from werkzeug.wrappers import Response
+from dms2223frontend.presentation.web.moderatorendpoints import reportes
 from dms2223common.data import Role
+from dms2223common.data.reportstatus import ReportStatus
 from dms2223frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
 from dms2223common.data.Pregunta import Pregunta
 from dms2223common.data.Respuesta import Respuesta
 from dms2223common.data.Comentario import Comentario
 from dms2223common.data.sentiment import Sentiment
+from dms2223common.data.Reporte import Reporte
 
 #TODO
 
@@ -18,20 +21,6 @@ preguntas = {
     1: Pregunta("Autor 2","Titulo 2","Descripcion 2"),
     2: Pregunta("Autor 3","Titulo 3","Descripcion 3")
 }
-
-respuestas = {
-    0: Respuesta("Autor 1", "Respuesta 1", preguntas[0]),
-    1: Respuesta("Autor 2","Respuesta 2", preguntas[1]),
-    2: Respuesta("Autor 3", "Respuesta 3", preguntas[2])
-}
-
-comentarios = {
-    0: Comentario("Autor 1","Descripcion 1", respuestas[0],Sentiment.NEUTRAL),
-    1: Comentario("Autor 2","Descripcion 2", respuestas[1],Sentiment.NEUTRAL),
-    2: Comentario("Autor 3","Descripcion 3", respuestas[2],Sentiment.NEUTRAL)
-}
-
-
 
 class DiscussionEndpoints():
     """ Monostate class responsible of handling the discussion web endpoint requests.
@@ -197,3 +186,82 @@ class DiscussionEndpoints():
         comentario.votos+=1
         return redirect(url_for("get_question",id_pregunta=pregunta.id))
 
+    def report_answers(auth_service: AuthService,id_pregunta: int, id_respuesta: int)-> Union[Response,Text]:
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.DISCUSSION.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+
+        pregunta = preguntas.get(id_pregunta)
+
+        if pregunta is None:
+            return redirect(url_for("get_discussion"))
+
+        respuesta = pregunta.respuestas.get(id_respuesta)
+
+        if respuesta is None:
+            return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        descripcion = request.form["descripcion"]
+
+        if descripcion is None:
+            return redirect(url_for("get_discussion"))
+        reporte = Reporte(name,descripcion,respuesta,ReportStatus.PENDING)
+        reportes[reporte.id] = reporte
+        
+        return redirect(url_for("get_question",id_pregunta=pregunta.id))
+
+    def report_comments(auth_service: AuthService,id_pregunta: int, id_respuesta: int, id_comentario: int)-> Union[Response,Text]:
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.DISCUSSION.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+
+        pregunta = preguntas.get(id_pregunta)
+
+        if pregunta is None:
+            return redirect(url_for("get_discussion"))
+
+        respuesta = pregunta.respuestas.get(id_respuesta)
+
+        if respuesta is None:
+            return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        
+        comentario= respuesta.comentarios.get(id_comentario)
+        if comentario is None:
+            return redirect(url_for("get_question",id_pregunta=pregunta.id)) 
+               
+        descripcion = request.form["descripcion"]
+
+        if descripcion is None:
+            return redirect(url_for("get_discussion"))
+        reporte = Reporte(name,descripcion,comentario,ReportStatus.PENDING)
+        reportes[reporte.id] = reporte
+        
+        return redirect(url_for("get_question",id_pregunta=pregunta.id))
+
+    def report_questions(auth_service: AuthService,id_pregunta: int)-> Union[Response,Text]:
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.DISCUSSION.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+
+        pregunta = preguntas.get(id_pregunta)
+
+        if pregunta is None:
+            return redirect(url_for("get_discussion"))
+               
+        descripcion = request.form["descripcion"]
+
+        if descripcion is None:
+            return redirect(url_for("get_discussion"))
+        reporte = Reporte(descripcion,name,pregunta,ReportStatus.PENDING)
+
+        reportes[reporte.id] = reporte
+
+        return redirect(url_for("get_question",id_pregunta=pregunta.id))

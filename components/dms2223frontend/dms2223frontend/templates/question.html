@@ -6,7 +6,7 @@
 {% block maincontent %}
     {% block answercontent %}
         <div class="answerquestiondiv">
-            <form action="discussion/report/question" method="post">
+            <form action="/discussion/{{ pregunta.id }}/report" method="POST">
                 <dl>
                     <dt>Reportar pregunta:</dt>
                     <dd>
@@ -36,7 +36,7 @@
                     <p class="alignleft">{{ submit_button('redfire', 'Votar') }}</p>
                 </form>
                 <p class="datetext">{{respuesta.fechaCreacion.strftime("%A, %d of %B %Y at %I:%M %p")}}</p>            
-                <form action="/discussion/report/question/answer" method="post">
+                <form action="/discussion/{{ pregunta.id }}/{{ respuesta.id }}/report" method="post">
                     <dl>
                         <dt>Reportar respuesta:</dt>
                         <dd>
@@ -76,7 +76,7 @@
                         <p class="alignleft">{{ submit_button('redfire', 'Votar') }}</p>
                     </form>
                     <p class="datetext">{{comentario.fechaCreacion.strftime("%A, %d of %B %Y at %I:%M %p")}}</p>
-                    <form action="/discussion/report/question/answer/comment" method="post">
+                    <form action="/discussion/{{ pregunta.id }}/{{ respuesta.id }}/report" method="post">
                         </dl>
                             <dt>Reportar respuesta:</dt>
                             <dd>

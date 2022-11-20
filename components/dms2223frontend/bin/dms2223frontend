@@ -71,6 +71,26 @@ def post_question(id_pregunta: int):
 def post_comentario(id_pregunta: int, id_respuesta: int):
     return DiscussionEndpoints.post_comment(auth_service,id_pregunta,id_respuesta)
 
+@app.route("/discussion/<int:pregunta_id>/<int:respuesta_id>/votar", methods=['POST'])
+def vote_answers(pregunta_id,respuesta_id):
+    return DiscussionEndpoints.vote_answers(auth_service, pregunta_id, respuesta_id)
+
+@app.route("/discussion/<int:pregunta_id>/<int:respuesta_id>/<int:comentario_id>/votar", methods=['POST'])
+def vote_comments(pregunta_id,respuesta_id,comentario_id):
+    return DiscussionEndpoints.vote_comments(auth_service, pregunta_id, respuesta_id,comentario_id)
+
+@app.route("/discussion/<int:pregunta_id>/report", methods=['POST'])
+def report_questions(pregunta_id):
+    return DiscussionEndpoints.report_questions(auth_service, pregunta_id)
+
+@app.route("/discussion/<int:pregunta_id>/<int:respuesta_id>/report", methods=['POST'])
+def report_answers(pregunta_id,respuesta_id):
+    return DiscussionEndpoints.report_answers(auth_service, pregunta_id, respuesta_id)
+
+@app.route("/discussion/<int:pregunta_id>/<int:respuesta_id>/<int:comentario_id>/report", methods=['POST'])
+def report_comments(pregunta_id,respuesta_id,comentario_id):
+    return DiscussionEndpoints.report_comments(auth_service, pregunta_id, respuesta_id,comentario_id)
+
 @app.route("/moderator", methods=['GET'])
 def get_moderator():
     return ModeratorEndpoints.get_moderator(auth_service)
@@ -114,14 +134,6 @@ def get_admin_users_edit():
 @app.route("/admin/users/edit", methods=['POST'])
 def post_admin_users_edit():
     return AdminEndpoints.post_admin_users_edit(auth_service)
-
-@app.route("/discussion/<int:pregunta_id>/<int:respuesta_id>/votar", methods=['POST'])
-def vote_answers(pregunta_id,respuesta_id):
-    return DiscussionEndpoints.vote_answers(auth_service, pregunta_id, respuesta_id)
-
-@app.route("/discussion/<int:pregunta_id>/<int:respuesta_id>/<int:comentario_id>/votar", methods=['POST'])
-def vote_comments(pregunta_id,respuesta_id,comentario_id):
-    return DiscussionEndpoints.vote_comments(auth_service, pregunta_id, respuesta_id,comentario_id)
 
 
 if __name__ == '__main__':
