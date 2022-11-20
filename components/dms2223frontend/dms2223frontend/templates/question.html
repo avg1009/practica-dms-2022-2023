@@ -61,39 +61,39 @@
                         </dl>
                         <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
                     </form>
-                </div>
+                </div>           
+                {% for comentario in respuesta.comentarios.values() %}
+                    {% if comentario.visible %}
+                        {% if comentario.sentimiento == 1%}
+                            <div class="commentdiv1">
+                        {% elif comentario.sentimiento == 2 %}
+                            <div class="commentdiv2">
+                        {% elif comentario.sentimiento == 3 %}
+                            <div class="commentdiv3">
+                        {% endif %} 
+                            <p class="commenttext">{{comentario.descripcion}}</p><br>
+                            <p class="commenttext">{{comentario.creador}}</p>
+                            <p class="votetext">votos: {{comentario.votos}}</p>
+                            <form action="/discussion/{{ pregunta.id }}/{{ respuesta.id }}/{{comentario.id}}/votar" method="POST">
+                                <p class="alignleft">{{ submit_button('redfire', 'Votar') }}</p>
+                            </form>
+                            <p class="datetext">{{comentario.fechaCreacion.strftime("%A, %d of %B %Y at %I:%M %p")}}</p>
+                            <form action="/discussion/{{ pregunta.id }}/{{ respuesta.id }}/{{ comentario.id }}/report" method="post">
+                                </dl>
+                                    <dt>Reportar comentario:</dt>
+                                    <dd>
+                                        <input type="text" name="descripcion" placeholder="Descripcion" />
+                                        <input name="id_pregunta" type="hidden" value="{{pregunta.id}}" />
+                                        <input name="id_respuesta" type="hidden" value="{{respuesta.id}}" />
+                                        <input name="id_comentario" type="hidden" value="{{comentario.id}}" />
+                                    </dd>
+                                </dl>
+                                <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
-            {% for comentario in respuesta.comentarios.values() %}
-                {% if respuesta.visible %}
-                    {% if comentario.sentimiento == 1%}
-                        <div class="commentdiv1">
-                    {% elif comentario.sentimiento == 2 %}
-                        <div class="commentdiv2">
-                    {% elif comentario.sentimiento == 3 %}
-                        <div class="commentdiv3">
-                    {% endif %} 
-                        <p class="commenttext">{{comentario.descripcion}}</p><br>
-                        <p class="commenttext">{{comentario.creador}}</p>
-                        <p class="votetext">votos: {{comentario.votos}}</p>
-                        <form action="/discussion/{{ pregunta.id }}/{{ respuesta.id }}/{{comentario.id}}/votar" method="POST">
-                            <p class="alignleft">{{ submit_button('redfire', 'Votar') }}</p>
-                        </form>
-                        <p class="datetext">{{comentario.fechaCreacion.strftime("%A, %d of %B %Y at %I:%M %p")}}</p>
-                        <form action="/discussion/{{ pregunta.id }}/{{ respuesta.id }}/report" method="post">
-                            </dl>
-                                <dt>Reportar comentario:</dt>
-                                <dd>
-                                    <input type="text" name="descripcion" placeholder="Descripcion" />
-                                    <input name="id_pregunta" type="hidden" value="{{pregunta.id}}" />
-                                    <input name="id_respuesta" type="hidden" value="{{respuesta.id}}" />
-                                    <input name="id_comentario" type="hidden" value="{{comentario.id}}" />
-                                </dd>
-                            </dl>
-                            <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
-                        </form>
-                    </div>
-                {% endif %} 
-            {% endfor %}
-        {% endfor %}        
+        {% endfor %}
     {% endblock %}
 {% endblock %}

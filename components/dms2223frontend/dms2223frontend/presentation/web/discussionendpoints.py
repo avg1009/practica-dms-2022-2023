@@ -82,7 +82,7 @@ class DiscussionEndpoints():
 
         pregunta = preguntas.get(id_pregunta)
 
-        if pregunta is None:
+        if pregunta is None or pregunta.visible is False:
             redirect(url_for("get_discussion"))
 
         return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
