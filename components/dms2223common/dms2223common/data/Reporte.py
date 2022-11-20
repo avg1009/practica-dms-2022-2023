@@ -1,5 +1,5 @@
 import string
-import datetime
+from datetime import datetime
 import itertools
 
 from dms2223common.data import reportstatus
