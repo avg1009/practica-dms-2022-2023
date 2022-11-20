@@ -9,13 +9,13 @@
             <dl>
                 <dt>Reportes</dt>
             </dl>
-            <!--p class="alignleft">{{ submit_button('bluebg', 'Reportes de preguntas') }}{{ submit_button('bluebg', 'Reportes de comentarios') }}</p>-->
         </form>
-        {% for report in reportes %}
+
+        {% for resporte in reportes.values() %}
             <div class="reportdiv">
-                <a class="reporttext" href="/moderator/report?id_p={{ reporte.id }}" name="reporte">{{report.descripcion}}</a><br>
-                <p class="reporttext">{{report.autor}}<br>
-                    {{report.fechaReporte}}</p>
+                <a class="reporttext" href="/moderator/{{ reporte.id }}" name="reporte">{{reporte.descripcion}}</a><br>
+                <p class="reporttext">{{reporte.autor}}<br>
+                    {{reporte.fechaCreacion}}</p>
             </div>
         {% endfor %}
 
