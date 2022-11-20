@@ -3,6 +3,9 @@ from datetime import datetime
 import itertools
 
 from dms2223common.data import reportstatus
+from dms2223common.data.Comentario import Comentario
+from dms2223common.data.Pregunta import Pregunta
+from dms2223common.data.Respuesta import Respuesta
 
 class Reporte:
 
@@ -15,6 +18,12 @@ class Reporte:
         self.fechaReporte = datetime.now()
         self.elemento = elemento
         self.estado: reportstatus = estado
+        if ( isinstance(elemento,Pregunta) ):
+            self.tipoElemento = "pregunta"
+        elif ( isinstance(elemento,Respuesta) ):
+            self.tipoElemento = "respuesta"
+        elif ( isinstance(elemento,Comentario) ):
+            self.tipoElemento = "comentario"
         
     def getDescripcion(self):
         return self.descripcion
@@ -45,3 +54,6 @@ class Reporte:
     
     def getEstado(self):
         return self.estado
+
+    def getTipoElemento(self):
+        return self.tipoElemento

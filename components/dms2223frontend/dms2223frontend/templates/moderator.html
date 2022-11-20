@@ -13,9 +13,12 @@
         {% for reporte in reportes.values() %}
             {% if reporte.estado == 1 %}
                 <div class="reportdiv">
-                    <a class="reporttext" href="/moderator/{{ reporte.id }}" name="reporte">{{reporte.descripcion}}</a><br>
-                    <p class="reporttext">{{reporte.autor}}<br>
-                        {{reporte.fechaCreacion}}</p>
+                    Descripcion reporte: <a class="reportlink" href="/moderator/{{ reporte.id }}" name="reporte">{{reporte.descripcion}}</a>
+                    <p class="reporttext">Autor reporte: {{reporte.autor}}</p>
+                    <p class="reporttext">Id {{reporte.tipoElemento}}: {{reporte.elemento.id}}<br>
+                    Descripcion {{reporte.tipoElemento}}: {{reporte.elemento.descripcion}}<br>
+                    Autor {{reporte.tipoElemento}}: {{reporte.elemento.creador}}<br>
+                    {{reporte.fechaCreacion}}</p>
                 </div>
             {% endif %}
         {% endfor %}
