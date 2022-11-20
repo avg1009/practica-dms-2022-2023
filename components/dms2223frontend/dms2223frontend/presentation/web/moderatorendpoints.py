@@ -71,5 +71,8 @@ class ModeratorEndpoints():
         if request.form["opcion"] == "aceptar":
             reporte.elemento.visible = False
             reporte.estado = ReportStatus.ACCEPTED
+        elif request.form["opcion"] == "rechazar":
+            reporte.estado = ReportStatus.REJECTED
+
 
         return redirect(url_for("get_moderator"))
