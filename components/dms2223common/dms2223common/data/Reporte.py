@@ -8,7 +8,7 @@ class Reporte:
 
     id_iter=itertools.count()
 
-    def __init__(self, descripcion,autor,elemento, estado):
+    def __init__(self, descripcion, autor, elemento, estado):
         self.id=next(Reporte.id_iter)
         self.descripcion: string = descripcion
         self.autor= autor
