@@ -204,6 +204,14 @@ table th {
     padding: 5px;
     border: #ddd 1px solid;
     border-left: #ddd 5px solid;
+    background-color: #c2f9e7;
+}
+.reportdiv{
+    margin: 10px;
+    padding: 5px;
+    border: #ddd 1px solid;
+    border-left: #ddd 5px solid;
+    background-color: #f9cfc2;
 }
 
 .questiontext {
