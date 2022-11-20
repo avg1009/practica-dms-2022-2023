@@ -31,6 +31,10 @@
             <div class="answerdiv">
                 <p class="answertext">{{respuesta.descripcion}}</p><br>
                 <p class="answertext">{{respuesta.creador}}</p>
+                <p class="votetext">votos: {{respuesta.votos}}</p>
+                <form action="/discussion/{{ pregunta.id }}/{{ respuesta.id }}/votar" method="POST">
+                    <p class="alignleft">{{ submit_button('redfire', 'Votar') }}</p>
+                </form>
                 <p class="datetext">{{respuesta.fechaCreacion.strftime("%A, %d of %B %Y at %I:%M %p")}}</p>            
                 <form action="/discussion/report/question/answer" method="post">
                     <dl>
@@ -57,7 +61,7 @@
                     <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
                 </form>
             </div>
-            {% for comentario in respuesta.comentarios %}
+            {% for comentario in respuesta.comentarios.values() %}
                 {% if comentario.sentimiento == 1%}
                     <div class="commentdiv1">
                 {% elif comentario.sentimiento == 2 %}
@@ -67,6 +71,10 @@
                 {% endif %} 
                     <p class="commenttext">{{comentario.descripcion}}</p><br>
                     <p class="commenttext">{{comentario.creador}}</p>
+                    <p class="votetext">votos: {{comentario.votos}}</p>
+                    <form action="/discussion/{{ pregunta.id }}/{{ respuesta.id }}/{{comentario.id}}/votar" method="POST">
+                        <p class="alignleft">{{ submit_button('redfire', 'Votar') }}</p>
+                    </form>
                     <p class="datetext">{{comentario.fechaCreacion.strftime("%A, %d of %B %Y at %I:%M %p")}}</p>
                     <form action="/discussion/report/question/answer/comment" method="post">
                         </dl>

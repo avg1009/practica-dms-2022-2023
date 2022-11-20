@@ -14,8 +14,9 @@ class Respuesta :
         self.descripcion = descripcion
         self.visible = True
         self.votos = 0
-        self.comentarios = list()
+        self.comentarios = {}
         self.pregunta: Pregunta = pregunta
+        self.votantes=[]
 
     def getCreador(self):
         return self.creador
@@ -29,10 +30,6 @@ class Respuesta :
     def setDescripcion(self):
         self.descripcion = self.descripcion
 
-    # votar respuesta
-    def votarRespuesta(self):
-        self.votos += 1
-    
     def getVotos(self):
         return self.votos
 
@@ -45,7 +42,7 @@ class Respuesta :
 
     #crear comentario
     def addComentario(self, comentario):
-        self.comentarios.append(comentario)
+        self.comentarios[comentario.id]=comentario
 
     def getPregunta(self):
         return self.pregunta

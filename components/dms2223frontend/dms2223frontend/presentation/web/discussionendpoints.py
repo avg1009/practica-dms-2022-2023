@@ -144,4 +144,56 @@ class DiscussionEndpoints():
             respuesta.addComentario(Comentario(session['user'],request.form['descripcion'],respuesta,int(request.form['sentimiento'])))
         
         return redirect(url_for("get_question",id_pregunta=pregunta.id))
-   
+
+    def vote_answers(auth_service: AuthService,id_pregunta: int, id_respuesta: int)-> Union[Response,Text]:
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.DISCUSSION.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+
+        pregunta = preguntas.get(id_pregunta)
+
+        if pregunta is None:
+            return redirect(url_for("get_discussion"))
+
+        respuesta = pregunta.respuestas.get(id_respuesta)
+
+        if respuesta is None:
+            return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        if(name in respuesta.votantes):
+            return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        
+        respuesta.votantes.append(name)
+        respuesta.votos+=1
+        return redirect(url_for("get_question",id_pregunta=pregunta.id))
+
+    def vote_comments(auth_service: AuthService,id_pregunta: int, id_respuesta: int, id_comentario: int)-> Union[Response,Text]:
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.DISCUSSION.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+
+        pregunta = preguntas.get(id_pregunta)
+
+        if pregunta is None:
+            return redirect(url_for("get_discussion"))
+
+        respuesta = pregunta.respuestas.get(id_respuesta)
+
+        if respuesta is None:
+            return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        
+        comentario= respuesta.comentarios.get(id_comentario)
+        if comentario is None:
+            return redirect(url_for("get_question",id_pregunta=pregunta.id))        
+        if(name in comentario.votantes):
+            return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        
+        comentario.votantes.append(name)
+        comentario.votos+=1
+        return redirect(url_for("get_question",id_pregunta=pregunta.id))
+

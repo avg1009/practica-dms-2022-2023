@@ -15,6 +15,7 @@ class Comentario:
         self.votos= 0
         self.respuesta: Respuesta =respuesta
         self.sentimiento: sentiment =sentimiento
+        self.votantes=[]
         
     def getDescripcion(self):
         return self.descripcion

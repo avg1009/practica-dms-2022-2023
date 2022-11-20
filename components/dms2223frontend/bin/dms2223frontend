@@ -115,6 +115,15 @@ def get_admin_users_edit():
 def post_admin_users_edit():
     return AdminEndpoints.post_admin_users_edit(auth_service)
 
+@app.route("/discussion/<int:pregunta_id>/<int:respuesta_id>/votar", methods=['POST'])
+def vote_answers(pregunta_id,respuesta_id):
+    return DiscussionEndpoints.vote_answers(auth_service, pregunta_id, respuesta_id)
+
+@app.route("/discussion/<int:pregunta_id>/<int:respuesta_id>/<int:comentario_id>/votar", methods=['POST'])
+def vote_comments(pregunta_id,respuesta_id,comentario_id):
+    return DiscussionEndpoints.vote_comments(auth_service, pregunta_id, respuesta_id,comentario_id)
+
+
 if __name__ == '__main__':
     app.run(
         host=cfg.get_service_host(),
