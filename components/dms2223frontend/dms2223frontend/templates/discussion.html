@@ -16,11 +16,13 @@
             </dl>
         </form>
         {% for pregunta in preguntas.values() %}
-            <div class="questiondiv">
-                <a class="questiontext" href="/discussion/{{ pregunta.id }}" name="pregunta">{{pregunta.titulo}}</a><br>
-                <p class="questiontext">{{pregunta.descripcion}}<br>
-                    {{pregunta.creador}}</p>
-            </div>
+            {% if pregunta.visible %}
+                <div class="questiondiv">
+                    <a class="questiontext" href="/discussion/{{ pregunta.id }}" name="pregunta">{{pregunta.titulo}}</a><br>
+                    <p class="questiontext">{{pregunta.descripcion}}<br>
+                        {{pregunta.creador}}</p>
+                </div>
+            {% endif %}
         {% endfor %}
     {% endblock %}
 {% endblock %}
