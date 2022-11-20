@@ -8,8 +8,9 @@ from dms2223common.data import Role
 from dms2223frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
 from dms2223common.data.reportstatus import ReportStatus
+from dms2223common.data.Reporte import Reporte
 
-reportes = {}
+reportes: dict[int,Reporte] = {}
 class ModeratorEndpoints():
     """ Monostate class responsible of handing the moderator web endpoint requests.
     """
