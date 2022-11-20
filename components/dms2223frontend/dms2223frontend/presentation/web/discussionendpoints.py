@@ -210,7 +210,7 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(name,descripcion,respuesta,1)
+        reporte = Reporte(descripcion,name,respuesta,1)
         reportes[reporte.id] = reporte
         
         return redirect(url_for("get_question",id_pregunta=pregunta.id))
@@ -242,7 +242,7 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(name,descripcion,comentario,1)
+        reporte = Reporte(descripcion,name,comentario,1)
         reportes[reporte.id] = reporte
         
         return redirect(url_for("get_question",id_pregunta=pregunta.id))
