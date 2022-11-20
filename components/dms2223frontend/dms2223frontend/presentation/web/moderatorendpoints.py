@@ -66,10 +66,11 @@ class ModeratorEndpoints():
         reporte = reportes.get(id_reporte)
 
         if reporte is None:
-            redirect(url_for("get_moderator"))
+            return redirect(url_for("get_moderator"))
         
         if request.form["opcion"] == "aceptar":
-            reporte.elemento.visible = False
+            if reporte.elemento is not None:
+                reporte.elemento.visible = False
             reporte.estado = ReportStatus.ACCEPTED
         elif request.form["opcion"] == "rechazar":
             reporte.estado = ReportStatus.REJECTED
