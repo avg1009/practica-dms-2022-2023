@@ -1,7 +1,7 @@
 """ ModeratorEndpoints class module.
 """
 
-from typing import Text, Union
+from typing import Dict, Text, Union
 from flask import redirect, url_for, session, render_template, request
 from werkzeug.wrappers import Response
 from dms2223common.data import Role
@@ -10,7 +10,7 @@ from .webauth import WebAuth
 from dms2223common.data.reportstatus import ReportStatus
 from dms2223common.data.Reporte import Reporte
 
-reportes: dict[int,Reporte] = {}
+reportes: Dict[int,Reporte] = {}
 class ModeratorEndpoints():
     """ Monostate class responsible of handing the moderator web endpoint requests.
     """
