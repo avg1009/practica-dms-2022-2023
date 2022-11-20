@@ -10,6 +10,7 @@ from dms2223common.data.Pregunta import Pregunta
 from dms2223common.data.Respuesta import Respuesta
 from dms2223common.data.Comentario import Comentario
 from dms2223common.data.Reporte import Reporte
+from dms2223common.data.sentiment import Sentiment
 
 #TODO
 
@@ -26,9 +27,9 @@ respuestas = {
 }
 
 comentarios = {
-    0: Comentario("Autor 1","Descripcion 1", respuestas[0]),
-    1: Comentario("Autor 2","Descripcion 2", respuestas[1]),
-    2: Comentario("Autor 3","Descripcion 3", respuestas[2])
+    0: Comentario("Autor 1","Descripcion 1", respuestas[0],Sentiment.NEUTRAL),
+    1: Comentario("Autor 2","Descripcion 2", respuestas[1],Sentiment.NEUTRAL),
+    2: Comentario("Autor 3","Descripcion 3", respuestas[2],Sentiment.NEUTRAL)
 }
 
 reportes = {
@@ -95,7 +96,10 @@ class DiscussionEndpoints():
 
         name = session['user']
 
-        pregunta: Pregunta = preguntas.get(id_pregunta)
+        pregunta = preguntas.get(id_pregunta)
+
+        if pregunta is None:
+            redirect(url_for("get_discussion"))
 
         return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
 
@@ -111,8 +115,9 @@ class DiscussionEndpoints():
         name = session['user']
 
 
-        pregunta: Pregunta = preguntas.get(id_pregunta)
-
+        pregunta = preguntas.get(id_pregunta)
+        if pregunta is None:
+            return redirect(url_for("get_discussion"))
 
         if request.form['descripcion'] == "":
             flash('Introduce respuesta', 'error')
@@ -134,6 +139,10 @@ class DiscussionEndpoints():
         name = session['user']
 
         pregunta = preguntas.get(id_pregunta)
+
+        if pregunta is None:
+            return redirect(url_for("get_discussion"))
+
         respuesta = pregunta.respuestas.get(id_respuesta)
 
         if request.form['descripcion'] != "" and request.form['sentimiento'] != "":
