@@ -11,7 +11,7 @@ class Pregunta:
         self.descripcion: str = descripcion
         self.fechaCreacion = datetime.now()
         self.visible = True
-        self.respuestas = []
+        self.respuestas = {}
         self.reporte = False
         
     def getDescripcion(self):
@@ -33,7 +33,7 @@ class Pregunta:
         return self.fechaCreacion
     
     def addRespuesta(self,respuesta):
-        self.respuestas.append(respuesta)
+        self.respuestas[respuesta.id]=respuesta
     
     def removeRespuesta(self,respuesta):
         self.respuestas.remove(respuesta)

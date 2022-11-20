@@ -16,20 +16,18 @@
                 </dl>
                 <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
             </form>
-            <form action="/discussion/question?id_p={{ pregunta.id }}" method="post">
+            <form action="/discussion/{{ pregunta.id }}" method="post">
             <!--<form action="/discussion/question/answer" method="post">-->
                 <dl>
                     <dt>Añadir respuesta:</dt>
                     <dd>
                         <input type="text" name="descripcion" placeholder="Descripcion" autofocus />
-                        <input name="id_pregunta" type="hidden" value="{{pregunta.id}}" />
-                        <input name="tipo" type="hidden" value="respuesta" />
                     </dd>
                 </dl>
                 <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
             </form>
         </div>
-        {% for respuesta in pregunta.respuestas %}
+        {% for respuesta in pregunta.respuestas.values() %}
             <div class="answerdiv">
                 <p class="answertext">{{respuesta.descripcion}}</p><br>
                 <p class="answertext">{{respuesta.creador}}</p>
@@ -45,7 +43,7 @@
                     </dl>
                     <p class="alignright">{{ submit_button('bluebg', 'Enviar') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
                 </form>
-                <form action="/discussion/question?id_p={{ pregunta.id }}" method="post">
+                <form action="/discussion/{{ pregunta.id }}/{{ respuesta.id }}" method="post">
                 <!--<form action="/discussion/question/answer/comment" method="post">-->
                     <dl>
                         <dt>Añadir comentario</dt>
@@ -54,9 +52,6 @@
                             <input name="sentimiento" type="radio" value="1" />Positivo
                             <input name="sentimiento" type="radio" value="2" checked />Neutral
                             <input name="sentimiento" type="radio" value="3" />Negativo
-                            <input name="id_pregunta" type="hidden" value="{{pregunta.id}}" />
-                            <input name="id_respuesta" type="hidden" value="{{respuesta.id}}" />
-                            <input name="tipo" type="hidden" value="comentario" />
                         </dd>
                     </dl>
                     <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
