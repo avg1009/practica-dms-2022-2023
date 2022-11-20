@@ -260,7 +260,7 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(descripcion,name,pregunta,ReportStatus.PENDING)
+        reporte = Reporte(descripcion,name,pregunta,1)
 
         reportes[reporte.id] = reporte
 
