@@ -43,8 +43,8 @@ class ModeratorEndpoints():
 
         reporte = reportes.get(id_reporte)
 
-        if reporte is None:
-            redirect(url_for("get_moderator"))
+        if reporte is None or reporte.estado != 1:
+            return redirect(url_for("get_moderator"))
 
         return render_template('report.html', name=name, roles=session['roles'], reporte=reporte)
 
