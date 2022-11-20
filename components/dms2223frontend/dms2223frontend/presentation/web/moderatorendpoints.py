@@ -2,15 +2,16 @@
 """
 
 from typing import Text, Union
-from flask import redirect, url_for, session, render_template
+from flask import redirect, url_for, session, render_template, request
 from werkzeug.wrappers import Response
 from dms2223common.data import Role
 from dms2223frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
 from dms2223common.data.Reporte import Reporte
-from dms2223frontend.dms2223frontend.presentation.web.discussionendpoints import preguntas
-from dms2223frontend.dms2223frontend.presentation.web.discussionendpoints import respuestas
-from dms2223frontend.dms2223frontend.presentation.web.discussionendpoints import comentarios
+from dms2223common.data.reportstatus import ReportStatus
+from dms2223frontend.presentation.web.discussionendpoints import preguntas
+from dms2223frontend.presentation.web.discussionendpoints import respuestas
+from dms2223frontend.presentation.web.discussionendpoints import comentarios
 
 reportes = {
     0: Reporte("Descripcion 1", "Autor 1", preguntas[0], 1),
@@ -35,7 +36,7 @@ class ModeratorEndpoints():
         if Role.MODERATION.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('moderator.html', name=name, roles=session['roles'])
+        return render_template('moderator.html', name=name, roles=session['roles'],reportes=reportes)
 
     @staticmethod
     def get_report(auth_service: AuthService, id_reporte: int) -> Union[Response, Text]:
@@ -54,3 +55,21 @@ class ModeratorEndpoints():
 
         return render_template('report.html', name=name, roles=session['roles'], reporte=reporte)
 
+    @staticmethod
+    def post_report(auth_service: AuthService,id_reporte: int):
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.MODERATION.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session["user"]
+        reporte = reportes.get(id_reporte)
+
+        if reporte is None:
+            redirect(url_for("get_moderator"))
+        
+        if request.form["opcion"] == "aceptar":
+            reporte.elemento.visible = False
+            reporte.estado = ReportStatus.ACCEPTED
+
+        return redirect(url_for("get_moderator"))

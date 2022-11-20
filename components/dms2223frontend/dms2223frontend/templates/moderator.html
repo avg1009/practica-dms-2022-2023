@@ -3,7 +3,6 @@
 {% block title %}{% block subtitle %}{% endblock %}Moderation{% endblock %}
 {% block contentheading %}Moderation panel{% endblock %}
 {% block maincontent %}
-    {% block moderatorcontent %}
         <form action="/moderator" method="get">
             <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
             <dl>
@@ -11,12 +10,14 @@
             </dl>
         </form>
 
-        {% for resporte in reportes.values() %}
-            <div class="reportdiv">
-                <a class="reporttext" href="/moderator/{{ reporte.id }}" name="reporte">{{reporte.descripcion}}</a><br>
-                <p class="reporttext">{{reporte.autor}}<br>
-                    {{reporte.fechaCreacion}}</p>
-            </div>
+        {% for reporte in reportes.values() %}
+            {% if reporte.estado == 1 %}
+                <div class="reportdiv">
+                    <a class="reporttext" href="/moderator/{{ reporte.id }}" name="reporte">{{reporte.descripcion}}</a><br>
+                    <p class="reporttext">{{reporte.autor}}<br>
+                        {{reporte.fechaCreacion}}</p>
+                </div>
+            {% endif %}
         {% endfor %}
 
         

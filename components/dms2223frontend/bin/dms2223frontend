@@ -75,9 +75,13 @@ def post_comentario(id_pregunta: int, id_respuesta: int):
 def get_moderator():
     return ModeratorEndpoints.get_moderator(auth_service)
 
-@app.route("/moderator/report/question", methods=['POST'])
-def post_report_question():
-    return ModeratorEndpoints.post_question(auth_service)
+@app.route("/moderator/<int:id_reporte>", methods=['GET'])
+def get_report(id_reporte: int):
+    return ModeratorEndpoints.get_report(auth_service,id_reporte)
+
+@app.route("/moderator/<int:id_reporte>", methods=['POST'])
+def post_report_question(id_reporte: int):
+    return ModeratorEndpoints.post_report(auth_service,id_reporte)
 
 @app.route("/moderator/report/answer", methods=['POST'])
 def post_report_answer():
