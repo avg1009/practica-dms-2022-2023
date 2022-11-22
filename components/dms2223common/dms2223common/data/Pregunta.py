@@ -4,8 +4,11 @@ class Pregunta:
 
     id_iter= itertools.count()
     
-    def __init__(self, creador, titulo, descripcion):
-        self.id=next(Pregunta.id_iter)
+    def __init__(self, creador, titulo, descripcion,id=None):
+        if(id == None):
+            self.id=next(Pregunta.id_iter)
+        else:
+            self.id = id
         self.creador = creador
         self.titulo: str = titulo
         self.descripcion: str = descripcion

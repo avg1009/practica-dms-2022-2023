@@ -11,8 +11,11 @@ class Reporte:
 
     id_iter=itertools.count()
 
-    def __init__(self, descripcion, autor, elemento, estado):
-        self.id=next(Reporte.id_iter)
+    def __init__(self, descripcion, autor, elemento, estado, id= None):
+        if(id == None):
+            self.id=next(Reporte.id_iter)
+        else:
+            self.id = id
         self.descripcion: string = descripcion
         self.autor = autor
         self.fechaReporte = datetime.now()

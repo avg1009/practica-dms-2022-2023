@@ -6,8 +6,11 @@ class Comentario:
 
     id_iter=itertools.count()
 
-    def __init__(self, creador, descripcion, respuesta, sentimiento):
-        self.id=next(Comentario.id_iter)
+    def __init__(self, creador, descripcion, respuesta, sentimiento,id = None):
+        if(id == None):
+            self.id=next(Comentario.id_iter)
+        else:
+            self.id = id
         self.creador = creador
         self.descripcion: str= descripcion
         self.fechaCreacion = datetime.now()

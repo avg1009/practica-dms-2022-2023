@@ -7,8 +7,11 @@ class Respuesta :
 
     id_iter= itertools.count()
 
-    def __init__(self, creador, descripcion, pregunta):
-        self.id=next(Respuesta.id_iter)
+    def __init__(self, creador, descripcion, pregunta,id=None):
+        if(id == None):
+            self.id=next(Respuesta.id_iter)
+        else:
+            self.id = id
         self.creador = creador
         self.fechaCreacion = datetime.now()
         self.descripcion = descripcion
