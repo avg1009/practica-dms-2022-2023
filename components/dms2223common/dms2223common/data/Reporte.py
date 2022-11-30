@@ -1,62 +1,47 @@
-import string
 from datetime import datetime
-import itertools
 
-from dms2223common.data import reportstatus
+from dms2223common.data.reportstatus import ReportStatus
 from dms2223common.data.Comentario import Comentario
 from dms2223common.data.Pregunta import Pregunta
 from dms2223common.data.Respuesta import Respuesta
 
 class Reporte:
 
-    id_iter=itertools.count()
 
-    def __init__(self, descripcion, autor, elemento, estado, id= None):
-        if(id == None):
-            self.id=next(Reporte.id_iter)
-        else:
-            self.id = id
-        self.descripcion: string = descripcion
-        self.autor = autor
-        self.fechaReporte = datetime.now()
-        self.elemento = elemento
-        self.estado: reportstatus = estado
+    def __init__(self, descripcion:str, autor:str, elemento, estado:ReportStatus, id:int= None):
+        self.__id:int = id
+        self.__descripcion: str = descripcion
+        self.__autor:str = autor
+        self.__fechaReporte:datetime = datetime.now()
+        self.__elemento = elemento
+        self.__estado: ReportStatus = estado
         if ( isinstance(elemento,Pregunta) ):
-            self.tipoElemento = "pregunta"
+            self.__tipoElemento = "pregunta"
         elif ( isinstance(elemento,Respuesta) ):
-            self.tipoElemento = "respuesta"
+            self.__tipoElemento = "respuesta"
         elif ( isinstance(elemento,Comentario) ):
-            self.tipoElemento = "comentario"
-        
-    def getDescripcion(self):
-        return self.descripcion
+            self.__tipoElemento = "comentario"
 
-    def setDescripcion(self,descripcion):
-        self.descripcion=descripcion
+    def getId(self) -> int:
+        return self.__id
+
+    def getDescripcion(self) -> str:
+        return self.__descripcion
     
-    def setAutor(self,autor):
-        self.autor=autor
+    def getAutor(self) -> str:
+        return self.__autor
     
-    def getAutor(self):
-        return self.autor
-    
-    def setElemento(self,elemento):
-        self.elemento=elemento
+    def getFechaReporte(self) -> datetime:
+        return self.__fechaReporte
     
     def getElemento(self):
-        return self.elemento
-    
-    def getFechaReporte(self):
-        return self.fechaReporte
-    
-    def getId(self):
-        return self.id
+        return self.__elemento
 
     def setEstado(self,estado):
-        self.estado=estado
+        self.__estado=estado
     
-    def getEstado(self):
-        return self.estado
+    def getEstado(self) -> ReportStatus:
+        return self.__estado
 
-    def getTipoElemento(self):
-        return self.tipoElemento
+    def getTipoElemento(self) -> str:
+        return self.__tipoElemento

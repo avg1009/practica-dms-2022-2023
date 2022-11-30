@@ -16,11 +16,11 @@
             </dl>
         </form>
         {% for pregunta in preguntas.values() %}
-            {% if pregunta.visible %}
+            {% if pregunta.getVisible() %}
                 <div class="questiondiv">
-                    <a class="questiontext" href="/discussion/{{ pregunta.id }}" name="pregunta">{{pregunta.titulo}}</a><br>
-                    <p class="questiontext">{{pregunta.descripcion}}<br>
-                        {{pregunta.creador}}</p>
+                    <a class="questiontext" href="/discussion/{{ pregunta.getId() }}" name="pregunta">{{pregunta.getTitulo()}}</a><br>
+                    <p class="questiontext">{{pregunta.getDescripcion()}}<br>
+                        {{pregunta.getCreador()}}</p>
                 </div>
             {% endif %}
         {% endfor %}

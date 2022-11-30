@@ -17,9 +17,9 @@ from dms2223common.data.Reporte import Reporte
 #TODO
 
 preguntas = {
-    0: Pregunta("Autor 1","Titulo 1","Descripcion 1"),
-    1: Pregunta("Autor 2","Titulo 2","Descripcion 2"),
-    2: Pregunta("Autor 3","Titulo 3","Descripcion 3")
+    0: Pregunta("Autor 1","Titulo 1","Descripcion 1",0),
+    1: Pregunta("Autor 2","Titulo 2","Descripcion 2",1),
+    2: Pregunta("Autor 3","Titulo 3","Descripcion 3",2)
 }
 
 class DiscussionEndpoints():
@@ -78,11 +78,11 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        name = session['user']
-
+        name:str = session['user']
+        
         pregunta = preguntas.get(id_pregunta)
 
-        if pregunta is None or not pregunta.visible:
+        if pregunta is None or not pregunta.getVisible():
             return redirect(url_for("get_discussion"))
 
         return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
@@ -96,9 +96,6 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        name = session['user']
-
-
         pregunta = preguntas.get(id_pregunta)
         if pregunta is None:
             return redirect(url_for("get_discussion"))
@@ -106,9 +103,9 @@ class DiscussionEndpoints():
         if request.form['descripcion'] == "":
             flash('Introduce respuesta', 'error')
         else:
-            pregunta.addRespuesta(Respuesta(session['user'],request.form['descripcion'],pregunta))
+            pregunta.addRespuesta(Respuesta(session['user'],request.form['descripcion'],1))
         
-        return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
 
     @staticmethod
@@ -120,19 +117,17 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        name = session['user']
-
         pregunta = preguntas.get(id_pregunta)
 
         if pregunta is None:
             return redirect(url_for("get_discussion"))
 
-        respuesta = pregunta.respuestas.get(id_respuesta)
+        respuesta = pregunta.getRespuestas().get(id_respuesta)
 
-        if request.form['descripcion'] != "" and request.form['sentimiento'] != "":
-            respuesta.addComentario(Comentario(session['user'],request.form['descripcion'],respuesta,int(request.form['sentimiento'])))
+        if request.form['descripcion'] != "" and request.form['sentimiento'] != "" and respuesta is not None:
+            respuesta.addComentario(Comentario(session['user'],request.form['descripcion'],int(request.form['sentimiento']),0))
         
-        return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
     @staticmethod
     def vote_answers(auth_service: AuthService,id_pregunta: int, id_respuesta: int)-> Union[Response,Text]:
@@ -141,23 +136,23 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        name = session['user']
+        name:str = session['user']
 
         pregunta = preguntas.get(id_pregunta)
 
         if pregunta is None:
             return redirect(url_for("get_discussion"))
 
-        respuesta = pregunta.respuestas.get(id_respuesta)
+        respuesta = pregunta.getRespuestas().get(id_respuesta)
 
         if respuesta is None:
-            return redirect(url_for("get_question",id_pregunta=pregunta.id))
-        if(name in respuesta.votantes):
-            return redirect(url_for("get_question",id_pregunta=pregunta.id))
+            return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
+        if(name in respuesta.getVotantes()):
+            return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
         
-        respuesta.votantes.append(name)
-        respuesta.votos+=1
-        return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        respuesta.addVotantes(name)
+        respuesta.votar()
+        return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
     @staticmethod
     def vote_comments(auth_service: AuthService,id_pregunta: int, id_respuesta: int, id_comentario: int)-> Union[Response,Text]:
@@ -166,27 +161,27 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        name = session['user']
+        name:str = session['user']
 
         pregunta = preguntas.get(id_pregunta)
 
         if pregunta is None:
             return redirect(url_for("get_discussion"))
 
-        respuesta = pregunta.respuestas.get(id_respuesta)
+        respuesta = pregunta.getRespuestas().get(id_respuesta)
 
         if respuesta is None:
-            return redirect(url_for("get_question",id_pregunta=pregunta.id))
+            return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
         
-        comentario= respuesta.comentarios.get(id_comentario)
+        comentario= respuesta.getComentarios().get(id_comentario)
         if comentario is None:
-            return redirect(url_for("get_question",id_pregunta=pregunta.id))        
+            return redirect(url_for("get_question",id_pregunta=pregunta.getId()))        
         if(name in comentario.votantes):
-            return redirect(url_for("get_question",id_pregunta=pregunta.id))
+            return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
         
-        comentario.votantes.append(name)
-        comentario.votos+=1
-        return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        comentario.addVotantes(name)
+        comentario.votar()
+        return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
     @staticmethod
     def report_answers(auth_service: AuthService,id_pregunta: int, id_respuesta: int)-> Union[Response,Text]:
@@ -195,25 +190,25 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        name = session['user']
+        name:str = session['user']
 
         pregunta = preguntas.get(id_pregunta)
 
         if pregunta is None:
             return redirect(url_for("get_discussion"))
 
-        respuesta = pregunta.respuestas.get(id_respuesta)
+        respuesta = pregunta.getRespuestas().get(id_respuesta)
 
         if respuesta is None:
-            return redirect(url_for("get_question",id_pregunta=pregunta.id))
+            return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
         descripcion = request.form["descripcion"]
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(descripcion,name,respuesta,1)
-        reportes[reporte.id] = reporte
+        reporte = Reporte(descripcion,name,respuesta,1,2)
+        reportes[reporte.getId()] = reporte
         
-        return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
     @staticmethod
     def report_comments(auth_service: AuthService,id_pregunta: int, id_respuesta: int, id_comentario: int)-> Union[Response,Text]:
@@ -222,19 +217,19 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        name = session['user']
+        name:str = session['user']
 
         pregunta = preguntas.get(id_pregunta)
 
         if pregunta is None:
             return redirect(url_for("get_discussion"))
 
-        respuesta = pregunta.respuestas.get(id_respuesta)
+        respuesta = pregunta.getRespuestas().get(id_respuesta)
 
         if respuesta is None:
-            return redirect(url_for("get_question",id_pregunta=pregunta.id))
+            return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
         
-        comentario= respuesta.comentarios.get(id_comentario)
+        comentario= respuesta.getComentarios().get(id_comentario)
         if comentario is None:
             return redirect(url_for("get_question",id_pregunta=pregunta.id)) 
                
@@ -242,10 +237,10 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(descripcion,name,comentario,1)
-        reportes[reporte.id] = reporte
+        reporte = Reporte(descripcion,name,comentario,1,1)
+        reportes[reporte.getId()] = reporte
         
-        return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
     @staticmethod
     def report_questions(auth_service: AuthService,id_pregunta: int)-> Union[Response,Text]:
@@ -254,7 +249,7 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        name = session['user']
+        name:str = session['user']
 
         pregunta = preguntas.get(id_pregunta)
 
@@ -265,8 +260,8 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(descripcion,name,pregunta,1)
+        reporte = Reporte(descripcion,name,pregunta,1,0)
 
-        reportes[reporte.id] = reporte
+        reportes[reporte.getId()] = reporte
 
-        return redirect(url_for("get_question",id_pregunta=pregunta.id))
+        return redirect(url_for("get_question",id_pregunta=pregunta.getId()))

@@ -28,7 +28,7 @@ class ModeratorEndpoints():
             return redirect(url_for('get_login'))
         if Role.MODERATION.name not in session['roles']:
             return redirect(url_for('get_home'))
-        name = session['user']
+        name:str = session['user']
         return render_template('moderator.html', name=name, roles=session['roles'],reportes=reportes)
 
     @staticmethod
@@ -39,11 +39,11 @@ class ModeratorEndpoints():
         if Role.MODERATION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        name = session['user']
+        name:str = session['user']
 
         reporte = reportes.get(id_reporte)
 
-        if reporte is None or reporte.estado != 1:
+        if reporte is None or reporte.getEstado() != 1:
             return redirect(url_for("get_moderator"))
 
         return render_template('report.html', name=name, roles=session['roles'], reporte=reporte)
@@ -55,18 +55,17 @@ class ModeratorEndpoints():
         if Role.MODERATION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        name = session["user"]
+        
         reporte = reportes.get(id_reporte)
 
         if reporte is None:
             return redirect(url_for("get_moderator"))
         
         if request.form["opcion"] == "aceptar":
-            if reporte.elemento is not None:
-                reporte.elemento.visible = False
-            reporte.estado = ReportStatus.ACCEPTED
+            if reporte.getElemento() is not None:
+                reporte.getElemento().cambiarVisible()
+            reporte.setEstado(ReportStatus.ACCEPTED)
         elif request.form["opcion"] == "rechazar":
-            reporte.estado = ReportStatus.REJECTED
-
+            reporte.setEstado(ReportStatus.REJECTED)
 
         return redirect(url_for("get_moderator"))

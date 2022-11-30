@@ -4,21 +4,20 @@
 {% block contentheading %}Moderation panel{% endblock %}
 {% block maincontent %}
         <form action="/moderator" method="get">
-            <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
             <dl>
                 <dt>Reportes</dt>
             </dl>
         </form> 
 
         {% for reporte in reportes.values() %}
-            {% if reporte.estado == 1 %}
+            {% if reporte.getEstado() == 1 %}
                 <div class="reportdiv">
-                    Descripcion reporte: <a class="reportlink" href="/moderator/{{ reporte.id }}" name="reporte">{{reporte.descripcion}}</a>
-                    <p class="reporttext">Autor reporte: {{reporte.autor}}</p>
-                    <p class="reporttext">Id {{reporte.tipoElemento}}: {{reporte.elemento.id}}<br>
-                    Descripcion {{reporte.tipoElemento}}: {{reporte.elemento.descripcion}}<br>
-                    Autor {{reporte.tipoElemento}}: {{reporte.elemento.creador}}<br>
-                    {{reporte.fechaCreacion}}</p>
+                    Descripcion reporte: <a class="reportlink" href="/moderator/{{ reporte.getId() }}" name="reporte">{{reporte.getDescripcion()}}</a>
+                    <p class="reporttext">Autor reporte: {{reporte.getAutor()}}</p>
+                    <p class="reporttext">Id {{reporte.getTipoElemento()}}: {{reporte.getElemento().getId()}}<br>
+                    Descripcion {{reporte.getTipoElemento()}}: {{reporte.getElemento().getDescripcion()}}<br>
+                    Autor {{reporte.getTipoElemento()}}: {{reporte.getElemento().getCreador()}}<br>
+                    {{reporte.getFechaReporte()}}</p>
                 </div>
             {% endif %}
         {% endfor %}

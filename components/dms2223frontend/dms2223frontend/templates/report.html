@@ -4,7 +4,7 @@
 {% block contentheading %} {{ reporte.descripcion }} {% endblock %}
 {% block contentsubheading %} {{ reporte.autor }} {% endblock %}
 {% block maincontent %}
-    <form action="/moderator/{{reporte.id}}" method="post">
+    <form action="/moderator/{{reporte.getId()}}" method="post">
         <dl>
             <dt>Aceptar reporte</dt>
             <dd>

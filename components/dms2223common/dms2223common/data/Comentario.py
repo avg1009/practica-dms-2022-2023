@@ -1,61 +1,52 @@
 from datetime import datetime
-import itertools
 
-from dms2223common.data import Respuesta, sentiment
+from dms2223common.data.sentiment import Sentiment
 class Comentario:
 
-    id_iter=itertools.count()
-
-    def __init__(self, creador, descripcion, respuesta, sentimiento,id = None):
-        if(id == None):
-            self.id=next(Comentario.id_iter)
-        else:
-            self.id = id
-        self.creador = creador
-        self.descripcion: str= descripcion
-        self.fechaCreacion = datetime.now()
-        self.visible= True
-        self.votos= 0
-        self.respuesta: Respuesta =respuesta
-        self.sentimiento: sentiment =sentimiento
-        self.votantes=[]
-        
-    def getDescripcion(self):
-        return self.descripcion
-
-    def setDescripcion(self,descripcion):
-        self.descripcion=descripcion
-
-    def getCreador(self):
-        return self.creador
     
-    def getFechaCreacion(self):
-        return self.fechaCreacion
 
-    def cambiarVisible(self,visible):
-        self.visible = not self.visible
+    def __init__(self, creador:str, descripcion:str, sentimiento: Sentiment,id:int = None):
+        self.__id:int = id
+        self.__creador:str = creador
+        self.__descripcion: str= descripcion
+        self.__fechaCreacion:datetime = datetime.now()
+        self.__visible:bool= True
+        self.__votos:int= 0
+        self.__sentimiento: Sentiment =sentimiento
+        self.__votantes:list[str] =[]
+
+    def getId(self) -> int:
+        return self.__id
+
+    def getCreador(self) -> str:
+        return self.__creador
+
+    def getDescripcion(self) -> str:
+        return self.__descripcion
+
+    def getFechaCreacion(self) -> datetime:
+        return self.__fechaCreacion
+
+    def cambiarVisible(self):
+        self.__visible = not self.__visible
     
-    def getVisible(self):
-        return self.visible
+    def getVisible(self) -> bool:
+        return self.__visible
 
-    def votarComentario(self):
-        self.votos+=1
+    def votar(self):
+        self.__votos+=1
     
-    def getVotos(self):
-        return self.votos
+    def getVotos(self) -> int:
+        return self.__votos 
 
-    def getRespuesta(self):
-        return self.respuesta
-
-    def setRespuesta(self,respuesta):
-        self.respuesta=respuesta
-    
-    def getId(self):
-        return self.id
-
-    def getSentimiento(self):
-        return self.sentimiento
+    def getSentimiento(self) -> Sentiment:
+        return self.__sentimiento
 
     def setSentimiento(self,sentimiento):
-        self.sentimiento=sentimiento
+        self.__sentimiento=sentimiento
 
+    def getVotantes(self) -> list[str]:
+        return self.__votantes
+
+    def addVotantes(self,votante):
+        self.__votantes.append(votante)
