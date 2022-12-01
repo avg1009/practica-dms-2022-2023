@@ -1,11 +1,12 @@
 from datetime import datetime
+from typing import Optional
 
 from dms2223common.data.Comentario import Comentario
 
 class Respuesta :
 
     def __init__(self, creador:str, descripcion:str,id:int=None):
-        self.__id:int = id
+        self.__id:Optional[int] = id
         self.__creador:str = creador
         self.__fechaCreacion:datetime = datetime.now()
         self.__descripcion:str = descripcion
@@ -14,7 +15,7 @@ class Respuesta :
         self.__comentarios:dict[int,Comentario] = {}
         self.__votantes:list[str] =[]
 
-    def getId(self) -> int:
+    def getId(self) -> Optional[int]:
         return self.__id
 
     def getCreador(self) -> str:
@@ -41,7 +42,9 @@ class Respuesta :
 
     #crear comentario
     def addComentario(self, comentario: Comentario):
-        self.__comentarios[comentario.getId()]=comentario
+        id = comentario.getId()
+        if id is not None:
+            self.__comentarios[id]=comentario
 
     def getComentarios(self) -> dict[int,Comentario]:
         return self.__comentarios

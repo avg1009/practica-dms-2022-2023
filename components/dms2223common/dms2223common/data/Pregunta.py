@@ -1,5 +1,6 @@
 from datetime import datetime
 import itertools
+from typing import Optional
 
 from dms2223common.data.Respuesta import Respuesta
 class Pregunta:
@@ -7,7 +8,7 @@ class Pregunta:
     
     
     def __init__(self, creador:str, titulo:str, descripcion:str,id:int=None):
-        self.__id:int = id
+        self.__id:Optional[int] = id
         self.__creador:str = creador
         self.__titulo: str = titulo
         self.__descripcion: str = descripcion
@@ -16,7 +17,7 @@ class Pregunta:
         self.__respuestas:dict[int,Respuesta] = {}
         self.__reporte = False
 
-    def getId(self) -> int:
+    def getId(self) -> Optional[int]:
         return self.__id
 
     def getCreador(self) -> str:
@@ -41,10 +42,15 @@ class Pregunta:
         return self.__respuestas
     
     def addRespuesta(self,respuesta:Respuesta):
-        self.__respuestas[respuesta.getId()]=respuesta
+        id = respuesta.getId()
+        if id is not None:
+            
+            self.__respuestas[id]=respuesta
     
     def removeRespuesta(self,respuesta:Respuesta):
-        self.__respuestas.remove(respuesta.id)
+        id = respuesta.getId()
+        if id is not None:
+            self.__respuestas.pop(id)
     
     def getReporte(self) -> bool:
         return self.__reporte

@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from dms2223common.data.sentiment import Sentiment
 class Comentario:
@@ -6,7 +7,7 @@ class Comentario:
     
 
     def __init__(self, creador:str, descripcion:str, sentimiento: Sentiment,id:int = None):
-        self.__id:int = id
+        self.__id:Optional[int] = id
         self.__creador:str = creador
         self.__descripcion: str= descripcion
         self.__fechaCreacion:datetime = datetime.now()
@@ -15,7 +16,7 @@ class Comentario:
         self.__sentimiento: Sentiment =sentimiento
         self.__votantes:list[str] =[]
 
-    def getId(self) -> int:
+    def getId(self) -> Optional[int]:
         return self.__id
 
     def getCreador(self) -> str:

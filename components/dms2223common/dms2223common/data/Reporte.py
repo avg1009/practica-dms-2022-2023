@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from dms2223common.data.reportstatus import ReportStatus
 from dms2223common.data.Comentario import Comentario
@@ -9,7 +10,7 @@ class Reporte:
 
 
     def __init__(self, descripcion:str, autor:str, elemento, estado:ReportStatus, id:int= None):
-        self.__id:int = id
+        self.__id:Optional[int] = id
         self.__descripcion: str = descripcion
         self.__autor:str = autor
         self.__fechaReporte:datetime = datetime.now()
@@ -22,7 +23,7 @@ class Reporte:
         elif ( isinstance(elemento,Comentario) ):
             self.__tipoElemento = "comentario"
 
-    def getId(self) -> int:
+    def getId(self) -> Optional[int]:
         return self.__id
 
     def getDescripcion(self) -> str:

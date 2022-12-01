@@ -59,7 +59,10 @@ class DiscussionEndpoints():
             return redirect(url_for('get_discussion'))
         
         pregunta: Pregunta = Pregunta(session['user'],request.form['titulo'],request.form['descripcion'],0)
-        preguntas[pregunta.getId()]=pregunta
+        id = pregunta.getId()
+        if id is None:
+            return redirect(url_for('get_discussion'))
+        preguntas[id]=pregunta
         return render_template('discussion.html', name=name, roles=session['roles'], preguntas=preguntas)
 
     
@@ -125,7 +128,8 @@ class DiscussionEndpoints():
         respuesta = pregunta.getRespuestas().get(id_respuesta)
 
         if request.form['descripcion'] != "" and request.form['sentimiento'] != "" and respuesta is not None:
-            respuesta.addComentario(Comentario(session['user'],request.form['descripcion'],int(request.form['sentimiento']),0))
+            sentiment = next((x for x in Sentiment if x == int(request.form['sentimiento'])))
+            respuesta.addComentario(Comentario(session['user'],request.form['descripcion'], sentiment ,0))
         
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
@@ -176,7 +180,7 @@ class DiscussionEndpoints():
         comentario= respuesta.getComentarios().get(id_comentario)
         if comentario is None:
             return redirect(url_for("get_question",id_pregunta=pregunta.getId()))        
-        if(name in comentario.votantes):
+        if(name in comentario.getVotantes()):
             return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
         
         comentario.addVotantes(name)
@@ -205,8 +209,10 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(descripcion,name,respuesta,1,0)
-        reportes[reporte.getId()] = reporte
+        reporte = Reporte(descripcion,name,respuesta,ReportStatus.PENDING,0)
+        id = reporte.getId()
+        if id is not None:
+            reportes[id] = reporte
         
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
@@ -231,14 +237,16 @@ class DiscussionEndpoints():
         
         comentario= respuesta.getComentarios().get(id_comentario)
         if comentario is None:
-            return redirect(url_for("get_question",id_pregunta=pregunta.id)) 
+            return redirect(url_for("get_question",id_pregunta=pregunta.getId())) 
                
         descripcion = request.form["descripcion"]
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(descripcion,name,comentario,1,0)
-        reportes[reporte.getId()] = reporte
+        reporte = Reporte(descripcion,name,comentario,ReportStatus.PENDING,0)
+        id = reporte.getId()
+        if id is not None:
+            reportes[id] = reporte
         
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
@@ -260,8 +268,10 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(descripcion,name,pregunta,1,0)
+        reporte = Reporte(descripcion,name,pregunta,ReportStatus.PENDING,0)
 
-        reportes[reporte.getId()] = reporte
+        id = reporte.getId()
+        if id is not None:
+            reportes[id] = reporte
 
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
