@@ -46,7 +46,7 @@ class Comentario:
     def setSentimiento(self,sentimiento):
         self.__sentimiento=sentimiento
 
-    def getVotantes(self) -> list[str]:
+    def getVotantes(self) -> List[str]:
         return self.__votantes
 
     def addVotantes(self,votante):

@@ -46,10 +46,10 @@ class Respuesta :
         if id is not None:
             self.__comentarios[id]=comentario
 
-    def getComentarios(self) -> dict[int,Comentario]:
+    def getComentarios(self) -> Dict[int,Comentario]:
         return self.__comentarios
     
-    def getVotantes(self) -> list[str]:
+    def getVotantes(self) -> List[str]:
         return self.__votantes
 
     def addVotantes(self,votante:str):

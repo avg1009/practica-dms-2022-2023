@@ -37,7 +37,7 @@ class Pregunta:
     def cambiarVisible(self):
         self.__visible = not self.__visible
     
-    def getRespuestas(self) -> dict[int,Respuesta]:
+    def getRespuestas(self) -> Dict[int,Respuesta]:
         return self.__respuestas
     
     def addRespuesta(self,respuesta:Respuesta):
