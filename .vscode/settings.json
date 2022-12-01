@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "./components/dms2223common"
+        "./components/dms2223common",
+        "./components/dms2223auth"
     ]
 }
