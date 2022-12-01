@@ -1,19 +1,19 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional,Dict,List
 
 from dms2223common.data.Comentario import Comentario
 
 class Respuesta :
 
-    def __init__(self, creador:str, descripcion:str,id:int=None):
+    def __init__(self, creador:str, descripcion:str,id:Optional[int]=None):
         self.__id:Optional[int] = id
         self.__creador:str = creador
         self.__fechaCreacion:datetime = datetime.now()
         self.__descripcion:str = descripcion
         self.__visible:bool = True
         self.__votos:int = 0
-        self.__comentarios:dict[int,Comentario] = {}
-        self.__votantes:list[str] =[]
+        self.__comentarios:Dict[int,Comentario] = {}
+        self.__votantes:List[str] =[]
 
     def getId(self) -> Optional[int]:
         return self.__id

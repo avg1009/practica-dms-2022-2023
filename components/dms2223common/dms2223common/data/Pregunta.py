@@ -1,20 +1,19 @@
 from datetime import datetime
-import itertools
-from typing import Optional
+from typing import Optional,Dict
 
 from dms2223common.data.Respuesta import Respuesta
 class Pregunta:
 
     
     
-    def __init__(self, creador:str, titulo:str, descripcion:str,id:int=None):
+    def __init__(self, creador:str, titulo:str, descripcion:str,id:Optional[int]=None):
         self.__id:Optional[int] = id
         self.__creador:str = creador
         self.__titulo: str = titulo
         self.__descripcion: str = descripcion
         self.__fechaCreacion:datetime = datetime.now()
         self.__visible:bool = True
-        self.__respuestas:dict[int,Respuesta] = {}
+        self.__respuestas:Dict[int,Respuesta] = {}
         self.__reporte = False
 
     def getId(self) -> Optional[int]:

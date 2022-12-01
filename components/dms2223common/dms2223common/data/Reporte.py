@@ -9,7 +9,7 @@ from dms2223common.data.Respuesta import Respuesta
 class Reporte:
 
 
-    def __init__(self, descripcion:str, autor:str, elemento, estado:ReportStatus, id:int= None):
+    def __init__(self, descripcion:str, autor:str, elemento, estado:ReportStatus, id:Optional[int]= None):
         self.__id:Optional[int] = id
         self.__descripcion: str = descripcion
         self.__autor:str = autor
