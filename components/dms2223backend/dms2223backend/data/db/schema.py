@@ -36,6 +36,12 @@ class Schema:
         Raises:
             - RuntimeError: When the connection cannot be created/established.
         """
+        db_connection_string: str = config.get_db_connection_string() or ''
+        self.__create_engine = create_engine(db_connection_string)
+        self.__session_maker = scoped_session(sessionmaker(bind=self.__create_engine))
+
+        session = self.new_session()
+
         
     def new_session(self) -> Session:
         """ Constructs a new session.
