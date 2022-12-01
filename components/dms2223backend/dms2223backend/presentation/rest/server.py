@@ -11,4 +11,4 @@ def health_test() -> Tuple[None, Optional[int]]:
     Returns:
         - Tuple[None, Optional[int]]: A tuple of no content and code 204 No Content.
     """
-    return ('OK', HTTPStatus.OK)
+    return (None, HTTPStatus.NO_CONTENT.value)
