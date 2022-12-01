@@ -64,8 +64,8 @@ def get_question(id_pregunta: int):
     return DiscussionEndpoints.get_question(auth_service,id_pregunta)
 
 @app.route("/discussion/<int:id_pregunta>", methods=['POST'])
-def post_question(id_pregunta: int):
-    return DiscussionEndpoints.post_question(auth_service,id_pregunta)
+def post_answer(id_pregunta: int):
+    return DiscussionEndpoints.post_answer(auth_service,id_pregunta)
 
 @app.route("/discussion/<int:id_pregunta>/<int:id_respuesta>",methods=['POST'])
 def post_comentario(id_pregunta: int, id_respuesta: int):
@@ -102,14 +102,6 @@ def get_report(id_reporte: int):
 @app.route("/moderator/<int:id_reporte>", methods=['POST'])
 def post_report_question(id_reporte: int):
     return ModeratorEndpoints.post_report(auth_service,id_reporte)
-
-@app.route("/moderator/report/answer", methods=['POST'])
-def post_report_answer():
-    return ModeratorEndpoints.post_answer(auth_service)
-
-@app.route("/moderator/report/comment", methods=['POST'])
-def post_report_comment():
-    return ModeratorEndpoints.post_comment(auth_service)
 
 @app.route("/admin", methods=['GET'])
 def get_admin():

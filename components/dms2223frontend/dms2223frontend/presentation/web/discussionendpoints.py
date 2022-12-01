@@ -17,9 +17,9 @@ from dms2223common.data.Reporte import Reporte
 #TODO
 
 preguntas = {
-    0: Pregunta("Autor 1","Titulo 1","Descripcion 1",0),
-    1: Pregunta("Autor 2","Titulo 2","Descripcion 2",1),
-    2: Pregunta("Autor 3","Titulo 3","Descripcion 3",2)
+    1: Pregunta("Autor 1","Titulo 1","Descripcion 1",1),
+    2: Pregunta("Autor 2","Titulo 2","Descripcion 2",2),
+    3: Pregunta("Autor 3","Titulo 3","Descripcion 3",3)
 }
 
 class DiscussionEndpoints():
@@ -58,7 +58,7 @@ class DiscussionEndpoints():
             flash('Introduce pregunta', 'error')
             return redirect(url_for('get_discussion'))
         
-        pregunta: Pregunta = Pregunta(session['user'],request.form['titulo'],request.form['descripcion'])
+        pregunta: Pregunta = Pregunta(session['user'],request.form['titulo'],request.form['descripcion'],0)
         preguntas[pregunta.getId()]=pregunta
         return render_template('discussion.html', name=name, roles=session['roles'], preguntas=preguntas)
 
@@ -88,7 +88,7 @@ class DiscussionEndpoints():
         return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
 
     @staticmethod
-    def post_question(auth_service: AuthService,id_pregunta: int) -> Union[Response,Text]:
+    def post_answer(auth_service: AuthService,id_pregunta: int) -> Union[Response,Text]:
 
 
         if not WebAuth.test_token(auth_service):
@@ -103,7 +103,7 @@ class DiscussionEndpoints():
         if request.form['descripcion'] == "":
             flash('Introduce respuesta', 'error')
         else:
-            pregunta.addRespuesta(Respuesta(session['user'],request.form['descripcion'],1))
+            pregunta.addRespuesta(Respuesta(session['user'],request.form['descripcion'],0))
         
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
@@ -205,7 +205,7 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(descripcion,name,respuesta,1,2)
+        reporte = Reporte(descripcion,name,respuesta,1,0)
         reportes[reporte.getId()] = reporte
         
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
@@ -237,7 +237,7 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(descripcion,name,comentario,1,1)
+        reporte = Reporte(descripcion,name,comentario,1,0)
         reportes[reporte.getId()] = reporte
         
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
