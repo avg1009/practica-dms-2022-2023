@@ -10,6 +10,7 @@ from sqlalchemy.orm.session import Session  # type: ignore
 from dms2223backend.data.config import BackendConfiguration
 from dms2223backend.data.db.results.preguntaDB import Pregunta
 from dms2223backend.data.db.results.respuestaDB import Respuesta
+from dms2223backend.data.db.results.comentarioDB import Comentario
 from dms2223backend.data.db.results import comentarioDB,preguntaDB,reporteDB,respuestaDB,resultbase,votosDB
 
 
@@ -47,6 +48,7 @@ class Schema:
         self.__session_maker = scoped_session(sessionmaker(bind=self.__create_engine))
         Pregunta.map(self.__registry)
         Respuesta.map(self.__registry)
+        Comentario.map(self.__registry)
         self.__registry.metadata.create_all(self.__create_engine)
 
         

@@ -36,9 +36,6 @@ class Pregunta(ResultBase):
             Column('id', Integer, autoincrement='auto', primary_key=True),
             Column('titulo', String(100), nullable=False),
             Column('descripcion', String(500), nullable=False)
-            #Column('time', TIME, nullable = False),
-            #Column('user', String(15), nullable=False),
-            #Column('date', DATE, nullable = False)
         )
 
     @staticmethod

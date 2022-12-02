@@ -1,7 +1,7 @@
-""" PreguntaNotFoundError class module.
+""" UserExistsError class module.
 """
 
 
-class PreguntaNotFoundError(Exception):
+class RespuestaExisteError(Exception):
     """ Error raised when an attempt to create an existing question occurs.
     """
