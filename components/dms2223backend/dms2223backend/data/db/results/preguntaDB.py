@@ -19,6 +19,7 @@ class Pregunta(ResultBase):
       
         self.title: str = title
         self.content: str = content
+        self.id:int
 
     @staticmethod
     def _table_definition(metadata: MetaData) -> Table:
