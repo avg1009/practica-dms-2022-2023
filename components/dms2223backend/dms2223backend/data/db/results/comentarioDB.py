@@ -16,7 +16,8 @@ class Comentario(ResultBase):
         """
         
         self.descripcion: str = descripcion
-        self.id_respuesta: str = id_respuesta
+        self.id_respuesta: int = id_respuesta
+        self.id:int
         
         
     @staticmethod

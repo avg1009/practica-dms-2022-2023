@@ -11,8 +11,10 @@ class PreguntaService():
         session: Session = Schema.new_session()
         out: Dict = {}
         try:
-            new_user: Pregunta = Preguntas.create(session, titulo, descripcion)
-            out['username'] = new_user.username
+            new_pregunta: Pregunta = Preguntas.create(session, titulo, descripcion)
+            out['id']= new_pregunta.id
+            out['titulo']=new_pregunta.title
+            out['descripcion']=new_pregunta.content
         except Exception as ex:
             raise ex
         finally:
@@ -20,14 +22,14 @@ class PreguntaService():
         return out
 
     @staticmethod
-    def exists_preguna(titulo:str,descripcion:str):
+    def exists_preguna(id:int):
         session: Session = Schema.new_session()
-        user_exists: bool = Preguntas.get_pregunta(session, titulo, descripcion)
+        pregunta_exists: bool = Preguntas.get_pregunta(session, id)
         Schema.remove_session()
-        return user_exists
+        return pregunta_exists
 
     @staticmethod
-    def list_users():
+    def list_preguntas():
         out: List[Dict] = []
         session: Session = Schema.new_session()
         preguntas: List[Pregunta] = Preguntas.list_all(session)

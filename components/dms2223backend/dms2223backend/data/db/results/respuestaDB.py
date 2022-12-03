@@ -18,6 +18,7 @@ class Respuesta(ResultBase):
         
         self.descripcion: str = descripcion
         self.id_pregunta: str = id_pregunta
+        self.id:int
         
         
     @staticmethod
