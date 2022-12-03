@@ -3,18 +3,16 @@ from sqlalchemy.orm.session import Session
 from dms2223backend.data.db.schema import Schema  # type: ignore
 from dms2223backend.data.db.results import Respuesta
 from dms2223backend.data.db.resultsets import Respuestas
-
+import dms2223common.data.Respuesta as common
 class RespuestaService:
 
     @staticmethod
-    def create_respuesta(descripcion: str, id_pregunta: int):
+    def create_respuesta(descripcion: str, id_pregunta: int) -> common.Respuesta:
         session: Session = Schema.new_session()
-        out: Dict = {}
+        out: common.Respuesta
         try:
             new_respuesta: Respuesta = Respuestas.create(session, descripcion, id_pregunta)
-            out['id'] = new_respuesta.id
-            out['descripcion']=new_respuesta.descripcion
-            out['id_pregunta']=new_respuesta.id_pregunta
+            out= common.Respuesta("",new_respuesta.descripcion,new_respuesta.id)
         except Exception as ex:
             raise ex
         finally:
@@ -30,14 +28,10 @@ class RespuestaService:
 
     @staticmethod
     def list_respuestas():
-        out: List[Dict] = []
+        out: List[common.Respuesta] = []
         session: Session = Schema.new_session()
-        Respuestas: List[Respuesta] = Respuestas.list_all(session)
-        for respuesta in Respuestas:
-            out.append({
-                'id': respuesta.id,
-                'descripcion': respuesta.descripcion,
-                'id_pregunta': respuesta.id_pregunta
-            })
+        respuestas: List[Respuesta] = Respuestas.list_all(session)
+        for respuesta in respuestas:
+            out.append(common.Respuesta("",respuesta.descripcion,respuesta.id))
         Schema.remove_session()
         return out
