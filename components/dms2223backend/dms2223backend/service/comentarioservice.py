@@ -36,3 +36,14 @@ class ComentarioService:
             out.append(common.Comentario("",comentario.descripcion,Sentiment.NEUTRAL,comentario.id))
         Schema.remove_session()
         return out
+
+    @staticmethod
+    def get_comentario(id : int) :
+        session : Session = Schema.new_session()
+        comentario : Comentario = Comentarios.get_comentario(session, id)
+        Schema.remove_session()
+        return comentario
+
+    @staticmethod
+    def poner_voto (cid : int) :
+        pass

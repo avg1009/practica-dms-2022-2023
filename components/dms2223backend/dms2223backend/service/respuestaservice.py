@@ -35,3 +35,14 @@ class RespuestaService:
             out.append(common.Respuesta("",respuesta.descripcion,respuesta.id))
         Schema.remove_session()
         return out
+    
+    @staticmethod
+    def get_respuesta(id : int) :
+        session : Session = Schema.new_session()
+        respuesta : Respuesta = Respuestas.get_respuesta(session, id)
+        Schema.remove_session()
+        return respuesta
+
+    @staticmethod
+    def poner_voto (aid : int) :
+        pass
