@@ -3,6 +3,8 @@ from sqlalchemy import Table, MetaData, Column, String , Integer, TIME, DATE ,Fo
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
 from dms2223backend.data.db.results.comentarioDB import Comentario
+from dms2223backend.data.db.results.votosDB import Votos
+from dms2223backend.data.db.results.reporteDB import Reporte
 
 class Respuesta(ResultBase):
     """ Definition and storage of answer records.
@@ -47,5 +49,8 @@ class Respuesta(ResultBase):
             - Dict: A dictionary with the mapping properties.
         """
         return {
-            'comentarios': relationship(Comentario, backref='respuesta')
+            'comentarios': relationship(Comentario, backref='respuesta'),
+            'votos': relationship(Votos , backref = 'respuesta'),
+            'reporte': relationship(Reporte , backref = 'respuesta'), 
+            #no se que poner en backref
         }

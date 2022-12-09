@@ -2,6 +2,8 @@ from typing import Dict
 from sqlalchemy import Table, MetaData, Column, String , Integer, TIME, DATE ,ForeignKey # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
+from dms2223backend.data.db.results.reporteDB import Reporte
+from dms2223backend.data.db.results.votosDB import Votos
 
 class Comentario(ResultBase):
     """ Definition and storage of comment records.
@@ -37,4 +39,11 @@ class Comentario(ResultBase):
             Column('descripcion', String(500), nullable=False),
             Column('id_respuesta', Integer, ForeignKey('respuestas.id'), nullable=False)
         )
+    @staticmethod
+    def _mapping_properties() -> Dict:
+        # Definimos la "relación" entre comentarios y votos
+        return {
+            'votos': relationship(Votos, backref='id'),
+            'reportes': relationship(Reporte, backref='id') #añadir votos y backref
+        }
 
