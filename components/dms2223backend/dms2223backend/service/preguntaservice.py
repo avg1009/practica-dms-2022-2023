@@ -35,3 +35,10 @@ class PreguntaService():
             out.append(common.Pregunta("",pregunta.title,pregunta.content,pregunta.id))
         Schema.remove_session()
         return out
+
+    @staticmethod
+    def get_pregunta(id : int) :
+        session : Session = Schema.new_session()
+        pregunta : Pregunta = Preguntas.get_pregunta(session, id)
+        Schema.remove_session()
+        return pregunta
