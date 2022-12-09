@@ -1,4 +1,8 @@
+from typing import List, Dict
 from http import HTTPStatus
+from flask import current_app
+from dms2223backend.service import reportesrvice
+
 
 def post_reporte_pregunta(qid: int):
     pass

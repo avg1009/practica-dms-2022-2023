@@ -2,9 +2,9 @@ from typing import List, Dict
 from sqlalchemy.orm.session import Session
 from dms2223backend.data.db.schema import Schema  # type: ignore
 from dms2223backend.data.db.results import reporte
-from dms2223backend.data.db.resultsets import reportes
+from dms2223backend.data.db.resultsets import Reportes
 #TODO
-class reporteService:
+class ReporteService:
 
     @staticmethod
     def create_reporte(descripcion: str, id_respuesta: int):
