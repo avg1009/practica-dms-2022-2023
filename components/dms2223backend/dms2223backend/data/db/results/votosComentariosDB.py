@@ -51,7 +51,7 @@ class VotosComentarios(ResultBase):
             Column('usuario',String(32),ForeignKey('username'),nullable=False ),          
             Column('id_Comentario', Integer, ForeignKey('comentarios.id'), nullable=False),
             Column('fechaCreación', DATE, nullable=False),
-            Column('horaCreacion', TIME, nullable=False),
+            Column('horaCreacion', TIME, nullable=False)
         
             
         )
