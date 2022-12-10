@@ -7,3 +7,5 @@ from .respuestaexistserror import RespuestaExisteError
 from .respuestanoexisteerror import RespuestaNoExisteError
 from .comentarioexistserror import ComentarioExisteError
 from .comentarionoexisteerror import ComentarioNoExisteError
+from .reporteexistserror import ReporteExisteError
+from .reportenoexisteerror import ReporteNoExisteError

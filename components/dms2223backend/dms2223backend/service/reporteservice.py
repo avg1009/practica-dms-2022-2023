@@ -1,7 +1,7 @@
 from typing import List, Dict
 from sqlalchemy.orm.session import Session
 from dms2223backend.data.db.schema import Schema  # type: ignore
-from dms2223backend.data.db.results import reporte
+from dms2223backend.data.db.results import Reporte
 from dms2223backend.data.db.resultsets import Reportes
 #TODO
 class ReporteService:
@@ -11,7 +11,7 @@ class ReporteService:
         session: Session = Schema.new_session()
         out: Dict = {}
         try:
-            new_reporte: reporte = Reportes.create(session, descripcion, id_respuesta)
+            new_reporte: Reporte = Reportes.create(session, descripcion, id_respuesta)
             out['id'] = new_reporte.id
             out['descripcion']=new_reporte.descripcion
             out['id_respuesta']=new_reporte.id_respuesta
@@ -32,7 +32,7 @@ class ReporteService:
     def list_reportes():
         out: List[Dict] = []
         session: Session = Schema.new_session()
-        reportes: List[reporte] = Reportes.list_all(session)
+        reportes: List[Reporte] = Reportes.list_all(session)
         for reporte in reportes:
             out.append({
                 'id': reporte.id,

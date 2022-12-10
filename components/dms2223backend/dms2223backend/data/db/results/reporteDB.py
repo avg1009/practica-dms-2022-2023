@@ -35,7 +35,6 @@ class Reporte(ResultBase):
             'reportes',
             metadata,
             Column('id', Integer, autoincrement='auto', primary_key=True),
-            Column('titulo', String(100), nullable=False),
             Column('descripcion', String(500), nullable=False)
         )
 
@@ -46,6 +45,6 @@ class Reporte(ResultBase):
             - Dict: A dictionary with the mapping properties.
         """
         return {
-            'respuestas': relationship(Respuesta, backref='pregunta')#no se que poner en backref
+            #'respuestas': relationship(Respuesta, backref='pregunta')#no se que poner en backref
 
         }

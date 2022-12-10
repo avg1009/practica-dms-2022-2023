@@ -2,8 +2,8 @@ from typing import Dict
 from sqlalchemy import Table, MetaData, Column, String , Integer, TIME, DATE ,ForeignKey # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
-from dms2223backend.data.db.results.reporteDB import Reporte
-from dms2223backend.data.db.results.votosDB import Votos
+# from dms2223backend.data.db.results.reporteDB import Reporte
+#from dms2223backend.data.db.results.votosDB import Votos
 
 class Comentario(ResultBase):
     """ Definition and storage of comment records.
@@ -18,7 +18,18 @@ class Comentario(ResultBase):
         """
         
         self.descripcion: str = descripcion
-        self.id_respuesta: int = id_respuesta
+        self.id_respuesta: int = id_respuesta    # @staticmethod
+    # def _mapping_properties() -> Dict:
+    #     """ Gets the mapping properties dictionary.
+    #     Returns:
+    #         - Dict: A dictionary with the mapping properties.
+    #     """
+    #     return {
+    #         'comentarios': relationship(Comentario, backref='respuesta'),
+    #         'votos': relationship(Votos , backref = 'respuesta'),
+    #         'reporte': relationship(Reporte , backref = 'respuesta'), 
+    #         #no se que poner en backref
+    #     }
         self.id:int
         
         
@@ -39,11 +50,11 @@ class Comentario(ResultBase):
             Column('descripcion', String(500), nullable=False),
             Column('id_respuesta', Integer, ForeignKey('respuestas.id'), nullable=False)
         )
-    @staticmethod
-    def _mapping_properties() -> Dict:
-        # Definimos la "relación" entre comentarios y votos
-        return {
-            'votos': relationship(Votos, backref='id'),
-            'reportes': relationship(Reporte, backref='id') #añadir votos y backref
-        }
+    # @staticmethod
+    # def _mapping_properties() -> Dict:
+    #     # Definimos la "relación" entre comentarios y votos
+    #     return {
+    #         'votos': relationship(Votos, backref='id'),
+    #         'reportes': relationship(Reporte, backref='id') #añadir votos y backref
+    #     }
 
