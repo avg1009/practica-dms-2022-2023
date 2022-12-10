@@ -54,10 +54,8 @@ class Comentario(ResultBase):
             Column('fechaCreación', DATE, nullable=False),
             Column('horaCreacion', TIME, nullable=False),
             Column('visible',Boolean,nullable=False),
-            Column('sentimiento',String,nullable=False),
-            Column('votos',Integer,ForeignKey('votosComentarios.cantidad')),
-            Column('votantes',String,ForeignKey('votosComentarios.usuario'),nullable=False) 
-            #Quiero meter aqui una lista de los votantes o que haga una ref a la tabla user
+            Column('sentimiento',String,nullable=False)
+            
 
             
         )

@@ -43,9 +43,7 @@ class Respuesta(ResultBase):
             Column('horaCreacion', TIME, nullable=False),           
             Column('descripcion', String(500), nullable=False),
             Column('visible',Boolean,nullable=False),
-            Column('votos',Integer,ForeignKey('votos.cantidad')),
-            Column('comentarios',String,ForeignKey('comentarios')), #referencia a la tabla comentarios 
-            Column('votantes',String,ForeignKey('username'),nullable=False) #en comon es una lista
+           
         )
 
 
