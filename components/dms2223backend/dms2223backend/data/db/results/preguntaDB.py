@@ -1,5 +1,5 @@
 from typing import Dict
-from sqlalchemy import Table, MetaData, Column, String , Integer, TIME, DATE # type: ignore
+from sqlalchemy import Table, MetaData,ForeignKey, Column, String , Integer, TIME, DATE, Boolean # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
 from dms2223backend.data.db.results.respuestaDB import Respuesta
@@ -35,8 +35,18 @@ class Pregunta(ResultBase):
             'preguntas',
             metadata,
             Column('id', Integer, autoincrement='auto', primary_key=True),
+            Column('creador',String(32),ForeignKey('username'),nullable=False ),
             Column('titulo', String(100), nullable=False),
-            Column('descripcion', String(500), nullable=False)
+            Column('descripcion', String(500), nullable=False),
+            Column('fechaCreación', DATE, nullable=False),
+            Column('horaCreacion', TIME, nullable=False),
+            Column('visible',Boolean,nullable=False),
+            Column('respuestas',String(32),ForeignKey('respuestas'),nullable=False),#referencia a tabla respuestas
+            Column('reportes',String(32),ForeignKey('reportes'),nullable=False),
+                      
+         
+            
+
         )
 
     @staticmethod

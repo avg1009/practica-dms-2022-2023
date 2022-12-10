@@ -1,5 +1,5 @@
 from typing import Dict
-from sqlalchemy import Table, MetaData, Column, String , Integer, TIME, DATE ,ForeignKey # type: ignore
+from sqlalchemy import Table, MetaData, Column, String ,Boolean, Integer, TIME, DATE ,ForeignKey # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
 from dms2223backend.data.db.results.comentarioDB import Comentario
@@ -36,9 +36,16 @@ class Respuesta(ResultBase):
         return Table(
             'respuestas',
             metadata,
-            Column('id', Integer, autoincrement='auto', primary_key=True),            
+            Column('id', Integer, autoincrement='auto', primary_key=True),
+            Column('id_pregunta', Integer, ForeignKey('preguntas.id'), nullable=False),
+            Column('creador',String(32),ForeignKey('username'),nullable=False ), 
+            Column('fechaCreación', DATE, nullable=False),
+            Column('horaCreacion', TIME, nullable=False),           
             Column('descripcion', String(500), nullable=False),
-            Column('id_pregunta', Integer, ForeignKey('preguntas.id'), nullable=False)
+            Column('visible',Boolean,nullable=False),
+            Column('votos',Integer,ForeignKey('votos.cantidad')),
+            Column('comentarios',String,ForeignKey('comentarios')), #referencia a la tabla comentarios 
+            Column('votantes',String,ForeignKey('username'),nullable=False) #en comon es una lista
         )
 
 

@@ -1,3 +1,8 @@
+#DIRIA QUE ES OBSOLETO
+
+
+
+
 from typing import Dict
 from sqlalchemy import Table, MetaData, Column, String , Integer, TIME, DATE # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore

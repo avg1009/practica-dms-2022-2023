@@ -5,7 +5,7 @@ from dms2223backend.data.db.results.resultbase import ResultBase
 # from dms2223backend.data.db.results.reporteDB import Reporte
 #from dms2223backend.data.db.results.votosDB import Votos
 
-class Comentario(ResultBase):
+class ReporteRespuesta(ResultBase):
     """ Definition and storage of comment records.
     """
 
@@ -44,18 +44,15 @@ class Comentario(ResultBase):
         """
 
         return Table(
-            'comentarios',
+            'reportePreguntas',
             metadata,
             Column('id', Integer, autoincrement='auto', primary_key=True), 
             Column('creador',String(32),ForeignKey('username'),nullable=False ),          
             Column('descripcion', String(500), nullable=False),
-            Column('id_respuesta', Integer, ForeignKey('respuestas.id'), nullable=False),
+            Column('id_pregunta', Integer, ForeignKey('preguntas.id'), nullable=False),
             Column('fechaCreación', DATE, nullable=False),
             Column('horaCreacion', TIME, nullable=False),
-            Column('visible',Boolean,nullable=False),
-            Column('sentimiento',String,nullable=False),
-            Column('votantes',String,nullable=False) #Quiero meter aqui una lista de los votantes o que haga una ref a la tabla user
-
+            Column('estado',String,nullable=False), #debe ser la enum, si aceptado,rechazado o pendiente
             
         )
     # @staticmethod
