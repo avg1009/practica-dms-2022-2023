@@ -44,7 +44,3 @@ class ComentarioService:
         comentario : Comentario = Comentarios.get_comentario(session, id)
         Schema.remove_session()
         return comentario
-
-    @staticmethod
-    def poner_voto (cid : int) :
-        pass

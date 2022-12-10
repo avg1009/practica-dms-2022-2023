@@ -7,7 +7,7 @@ from dms2223backend.data.db.resultsets import Votos
 class votoService:
 
     @staticmethod
-    def create_voto(descripcion: str, id_respuesta: int):
+    def create_voto_respuesta(descripcion: str, id_respuesta: int):
         session: Session = Schema.new_session()
         out: Dict = {}
         try:
@@ -15,6 +15,21 @@ class votoService:
             out['id'] = new_voto.id
             out['descripcion']=new_voto.descripcion
             out['id_respuesta']=new_voto.id_respuesta
+        except Exception as ex:
+            raise ex
+        finally:
+            Schema.remove_session()
+        return out
+
+    @staticmethod
+    def create_voto_comentario(descripcion: str, id_pregunta: int):
+        session: Session = Schema.new_session()
+        out: Dict = {}
+        try:
+            new_voto: Voto = Votos.create(session, descripcion, id_pregunta)
+            out['id'] = new_voto.id
+            out['descripcion']=new_voto.descripcion
+            out['id_pregunta']=new_voto.id_pregunta
         except Exception as ex:
             raise ex
         finally:

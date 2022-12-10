@@ -3,6 +3,7 @@ from http import HTTPStatus
 from flask import current_app
 from dms2223backend.service import comentarioservice
 from dms2223backend.service import respuestaservice
+from dms2223backend.service import votosService
 
 def get_comentarios(aid) :
     with current_app.app_context() :
@@ -25,5 +26,12 @@ def get_comentarios(descripcion : str, cid : int) :
         else :
             return ('No se ha encontrado el argumento', HTTPStatus.NOT_FOUND.value)
 
-def post_voto(cid: int):
-    pass
+def post_voto(descripcion: str, cid: int):
+    with current_app.app_context() :
+        try:
+            if (votosService.votoService.exists_voto(cid)) : 
+                return votosService.votoService.create_voto_comentario(descripcion, cid), HTTPStatus.CREATED.value
+            else :
+                return ('Ya se ha votado este comentario', HTTPStatus.ALREADY_REPORTED.value)
+        except Exception:
+            return ('No se ha creado el argumento', HTTPStatus.NOT_FOUND.value)

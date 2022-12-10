@@ -53,7 +53,3 @@ class RespuestaService:
         respuesta : Respuesta = Respuestas.get_respuesta(session, id)
         Schema.remove_session()
         return respuesta
-
-    @staticmethod
-    def poner_voto (aid : int) :
-        pass
