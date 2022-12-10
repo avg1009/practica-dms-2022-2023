@@ -28,12 +28,13 @@ class ComentarioService:
         return comentario_exists
 
     @staticmethod
-    def list_comentarios() -> List[common.Comentario]:
+    def list_comentarios(id_respuesta: int) -> List[common.Comentario]:
         out: List[common.Comentario] = []
         session: Session = Schema.new_session()
         comentarios: List[Comentario] = Comentarios.list_all(session)
         for comentario in comentarios:
-            out.append(common.Comentario("",comentario.descripcion,Sentiment.NEUTRAL,comentario.id))
+            if comentario.id_respuesta== id_respuesta:
+                out.append(common.Comentario("",comentario.descripcion,Sentiment.NEUTRAL,comentario.id))
         Schema.remove_session()
         return out
 

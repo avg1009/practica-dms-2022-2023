@@ -20,19 +20,30 @@ class RespuestaService:
         return out
 
     @staticmethod
-    def exists_respuesta(descripcion:str,id:int):
+    def exists_respuesta(id:int):
         session: Session = Schema.new_session()
         respuesta_exists: bool = Respuestas.get_respuesta(session,id)
         Schema.remove_session()
         return respuesta_exists
 
+    # @staticmethod
+    # def list_respuestas():
+    #     out: List[common.Respuesta] = []
+    #     session: Session = Schema.new_session()
+    #     respuestas: List[Respuesta] = Respuestas.list_all(session)
+    #     for respuesta in respuestas:
+    #         out.append(common.Respuesta("",respuesta.descripcion,respuesta.id))
+    #     Schema.remove_session()
+    #     return out
+
     @staticmethod
-    def list_respuestas():
+    def list_respuestas(id_pregunta: int):
         out: List[common.Respuesta] = []
         session: Session = Schema.new_session()
         respuestas: List[Respuesta] = Respuestas.list_all(session)
         for respuesta in respuestas:
-            out.append(common.Respuesta("",respuesta.descripcion,respuesta.id))
+            if respuesta.id_pregunta== id_pregunta:
+                out.append(common.Respuesta("",respuesta.descripcion,respuesta.id))
         Schema.remove_session()
         return out
     
