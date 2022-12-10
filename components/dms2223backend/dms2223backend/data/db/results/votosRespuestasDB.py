@@ -51,7 +51,7 @@ class VotosRespuestas(ResultBase):
             Column('usuario',String(32),ForeignKey('username'),nullable=False ),          
             Column('id_Respuesta', Integer, ForeignKey('respuestas.id'), nullable=False),
             Column('fechaCreación', DATE, nullable=False),
-            Column('horaCreacion', TIME, nullable=False),
+            Column('horaCreacion', TIME, nullable=False)
         
             
         )

@@ -52,7 +52,7 @@ class ReporteRespuesta(ResultBase):
             Column('id_pregunta', Integer, ForeignKey('preguntas.id'), nullable=False),
             Column('fechaCreación', DATE, nullable=False),
             Column('horaCreacion', TIME, nullable=False),
-            Column('estado',String,nullable=False), #debe ser la enum, si aceptado,rechazado o pendiente
+            Column('estado',String,nullable=False) #debe ser la enum, si aceptado,rechazado o pendiente
             
         )
     # @staticmethod

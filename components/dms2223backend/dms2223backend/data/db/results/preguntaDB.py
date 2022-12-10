@@ -42,8 +42,8 @@ class Pregunta(ResultBase):
             Column('horaCreacion', TIME, nullable=False),
             Column('visible',Boolean,nullable=False),
             Column('respuestas',String(32),ForeignKey('respuestas'),nullable=False),#referencia a tabla respuestas
-            Column('reportes',String(32),ForeignKey('reportes'),nullable=False),
-                      
+            Column('reportes',String(32),ForeignKey('reportes'),nullable=False)
+            #reportes deberia estar??? en common si esta       
          
             
 

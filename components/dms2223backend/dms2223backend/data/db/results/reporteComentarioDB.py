@@ -52,7 +52,8 @@ class ReporteComentario(ResultBase):
             Column('id_comentario', Integer, ForeignKey('comentarios.id'), nullable=False),
             Column('fechaCreación', DATE, nullable=False),
             Column('horaCreacion', TIME, nullable=False),
-            Column('estado',String,nullable=False), #debe ser la enum, si aceptado,rechazado o pendiente
+            Column('estado',String,nullable=False) 
+            #debe ser la enum, si aceptado,rechazado o pendiente
             
         )
     # @staticmethod

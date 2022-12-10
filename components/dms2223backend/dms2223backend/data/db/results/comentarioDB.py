@@ -47,6 +47,7 @@ class Comentario(ResultBase):
             'comentarios',
             metadata,
             Column('id', Integer, autoincrement='auto', primary_key=True), 
+            Column('id_respuesta', Integer, ForeignKey('respuestas.id'), nullable=False),
             Column('creador',String(32),ForeignKey('username'),nullable=False ),          
             Column('descripcion', String(500), nullable=False),
             Column('id_respuesta', Integer, ForeignKey('respuestas.id'), nullable=False),
@@ -54,7 +55,9 @@ class Comentario(ResultBase):
             Column('horaCreacion', TIME, nullable=False),
             Column('visible',Boolean,nullable=False),
             Column('sentimiento',String,nullable=False),
-            Column('votantes',String,nullable=False) #Quiero meter aqui una lista de los votantes o que haga una ref a la tabla user
+            Column('votos',Integer,ForeignKey('votosComentarios.cantidad')),
+            Column('votantes',String,ForeignKey('votosComentarios.usuario'),nullable=False) 
+            #Quiero meter aqui una lista de los votantes o que haga una ref a la tabla user
 
             
         )
