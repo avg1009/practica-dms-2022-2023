@@ -4,7 +4,7 @@ from flask import current_app
 from dms2223backend.service import RespuestaService
 from dms2223backend.service import PreguntaService
 import dms2223common.data.Respuesta as common
-#from dms2223backend.service import votoService
+from dms2223backend.service import VotoService
 
 def get_respuestas(qid: int) :
     with current_app.app_context() :
@@ -27,13 +27,13 @@ def get_respuesta(aid : int) :
         else :
             return ('No se ha encontrado el argumento', HTTPStatus.NOT_FOUND.value)
 
-def post_voto(descripcion: str, aid: int):
-    # with current_app.app_context() :
-    #     try:
-    #         if (votoService.exists_voto(aid)) : 
-    #             return votoService.create_voto_respuesta(descripcion, aid), HTTPStatus.CREATED.value
-    #         else :
-    #             return ('Ya se ha votado esta respuesta', HTTPStatus.ALREADY_REPORTED.value)
-    #     except Exception:
-    #         return ('No se ha creado el argumento', HTTPStatus.NOT_FOUND.value)
-    pass
+# def post_voto( aid: int):
+#     with current_app.app_context() :
+#         try:
+#             if (VotoService.exists_voto_respuesta(aid)) : 
+#                 return VotoService.create_voto_respuesta(aid), HTTPStatus.CREATED.value
+#             else :
+#                 return ('Ya se ha votado esta respuesta', HTTPStatus.ALREADY_REPORTED.value)
+#         except Exception:
+#             return ('No se ha creado el argumento', HTTPStatus.NOT_FOUND.value)
+#     pass

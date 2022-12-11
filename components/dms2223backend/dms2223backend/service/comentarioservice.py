@@ -3,8 +3,10 @@ from sqlalchemy.orm.session import Session
 from dms2223backend.data.db.schema import Schema  # type: ignore
 from dms2223backend.data.db.results import Comentario
 from dms2223backend.data.db.resultsets import Comentarios
+from dms2223backend.data.db.results.votos import VotosComentarios
 import dms2223common.data.Comentario as common
 from dms2223common.data.sentiment import Sentiment
+
 class ComentarioService:
 
     @staticmethod
