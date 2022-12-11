@@ -57,7 +57,7 @@ class Pregunta:
     def reportar(self):
         self.__reporte = True
 
-    def to_json(self,respuestas=True) -> str:
+    def to_json(self,respuestas=True):
         dict={}
         dict["id"]=self.__id
         dict["creador"]=self.__creador

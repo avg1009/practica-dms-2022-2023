@@ -13,11 +13,12 @@ def get_preguntas() :
             
         return salida, HTTPStatus.OK.value
 
-def post_pregunta(pregunta: common.Pregunta):
+def post_pregunta(body: dict):
     with current_app.app_context() :
-
         try:
-            return PreguntaService.create_pregunta_from_common(pregunta, current_app.db), HTTPStatus.CREATED.value
+            
+            pregunta=common.Pregunta.from_json(body)
+            return PreguntaService.create_pregunta_from_common(pregunta, current_app.db).to_json(), HTTPStatus.CREATED.value
         except Exception:
             return ('No se ha creado el argumento', HTTPStatus.NOT_FOUND.value)
 
