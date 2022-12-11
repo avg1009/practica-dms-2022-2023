@@ -13,7 +13,8 @@ Es la intermedario entre la capa de presentación y la base de datos.
 Devuelve los objetos con la estructura del common para mandarselo a la api que es quien genera el json para enviarlo al front.
 
 ## Patrones utilizados
-
+### Fachada
+En nuestro caso, como queremos acceder al backend desde el frontend, necesitamos que haya un desacoplamiento entre el frontend y el backend. Con esto conseguiremos que a través de la clase backservice se pueda acceder al backend y el frontend desconozca lo que hace el backend. Es por esto, que el patrón que más se adapta a lo que queremos es el patrón Fachada.
 
 ## Principios SOLID 
 ### Single responsability
@@ -30,6 +31,3 @@ En nuestro caso, los endpoints de la interfaz REST están organizados de tal for
 ### Dependency inversion
 Siguiendo la definición: "una clase debería depender de abstracciones, no de concreciones"
 En nuestro caso, estamos teniendo en cuenta que nuestros módulos volátiles dependan de los estables, evitando que se produzcan cambios graves en cascada.
-
-## Union backend y frontend
-Victor
