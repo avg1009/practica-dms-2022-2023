@@ -38,7 +38,7 @@ class VotosComentarios(ResultBase):
             metadata,
             Column('id', Integer, autoincrement='auto', primary_key=True),
             Column('cantidad',Integer),
-            Column('usuario',String(32),ForeignKey('username'),nullable=False ),          
+            Column('usuario',String(32),nullable=False ),          
             Column('id_comentario', Integer, ForeignKey('comentarios.id'), nullable=False),
             Column('fechaCreación', TIMESTAMP, nullable=False)
         

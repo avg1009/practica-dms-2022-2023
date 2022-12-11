@@ -44,7 +44,7 @@ class ReporteComentario(ResultBase):
         """
 
         return Table(
-            'reporteComentario',
+            'reporteComentarios',
             metadata,
             Column('id', Integer, autoincrement='auto', primary_key=True), 
             Column('creador',String(32),nullable=False ),          

@@ -44,10 +44,10 @@ class ReporteRespuesta(ResultBase):
         """
 
         return Table(
-            'reportePreguntas',
+            'reporteRespuestas',
             metadata,
             Column('id', Integer, autoincrement='auto', primary_key=True), 
-            Column('creador',String(32),ForeignKey('username'),nullable=False ),          
+            Column('creador',String(32),nullable=False ),          
             Column('descripcion', String(500), nullable=False),
             Column('id_respuesta', Integer, ForeignKey('respuestas.id'), nullable=False),
             Column('fechaCreación', TIMESTAMP, nullable=False),

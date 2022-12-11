@@ -11,9 +11,11 @@ from dms2223backend.data.config import BackendConfiguration
 from dms2223backend.data.db.results.preguntaDB import Pregunta
 from dms2223backend.data.db.results.respuestaDB import Respuesta
 from dms2223backend.data.db.results.comentarioDB import Comentario
-# from dms2223backend.data.db.results.Reportes.reporteRespuestaDB import ReporteRespuesta
-# from dms2223backend.data.db.results.Reportes.reportePreguntaDB import ReportePreguntas
-# from dms2223backend.data.db.results.Reportes.reporteComentarioDB import ReporteComentario
+from dms2223backend.data.db.results.reportes.reporteRespuestaDB import ReporteRespuesta
+from dms2223backend.data.db.results.reportes.reportePreguntaDB import ReportePreguntas
+from dms2223backend.data.db.results.reportes.reporteComentarioDB import ReporteComentario
+from dms2223backend.data.db.results.votos.votosComentariosDB import VotosComentarios
+from dms2223backend.data.db.results.votos.votosRespuestasDB import VotosRespuestas
 #from dms2223backend.data.db.results import comentarioDB,preguntaDB,respuestaDB,resultbase
 
 
@@ -49,6 +51,11 @@ class Schema:
         db_connection_string: str = config.get_db_connection_string() or ''
         self.__create_engine = create_engine(db_connection_string)
         self.__session_maker = scoped_session(sessionmaker(bind=self.__create_engine))
+        ReporteRespuesta.map(self.__registry)
+        ReportePreguntas.map(self.__registry)
+        ReporteComentario.map(self.__registry)
+        VotosComentarios.map(self.__registry)
+        VotosRespuestas.map(self.__registry)
         Pregunta.map(self.__registry)
         Respuesta.map(self.__registry)
         Comentario.map(self.__registry)

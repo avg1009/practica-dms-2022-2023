@@ -49,7 +49,7 @@ class ReportePreguntas(ResultBase):
             'reportePreguntas',
             metadata,
             Column('id', Integer, autoincrement='auto', primary_key=True), 
-            Column('creador',String(32),ForeignKey('username'),nullable=False ),          
+            Column('creador',String(32),nullable=False ),          
             Column('descripcion', String(500), nullable=False),
             Column('id_pregunta', Integer, ForeignKey('preguntas.id'), nullable=False),
             Column('fechaCreación', TIMESTAMP, nullable=False),

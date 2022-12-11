@@ -54,7 +54,7 @@ class Respuesta(ResultBase):
         """
         return {
             'comentarios': relationship(Comentario, backref='respuesta'),
-            'votosRespuestas': relationship(VotosRespuestas, backref='id'),
-            'reporteRespuestas': relationship(ReporteRespuesta, backref='id')
+            'votosRespuestas': relationship(VotosRespuestas, backref='votosRespuesta'),
+            'reporteRespuestas': relationship(ReporteRespuesta, backref='reporteRespuestas')
         
         }

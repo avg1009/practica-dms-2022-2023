@@ -47,6 +47,6 @@ class Pregunta(ResultBase):
             - Dict: A dictionary with the mapping properties.
         """
         return {
-            'respuestas': relationship(Respuesta, backref='id'),
-            'reporterespuesta': relationship(ReportePreguntas, backref='id')
+            'respuestas': relationship(Respuesta, backref='pregunta'),
+            'reportepregunta': relationship(ReportePreguntas, backref='reportePregunta')
         }

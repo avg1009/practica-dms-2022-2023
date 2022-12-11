@@ -50,8 +50,8 @@ class Comentario(ResultBase):
     def _mapping_properties() -> Dict:
         # Definimos la "relación" entre comentarios y votos
         return {
-            'votosComentario': relationship(VotosComentarios, backref='id'),
-            'reporteComentario': relationship(ReporteComentario, backref='id')
+            'votosComentario': relationship(VotosComentarios, backref='votosComentario'),
+            'reporteComentario': relationship(ReporteComentario, backref='reporteComentario')
 
             #'comentarios': relationship(Respuesta, backref='pregunta') Meter Respuesta?
 
