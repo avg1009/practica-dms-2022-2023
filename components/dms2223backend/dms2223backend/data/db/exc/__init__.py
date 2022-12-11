@@ -9,3 +9,5 @@ from .comentarioexistserror import ComentarioExisteError
 from .comentarionoexisteerror import ComentarioNoExisteError
 from .reporteexistserror import ReporteExisteError
 from .reportenoexisteerror import ReporteNoExisteError
+from .votoexistserror import VotoExisteError
+from .votonoexisteerror import VotoNoExisteError

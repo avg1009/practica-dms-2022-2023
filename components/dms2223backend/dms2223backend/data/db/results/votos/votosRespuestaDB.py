@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
 
 
-class VotosRespuestas(ResultBase):
+class VotosRespuesta(ResultBase):
     """ Definition and storage of comment records.
     """
 

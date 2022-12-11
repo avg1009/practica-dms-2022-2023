@@ -5,11 +5,11 @@ from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
 
 
-class VotosComentarios(ResultBase):
+class VotosComentario(ResultBase):
     """ Definition and storage of comment records.
     """
 
-    def __init__(self, cantidad:int ,usuario:str,id_comentario:int):
+    def __init__(self, usuario:str,id_comentario:int):
         """ Constructor method.
         Initializes a answer record.
         Args:
@@ -18,7 +18,6 @@ class VotosComentarios(ResultBase):
         """
         self.id:int
         self.usuario:str = usuario
-        self.cantidad:int = cantidad
         self.fechaCreacion:datetime = datetime.now()
         self.id_comentario: int = id_comentario 
         
@@ -37,7 +36,6 @@ class VotosComentarios(ResultBase):
             'votosComentarios',
             metadata,
             Column('id', Integer, autoincrement='auto', primary_key=True),
-            Column('cantidad',Integer),
             Column('usuario',String(32),nullable=False ),          
             Column('id_comentario', Integer, ForeignKey('comentarios.id'), nullable=False),
             Column('fechaCreación', TIMESTAMP, nullable=False)

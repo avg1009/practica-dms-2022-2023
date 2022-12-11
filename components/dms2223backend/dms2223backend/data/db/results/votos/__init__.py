@@ -1,3 +1,3 @@
 
-from .votosComentariosDB import VotosComentarios
-from .votosRespuestasDB import VotosRespuestas
+from .votosComentarioDB import VotosComentario
+from .votosRespuestaDB import VotosRespuesta

@@ -5,7 +5,7 @@ from sqlalchemy import Table,TIMESTAMP, MetaData, Column, String , Integer,Enum 
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
 from dms2223backend.data.db.results.reportes.reporteComentarioDB import ReporteComentario
-from dms2223backend.data.db.results.votos.votosComentariosDB import VotosComentarios
+from dms2223backend.data.db.results.votos.votosComentarioDB import VotosComentario
 from dms2223common.data.sentiment import Sentiment
 from datetime import datetime
 
@@ -50,7 +50,7 @@ class Comentario(ResultBase):
     def _mapping_properties() -> Dict:
         # Definimos la "relación" entre comentarios y votos
         return {
-            'votosComentario': relationship(VotosComentarios, backref='votosComentario'),
+            'votosComentario': relationship(VotosComentario, backref='votosComentario'),
             'reporteComentario': relationship(ReporteComentario, backref='reporteComentario')
 
             #'comentarios': relationship(Respuesta, backref='pregunta') Meter Respuesta?

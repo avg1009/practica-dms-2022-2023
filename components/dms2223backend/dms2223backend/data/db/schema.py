@@ -14,8 +14,8 @@ from dms2223backend.data.db.results.comentarioDB import Comentario
 from dms2223backend.data.db.results.reportes.reporteRespuestaDB import ReporteRespuesta
 from dms2223backend.data.db.results.reportes.reportePreguntaDB import ReportePreguntas
 from dms2223backend.data.db.results.reportes.reporteComentarioDB import ReporteComentario
-from dms2223backend.data.db.results.votos.votosComentariosDB import VotosComentarios
-from dms2223backend.data.db.results.votos.votosRespuestasDB import VotosRespuestas
+from dms2223backend.data.db.results.votos.votosComentarioDB import VotosComentario
+from dms2223backend.data.db.results.votos.votosRespuestaDB import VotosRespuesta
 #from dms2223backend.data.db.results import comentarioDB,preguntaDB,respuestaDB,resultbase
 
 
@@ -54,8 +54,8 @@ class Schema:
         ReporteRespuesta.map(self.__registry)
         ReportePreguntas.map(self.__registry)
         ReporteComentario.map(self.__registry)
-        VotosComentarios.map(self.__registry)
-        VotosRespuestas.map(self.__registry)
+        VotosComentario.map(self.__registry)
+        VotosRespuesta.map(self.__registry)
         Pregunta.map(self.__registry)
         Respuesta.map(self.__registry)
         Comentario.map(self.__registry)
