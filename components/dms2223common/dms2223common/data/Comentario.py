@@ -1,7 +1,7 @@
 from datetime import datetime
 import json
 from typing import Dict, Optional,List
-
+from flask import current_app
 from dms2223common.data.sentiment import Sentiment
 class Comentario:
 
