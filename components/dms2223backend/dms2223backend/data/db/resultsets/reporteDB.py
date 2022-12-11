@@ -3,7 +3,6 @@ from typing import List, Optional
 from sqlalchemy.exc import IntegrityError  # type: ignore
 from sqlalchemy.orm.session import Session  # type: ignore
 from sqlalchemy.orm.exc import NoResultFound  # type: ignore
-from dms2223backend.data.db.results.reporteDB import Reporte
 from dms2223backend.data.db.exc import ReporteExisteError
 from dms2223backend.data.db.exc import ReporteNoExisteError
 

@@ -1,36 +1,36 @@
+from datetime import datetime
 from typing import Dict
-from sqlalchemy import Table, MetaData, Column, String , Integer, TIME, DATE ,ForeignKey,Boolean # type: ignore
+from sqlalchemy import Table, MetaData, Column, String , Integer, TIMESTAMP,Enum,ForeignKey,Boolean # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
-# from dms2223backend.data.db.results.reporteDB import Reporte
-#from dms2223backend.data.db.results.votosDB import Votos
+from dms2223common.data import Comentario, Pregunta, Respuesta
+from dms2223common.data.reportstatus import ReportStatus
+
 
 class ReporteRespuesta(ResultBase):
     """ Definition and storage of comment records.
     """
 
-    def __init__(self, descripcion: str, id_respuesta: int):
+    def __init__(self,descripcion:str, creador:str, elemento, estado:ReportStatus,id_respuesta : int):
         """ Constructor method.
         Initializes a answer record.
         Args:
             - id_pregunta (int): A int with the question's id.
             - content (str): A string with the answer of a question
         """
-        
-        self.descripcion: str = descripcion
-        self.id_respuesta: int = id_respuesta    # @staticmethod
-    # def _mapping_properties() -> Dict:
-    #     """ Gets the mapping properties dictionary.
-    #     Returns:
-    #         - Dict: A dictionary with the mapping properties.
-    #     """
-    #     return {
-    #         'comentarios': relationship(Comentario, backref='respuesta'),
-    #         'votos': relationship(Votos , backref = 'respuesta'),
-    #         'reporte': relationship(Reporte , backref = 'respuesta'), 
-    #         #no se que poner en backref
-    #     }
         self.id:int
+        self.id_respuesta : int = id_respuesta
+        self.descripcion: str = descripcion
+        self.creador:str = creador
+        self.fechaReporte:datetime = datetime.now()
+        self.elemento = elemento
+        self.estado: ReportStatus = estado
+        if ( isinstance(elemento,Pregunta) ):
+            self.tipoElemento = "pregunta"
+        elif ( isinstance(elemento,Respuesta) ):
+            self.tipoElemento = "respuesta"
+        elif ( isinstance(elemento,Comentario) ):
+            self.tipoElemento = "comentario"
         
         
     @staticmethod
@@ -49,10 +49,9 @@ class ReporteRespuesta(ResultBase):
             Column('id', Integer, autoincrement='auto', primary_key=True), 
             Column('creador',String(32),ForeignKey('username'),nullable=False ),          
             Column('descripcion', String(500), nullable=False),
-            Column('id_pregunta', Integer, ForeignKey('preguntas.id'), nullable=False),
-            Column('fechaCreación', DATE, nullable=False),
-            Column('horaCreacion', TIME, nullable=False),
-            Column('estado',Integer,nullable=False) #debe ser la enum, si aceptado,rechazado o pendiente
+            Column('id_respuesta', Integer, ForeignKey('respuestas.id'), nullable=False),
+            Column('fechaCreación', TIMESTAMP, nullable=False),
+            Column('estado',Enum(ReportStatus),default= ReportStatus.PENDING.name,nullable=False) 
             
         )
     # @staticmethod

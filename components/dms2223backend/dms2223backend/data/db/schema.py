@@ -11,7 +11,10 @@ from dms2223backend.data.config import BackendConfiguration
 from dms2223backend.data.db.results.preguntaDB import Pregunta
 from dms2223backend.data.db.results.respuestaDB import Respuesta
 from dms2223backend.data.db.results.comentarioDB import Comentario
-from dms2223backend.data.db.results import comentarioDB,preguntaDB,reporteDB,respuestaDB,resultbase,votosDB
+# from dms2223backend.data.db.results.Reportes.reporteRespuestaDB import ReporteRespuesta
+# from dms2223backend.data.db.results.Reportes.reportePreguntaDB import ReportePreguntas
+# from dms2223backend.data.db.results.Reportes.reporteComentarioDB import ReporteComentario
+#from dms2223backend.data.db.results import comentarioDB,preguntaDB,respuestaDB,resultbase
 
 
 # Required for SQLite to enforce FK integrity when supported

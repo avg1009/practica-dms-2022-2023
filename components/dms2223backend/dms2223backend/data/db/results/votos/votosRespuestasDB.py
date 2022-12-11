@@ -1,36 +1,28 @@
+from datetime import datetime
 from typing import Dict
-from sqlalchemy import Table, MetaData, Column, String , Integer, TIME, DATE ,ForeignKey,Boolean # type: ignore
+from sqlalchemy import Table, MetaData, Column, String , Integer, TIMESTAMP ,ForeignKey,Boolean # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
-# from dms2223backend.data.db.results.reporteDB import Reporte
-#from dms2223backend.data.db.results.votosDB import Votos
 
-class VotosComentarios(ResultBase):
+
+class VotosRespuestas(ResultBase):
     """ Definition and storage of comment records.
     """
 
-    def __init__(self, descripcion: str, id_respuesta: int):
+    def __init__(self, cantidad:int ,usuario:str,id_respuesta:int):
         """ Constructor method.
         Initializes a answer record.
         Args:
             - id_pregunta (int): A int with the question's id.
             - content (str): A string with the answer of a question
         """
-        
-        self.descripcion: str = descripcion
-        self.id_respuesta: int = id_respuesta    # @staticmethod
-    # def _mapping_properties() -> Dict:
-    #     """ Gets the mapping properties dictionary.
-    #     Returns:
-    #         - Dict: A dictionary with the mapping properties.
-    #     """
-    #     return {
-    #         'comentarios': relationship(Comentario, backref='respuesta'),
-    #         'votos': relationship(Votos , backref = 'respuesta'),
-    #         'reporte': relationship(Reporte , backref = 'respuesta'), 
-    #         #no se que poner en backref
-    #     }
         self.id:int
+        self.usuario:str = usuario
+        self.cantidad:int = cantidad
+        self.fechaCreacion:datetime = datetime.now()
+        self.id_respuesta: int = id_respuesta   
+
+        
         
         
     @staticmethod
@@ -44,14 +36,13 @@ class VotosComentarios(ResultBase):
         """
 
         return Table(
-            'votosComentarios',
+            'votosRespuestas',
             metadata,
             Column('id', Integer, autoincrement='auto', primary_key=True),
             Column('cantidad',Integer),
-            Column('usuario',String(32),ForeignKey('username'),nullable=False ),          
-            Column('id_Comentario', Integer, ForeignKey('comentarios.id'), nullable=False),
-            Column('fechaCreación', DATE, nullable=False),
-            Column('horaCreacion', TIME, nullable=False)
+            Column('usuario',String(32),nullable=False ),          
+            Column('id_respuesta', Integer, ForeignKey('respuestas.id'), nullable=False),
+            Column('fechaCreación', TIMESTAMP, nullable=False)
         
             
         )

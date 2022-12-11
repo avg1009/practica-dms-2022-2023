@@ -1,13 +1,12 @@
 from ast import List
 import datetime
 from typing import Dict, Optional
-from sqlalchemy import Table,TIMESTAMP, MetaData, Column, String , Integer ,ForeignKey,Boolean # type: ignore
+from sqlalchemy import Table,TIMESTAMP, MetaData, Column, String , Integer,Enum ,ForeignKey,Boolean # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
 from dms2223common.data.sentiment import Sentiment
 from datetime import datetime
-# from dms2223backend.data.db.results.reporteDB import Reporte
-#from dms2223backend.data.db.results.votosDB import Votos
+
 
 class Comentario(ResultBase):
     """ Definition and storage of comment records.
@@ -43,7 +42,7 @@ class Comentario(ResultBase):
             Column('descripcion', String(500), nullable=False),
             Column('fechaCreación', TIMESTAMP, nullable=False),
             Column('visible',Boolean,nullable=False),
-            Column('sentimiento',Integer,nullable=False)  
+            Column('sentimiento',Enum(Sentiment),default = Sentiment.NEUTRAL.name,nullable=False)  
         )
     # @staticmethod
     # def _mapping_properties() -> Dict:
