@@ -13,7 +13,7 @@ class Comentario(ResultBase):
     """ Definition and storage of comment records.
     """
 
-    def __init__(self, creador:str, descripcion:str, sentimiento: Sentiment,id_respuesta:int):
+    def __init__(self, descripcion:str, id_respuesta:int, creador:str, sentimiento: Sentiment):
         self.id:int 
         self.id_respuesta:int = id_respuesta
         self.creador:str = creador

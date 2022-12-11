@@ -15,7 +15,7 @@ class Respuesta(ResultBase):
    
         
        
-    def __init__(self, creador:str, descripcion:str,id_pregunta:int):
+    def __init__(self, descripcion:str,id_pregunta:int, creador:str):
         self.id:int 
         self.id_pregunta:int = id_pregunta
         self.creador:str = creador

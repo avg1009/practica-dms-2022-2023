@@ -6,13 +6,14 @@ from sqlalchemy.orm.exc import NoResultFound  # type: ignore
 from dms2223backend.data.db.results.comentarioDB import Comentario
 from dms2223backend.data.db.exc import ComentarioExisteError
 from dms2223backend.data.db.exc import ComentarioNoExisteError
+from dms2223common.data.sentiment import Sentiment
 
 
 class Comentarios():
     """ Class responsible of table-level users operations.
     """
     @staticmethod
-    def create(session: Session, descripcion: str, id_respuesta: int) -> Comentario:
+    def create(session: Session, descripcion:str, id_respuesta:int, creador:str, sentimiento: Sentiment,) -> Comentario:
         """ Creates a new question record.
 
         Note:
@@ -30,10 +31,10 @@ class Comentarios():
         Returns:
             - User: The created `User` result.
         """
-        if not descripcion or not id_respuesta:
+        if not descripcion or not id_respuesta or not sentimiento or not creador:
             raise ValueError('A title and a description are required.')
         try:
-            nuevo_comentario = Comentario(descripcion, id_respuesta)
+            nuevo_comentario = Comentario( descripcion, id_respuesta, creador, sentimiento)
             session.add(nuevo_comentario)
             session.commit()
             return nuevo_comentario
@@ -55,6 +56,19 @@ class Comentarios():
         """
         query = session.query(Comentario)
         return query.all()
+
+    # @staticmethod
+    # def list_all_of_answer(session: Session, id_respuesta: int) -> List[Comentario]:
+    #     """Lists every user.
+
+    #     Args:
+    #         - session (Session): The session object.
+
+    #     Returns:
+    #         - List[User]: A list of `User` registers.
+    #     """
+    #     query = session.query(Comentario).where(id_respuesta = id_respuesta)
+    #     return query.all()
 
     @staticmethod
     def get_comentario(session: Session, id: int) -> Optional[Comentario]:

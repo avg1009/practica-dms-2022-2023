@@ -5,12 +5,12 @@ from sqlalchemy import Table, MetaData,ForeignKey, Column, String , Integer, TIM
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
 from dms2223backend.data.db.results.respuestaDB import Respuesta
-from dms2223backend.data.db.results.reporteDB import Reporte 
+# from dms2223backend.data.db.results.reporteDB import Reporte 
 class Pregunta(ResultBase):
     """ Definition and storage of discussion records.
     """
 
-    def __init__(self, creador:str, titulo:str, descripcion:str):
+    def __init__(self, titulo:str, descripcion:str, creador:str):
         self.id: int
         self.creador:str = creador
         self.titulo: str = titulo
