@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import Optional,Dict,List
-
 from dms2223common.data.Comentario import Comentario
+
+import json
 
 class Respuesta :
 
@@ -55,7 +56,7 @@ class Respuesta :
     def addVotantes(self,votante:str):
         self.__votantes.append(votante)
     
-    def to_dict(self) -> Dict:
+    def to_dict(self,comentarios=True) -> Dict:
         dict={}
         dict["id"]=self.__id
         dict["creador"]=self.__creador
@@ -63,10 +64,14 @@ class Respuesta :
         dict["descripcion"]=self.__descripcion
         dict["visible"]=self.__visible
         dict["votos"]=self.__votos
-        com=[]
-        for c in self.__comentarios:
-            com.append(c.to_dict())
-        dict["respuestas"]=com
+        if comentarios:
+            com=[]
+            for c in self.__comentarios:
+                com.append(c.to_dict())
+            dict["comentarios"]=com
         dict["votantes"]=self.__votantes
 
         return dict
+
+    def to_json(self):
+        return json.dumps(self.to_dict(False))

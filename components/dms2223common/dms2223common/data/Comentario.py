@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 from typing import Dict, Optional,List
 
 from dms2223common.data.sentiment import Sentiment
@@ -63,3 +64,6 @@ class Comentario:
         dict["sentimiento"]=self.__sentimiento
         dict["votantes"]=self.__votantes
         return dict
+
+    def to_json(self):
+        return json.dumps(self.to_dict())
