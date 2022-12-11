@@ -14,12 +14,12 @@ class Comentario(ResultBase):
     """ Definition and storage of comment records.
     """
 
-    def __init__(self, descripcion:str, id_respuesta:int, creador:str, sentimiento: Sentiment):
+    def __init__(self, descripcion:str, id_respuesta:int, creador:str, sentimiento: Sentiment,fecha: str):
         self.id:int 
         self.id_respuesta:int = id_respuesta
         self.creador:str = creador
         self.descripcion: str= descripcion
-        #self.fechaCreacion:datetime = datetime.now()
+        self.fechaCreacion: str = fecha
         self.visible:bool= True
         self.sentimiento: Sentiment =sentimiento 
 
@@ -42,7 +42,7 @@ class Comentario(ResultBase):
             Column('id_respuesta', Integer, ForeignKey('respuestas.id'), nullable=False),
             Column('creador',String(32),nullable=False),          
             Column('descripcion', String(500), nullable=False),
-            #Column('fechaCreación', TIMESTAMP, nullable=False),
+            Column('fechaCreacion', String(100), nullable=False),
             Column('visible',Boolean,nullable=False),
             Column('sentimiento',Enum(Sentiment),default = Sentiment.NEUTRAL.name,nullable=False)  
         )

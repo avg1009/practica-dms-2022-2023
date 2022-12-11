@@ -14,11 +14,11 @@ class Respuesta(ResultBase):
    
         
        
-    def __init__(self, descripcion:str,id_pregunta:int, creador:str):
+    def __init__(self, descripcion:str,id_pregunta:int, creador:str,fecha:str):
         self.id:int 
         self.id_pregunta:int = id_pregunta
         self.creador:str = creador
-        #self.fechaCreacion:datetime = datetime.now()
+        self.fechaCreacion: str = fecha
         self.descripcion:str = descripcion
         self.visible:bool = True
   
@@ -39,7 +39,7 @@ class Respuesta(ResultBase):
             Column('id', Integer, autoincrement='auto', primary_key=True),
             Column('id_pregunta', Integer, ForeignKey('preguntas.id'), nullable=False),
             Column('creador',String(32),nullable=False ), 
-            #Column('fechaCreación', TIMESTAMP, nullable=False),          
+            Column('fechaCreacion', String(100), nullable=False),         
             Column('descripcion', String(500), nullable=False),
             Column('visible',Boolean,nullable=False),
            

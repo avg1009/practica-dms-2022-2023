@@ -13,7 +13,7 @@ class ReporteRespuestas():
     """ Class responsible of table-level users operations.
     """
     @staticmethod
-    def create(session: Session, descripcion:str, creador:str,id_respuesta : int, estado: ReportStatus) -> ReporteRespuesta:
+    def create(session: Session, descripcion:str, creador:str,id_respuesta : int, estado: ReportStatus,fecha: str) -> ReporteRespuesta:
         """ Creates a new question record.
 
         Note:
@@ -34,7 +34,7 @@ class ReporteRespuestas():
         if not descripcion or not id_respuesta:
             raise ValueError('A title and a description are required.')
         try:
-            nuevo_reporte = ReporteRespuesta(descripcion, creador, estado, id_respuesta)
+            nuevo_reporte = ReporteRespuesta(descripcion, creador, estado, id_respuesta,fecha)
             session.add(nuevo_reporte)
             session.commit()
             return nuevo_reporte

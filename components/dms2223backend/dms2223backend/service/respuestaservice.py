@@ -7,12 +7,12 @@ import dms2223common.data.Respuesta as common
 class RespuestaService:
 
     @staticmethod
-    def create_respuesta(descripcion: str, id_pregunta: int, creador:str, schema: Schema) -> common.Respuesta:
+    def create_respuesta(descripcion: str, id_pregunta: int, creador:str,fecha: str, schema: Schema) -> common.Respuesta:
         session: Session = schema.new_session()
         out: common.Respuesta
         try:
-            new_respuesta: Respuesta = Respuestas.create(session, descripcion, id_pregunta, creador)
-            out= common.Respuesta(new_respuesta.creador,new_respuesta.descripcion,new_respuesta.id)
+            new_respuesta: Respuesta = Respuestas.create(session, descripcion, id_pregunta, creador,fecha)
+            out= common.Respuesta(new_respuesta.creador,new_respuesta.descripcion,new_respuesta.id,new_respuesta.fechaCreacion)
         except Exception as ex:
             raise ex
         finally:
@@ -20,8 +20,8 @@ class RespuestaService:
         return out
 
     @staticmethod
-    def create_respuesta_from_common(respuesta: common.Respuesta, id_pregunta: int, schema: Schema) -> common.Respuesta:
-        return RespuestaService.create_respuesta(respuesta.getDescripcion(), id_pregunta, respuesta.getCreador(), schema)
+    def create_respuesta_from_common(respuesta: common.Respuesta, id_pregunta: int,schema: Schema) -> common.Respuesta:
+        return RespuestaService.create_respuesta(respuesta.getDescripcion(), id_pregunta, respuesta.getCreador(),respuesta.getFechaCreacion(), schema)
 
 
     @staticmethod
@@ -38,7 +38,7 @@ class RespuestaService:
         respuestas: List[Respuesta] = Respuestas.list_all(session,id_pregunta)
         for respuesta in respuestas:
             if respuesta.id_pregunta== id_pregunta:
-                out.append(common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id))
+                out.append(common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id,respuesta.fechaCreacion))
         schema.remove_session()
         return out
     
@@ -46,6 +46,6 @@ class RespuestaService:
     def get_respuesta(id : int, schema: Schema) -> common.Respuesta:
         session : Session = schema.new_session()
         respuesta : Respuesta = Respuestas.get_respuesta(session, id)
-        out: common.Respuesta = common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id)
+        out: common.Respuesta = common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id,respuesta.fechaCreacion)
         schema.remove_session()
         return out

@@ -13,7 +13,7 @@ class Comentarios():
     """ Class responsible of table-level users operations.
     """
     @staticmethod
-    def create(session: Session, descripcion:str, id_respuesta:int, creador:str, sentimiento: Sentiment,) -> Comentario:
+    def create(session: Session, descripcion:str, id_respuesta:int, creador:str, sentimiento: Sentiment,fecha:str) -> Comentario:
         """ Creates a new question record.
 
         Note:
@@ -34,7 +34,7 @@ class Comentarios():
         if not descripcion or not id_respuesta or not sentimiento or not creador:
             raise ValueError('A title and a description are required.')
         try:
-            nuevo_comentario = Comentario( descripcion, id_respuesta, creador, sentimiento)
+            nuevo_comentario = Comentario( descripcion, id_respuesta, creador, sentimiento,fecha)
             session.add(nuevo_comentario)
             session.commit()
             return nuevo_comentario

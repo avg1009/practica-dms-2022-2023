@@ -9,11 +9,11 @@ from dms2223common.data.Respuesta import Respuesta
 class Reporte:
 
 
-    def __init__(self, descripcion:str, autor:str, elemento, estado:ReportStatus, id:Optional[int]= None):
+    def __init__(self, descripcion:str, autor:str, elemento, estado:ReportStatus, id:Optional[int]= None,fecha:Optional[str]=datetime.now().isoformat()):
         self.__id:Optional[int] = id
         self.__descripcion: str = descripcion
         self.__autor:str = autor
-        self.__fechaReporte:datetime = datetime.now()
+        self.__fechaReporte:datetime = datetime.fromisoformat(fecha)
         self.__elemento = elemento
         self.__estado: ReportStatus = estado
         if ( isinstance(elemento,Pregunta) ):

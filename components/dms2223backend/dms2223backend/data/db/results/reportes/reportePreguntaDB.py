@@ -12,7 +12,7 @@ class ReportePregunta(ResultBase):
     """ Definition and storage of comment records.
     """
 
-    def __init__(self,descripcion:str, creador:str, estado:ReportStatus,id_pregunta:int):
+    def __init__(self,descripcion:str, creador:str, estado:ReportStatus,id_pregunta:int,fecha:str):
         """ Constructor method.
         Initializes a answer record.
         Args:
@@ -23,7 +23,7 @@ class ReportePregunta(ResultBase):
         self.id_pregunta : int = id_pregunta
         self.descripcion: str = descripcion
         self.creador:str = creador
-        self.fechaCreacion:datetime = datetime.now()
+        self.fecha :str = fecha
         self.estado: ReportStatus = estado
         self.tipoElemento = "pregunta"
  
@@ -48,7 +48,7 @@ class ReportePregunta(ResultBase):
             Column('creador',String(32),nullable=False ),          
             Column('descripcion', String(500), nullable=False),
             Column('id_pregunta', Integer, ForeignKey('preguntas.id'), nullable=False),
-            Column('fechaCreación', TIMESTAMP, nullable=False),
+            Column('fechaCreacion', String(100), nullable=False),
             Column('estado',Enum(ReportStatus),default= ReportStatus.PENDING.name,nullable=False) 
             
         )
