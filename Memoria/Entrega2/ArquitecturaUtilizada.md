@@ -11,14 +11,7 @@ Esta capa se encargará de recoger los objetos generados por el service y conver
 
 La capa de datos se encarga de almacenar todos los datos recogidos, esta capa contendrá la base de datos, las tablas generadas y toda la información relevante.
 para su realización nos hemos fijado en dms2223auth y utilizado su misma estructura.
-        db 
-            exc
-            results
-                reportes
-                votos
-            resultsets
-                reportes
-                votos
+       
 
 ## La capa de servicios
 
