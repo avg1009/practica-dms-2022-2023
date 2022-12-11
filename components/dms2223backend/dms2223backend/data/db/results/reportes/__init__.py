@@ -1,4 +1,4 @@
 
 from .reporteComentarioDB import ReporteComentario 
 from .reporteRespuestaDB import ReporteRespuesta
-from .reportePreguntaDB import ReportePreguntas
+from .reportePreguntaDB import ReportePregunta

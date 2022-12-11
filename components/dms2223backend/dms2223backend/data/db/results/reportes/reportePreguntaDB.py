@@ -8,7 +8,7 @@ from dms2223common.data.reportstatus import ReportStatus
 
 
 
-class ReportePreguntas(ResultBase):
+class ReportePregunta(ResultBase):
     """ Definition and storage of comment records.
     """
 

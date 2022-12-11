@@ -3,17 +3,17 @@ from typing import List, Optional
 from sqlalchemy.exc import IntegrityError  # type: ignore
 from sqlalchemy.orm.session import Session  # type: ignore
 from sqlalchemy.orm.exc import NoResultFound  # type: ignore
-from dms2223backend.data.db.results.reportes.reportePreguntaDB import ReportePreguntas
+from dms2223backend.data.db.results.reportes.reportePreguntaDB import ReportePregunta
 from dms2223backend.data.db.exc import ReporteNoExisteError
 from dms2223backend.data.db.exc import ReporteExisteError
 from dms2223common.data.reportstatus import ReportStatus
 
 
-class ReportePregunta():
+class ReportePreguntas():
     """ Class responsible of table-level users operations.
     """
     @staticmethod
-    def create(session: Session, descripcion:str, creador:str,id_pregunta : int) -> ReportePreguntas:
+    def create(session: Session, descripcion:str, creador:str,id_pregunta : int, estado: ReportStatus) -> ReportePregunta:
         """ Creates a new question record.
 
         Note:
@@ -34,7 +34,7 @@ class ReportePregunta():
         if not descripcion or not id_pregunta:
             raise ValueError('A title and a description are required.')
         try:
-            nuevo_reporte = ReportePreguntas(descripcion,creador ,ReportStatus.PENDING,id_pregunta)
+            nuevo_reporte = ReportePregunta(descripcion, creador, estado, id_pregunta)
             session.add(nuevo_reporte)
             session.commit()
             return nuevo_reporte
@@ -45,7 +45,7 @@ class ReportePregunta():
                 ) from ex
 
     @staticmethod
-    def list_all(session: Session,id_pregunta:int) -> List[ReportePreguntas]:
+    def list_all(session: Session,id_pregunta:int) -> List[ReportePregunta]:
         """Lists every user.
 
         Args:
@@ -54,11 +54,11 @@ class ReportePregunta():
         Returns:
             - List[User]: A list of `User` registers.
         """
-        query = session.query(ReportePreguntas)
-        return query.where(ReportePreguntas.id_pregunta==id_pregunta)
+        query = session.query(ReportePregunta)
+        return query.where(ReportePregunta.id_pregunta==id_pregunta)
 
     @staticmethod
-    def get_respuesta(session: Session, id: int) -> Optional[ReportePreguntas]:
+    def get_reporte(session: Session, id: int) -> Optional[ReportePregunta]:
         """ Determines whether a user exists or not.
 
         Args:
@@ -71,8 +71,8 @@ class ReportePregunta():
         if not id:
             raise ValueError('An id is requiered.')
         try:
-            query = session.query(ReportePreguntas).filter_by(id=id)
-            reporte: ReportePreguntas = query.one()
+            query = session.query(ReportePregunta).filter_by(id=id)
+            reporte: ReportePregunta = query.one()
         except NoResultFound as ex:
             raise ReporteNoExisteError(
                 'The report with title ' + id + ' don\'t exists.'

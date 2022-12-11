@@ -13,7 +13,7 @@ class ReporteComentarios():
     """ Class responsible of table-level users operations.
     """
     @staticmethod
-    def create(session: Session, descripcion:str, creador:str,id_comentario : int) -> ReporteComentario:
+    def create(session: Session, descripcion:str, creador:str,id_comentario : int, estado: ReportStatus) -> ReporteComentario:
         """ Creates a new question record.
 
         Note:
@@ -34,7 +34,7 @@ class ReporteComentarios():
         if not descripcion or not id_comentario:
             raise ValueError('A title and a description are required.')
         try:
-            nuevo_reporte = ReporteComentario(descripcion,creador,ReportStatus.PENDING,id_comentario)
+            nuevo_reporte = ReporteComentario(descripcion, creador, estado, id_comentario)
             session.add(nuevo_reporte)
             session.commit()
             return nuevo_reporte
@@ -58,7 +58,7 @@ class ReporteComentarios():
         return query.where(ReporteComentario.id_comentario==id_comentario)
 
     @staticmethod
-    def get_respuesta(session: Session, id: int) -> Optional[ReporteComentario]:
+    def get_reporte(session: Session, id: int) -> Optional[ReporteComentario]:
         """ Determines whether a user exists or not.
 
         Args:

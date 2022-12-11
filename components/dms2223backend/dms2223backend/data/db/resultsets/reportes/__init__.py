@@ -1,3 +1,3 @@
 from .reporteComentarioDB import ReporteComentarios
 from .reporteRespuestaDB import ReporteRespuestas
-from .reportePreguntaDB import ReportePregunta
+from .reportePreguntaDB import ReportePreguntas

@@ -5,7 +5,7 @@ from sqlalchemy import Table, MetaData,ForeignKey, Column, String , Integer, TIM
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
 from dms2223backend.data.db.results.respuestaDB import Respuesta
-from dms2223backend.data.db.results.reportes.reportePreguntaDB import ReportePreguntas
+from dms2223backend.data.db.results.reportes.reportePreguntaDB import ReportePregunta
 
 class Pregunta(ResultBase):
     """ Definition and storage of discussion records.
@@ -48,5 +48,5 @@ class Pregunta(ResultBase):
         """
         return {
             'respuestas': relationship(Respuesta, backref='pregunta'),
-            'reportepregunta': relationship(ReportePreguntas, backref='reportePregunta')
+            'reportepregunta': relationship(ReportePregunta, backref='reportePregunta')
         }

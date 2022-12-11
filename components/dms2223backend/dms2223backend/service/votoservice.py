@@ -1,17 +1,17 @@
-# from typing import List, Dict
-# from sqlalchemy.orm.session import Session
-# from dms2223backend.data.db.schema import Schema  # type: ignore
-# # from dms2223backend.data.db.resultsets import Votos
-# from dms2223backend.data.db.results.votos import VotosComentarios #voto
-# from dms2223backend.data.db.results.votos import VotosRespuestas #voto
-# # from dms2223backend.data.db.resultsets.votos import VotosComentarios #voto
-# # from dms2223backend.data.db.resultsets.votos import VotosRespuestas #voto
+from typing import List, Dict
+from sqlalchemy.orm.session import Session
+from dms2223backend.data.db.schema import Schema  # type: ignore
+# from dms2223backend.data.db.resultsets import Votos
+from dms2223backend.data.db.results.votos import VotosComentario #voto
+from dms2223backend.data.db.results.votos import VotosRespuesta #voto
 
+from dms2223backend.data.db.resultsets.votos import VotosComentarios #voto
+from dms2223backend.data.db.resultsets.votos import VotosRespuestas #voto
 # #TODO
-# class VotoService:
+class VotoService:
 
-#     @staticmethod
-#     def create_voto_respuesta(id_respuesta: int, schema: Schema):
+    @staticmethod
+    def create_voto_respuesta(id_respuesta: int, schema: Schema):
 #         session: Session = schema.new_session()
 #         out: Dict = {}
 #         try:
@@ -23,9 +23,10 @@
 #         finally:
 #             Schema.remove_session()
 #         return out
+        pass
 
-#     @staticmethod
-#     def create_voto_comentario(id_comentario: int, schema: Schema):
+    @staticmethod
+    def create_voto_comentario(id_comentario: int, schema: Schema):
 #         session: Session = schema.new_session()
 #         out: Dict = {}
 #         try:
@@ -37,23 +38,26 @@
 #         finally:
 #             Schema.remove_session()
 #         return out
+        pass
 
-#     @staticmethod
-#     def exists_voto_respuesta(id_respuesta:int, schema: Schema):
+    @staticmethod
+    def exists_voto_respuesta(id_respuesta:int, schema: Schema):
 #         session: Session = schema.new_session()
 #         voto_exists: bool = Votos.get_voto(session,id_respuesta)
 #         Schema.remove_session()
 #         return voto_exists
+        pass
 
-#     @staticmethod
-#     def exists_voto_comentario(id_comentario:int, schema: Schema):
+    @staticmethod
+    def exists_voto_comentario(id_comentario:int, schema: Schema):
 #         session: Session = schema.new_session()
 #         voto_exists: bool = Votos.get_voto(session,id)
 #         Schema.remove_session()
 #         return voto_exists
+        pass
 
-#     @staticmethod
-#     def list_votos_respuestas(schema: Schema):
+    @staticmethod
+    def list_votos_respuestas(schema: Schema):
 #         out: List[Dict] = []
 #         session: Session = Schema.new_session()
 #         votos: List[VotosRespuestas] = Votos.list_all(session)
@@ -65,9 +69,10 @@
 #             })
 #         Schema.remove_session()
 #         return out
+        pass
 
-#     @staticmethod
-#     def list_votos_comentarios(schema: Schema):
+    @staticmethod
+    def list_votos_comentarios(schema: Schema):
 #         out: List[Dict] = []
 #         session: Session = schema.new_session()
 #         votos: List[VotosComentarios] = Votos.list_all(session)
@@ -79,3 +84,4 @@
 #             })
 #         Schema.remove_session()
 #         return out
+        pass

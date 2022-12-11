@@ -12,7 +12,7 @@ from dms2223backend.data.db.results.preguntaDB import Pregunta
 from dms2223backend.data.db.results.respuestaDB import Respuesta
 from dms2223backend.data.db.results.comentarioDB import Comentario
 from dms2223backend.data.db.results.reportes.reporteRespuestaDB import ReporteRespuesta
-from dms2223backend.data.db.results.reportes.reportePreguntaDB import ReportePreguntas
+from dms2223backend.data.db.results.reportes.reportePreguntaDB import ReportePregunta
 from dms2223backend.data.db.results.reportes.reporteComentarioDB import ReporteComentario
 from dms2223backend.data.db.results.votos.votosComentarioDB import VotosComentario
 from dms2223backend.data.db.results.votos.votosRespuestaDB import VotosRespuesta
@@ -52,7 +52,7 @@ class Schema:
         self.__create_engine = create_engine(db_connection_string)
         self.__session_maker = scoped_session(sessionmaker(bind=self.__create_engine))
         ReporteRespuesta.map(self.__registry)
-        ReportePreguntas.map(self.__registry)
+        ReportePregunta.map(self.__registry)
         ReporteComentario.map(self.__registry)
         VotosComentario.map(self.__registry)
         VotosRespuesta.map(self.__registry)
