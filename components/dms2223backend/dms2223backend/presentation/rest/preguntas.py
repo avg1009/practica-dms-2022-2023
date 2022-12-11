@@ -6,7 +6,12 @@ import dms2223common.data.Pregunta as common
 
 def get_preguntas() :
     with current_app.app_context() :
-        return PreguntaService.list_preguntas(current_app.db),HTTPStatus.OK.value
+        preguntas: List(common.Pregunta) = PreguntaService.list_preguntas(current_app.db),HTTPStatus.OK.value
+        salida: List(Dict)
+        for pregunta in preguntas:
+            salida.append(pregunta.to_json())
+            
+        return salida, HTTPStatus.OK.value
 
 def post_pregunta(pregunta: common.Pregunta):
     with current_app.app_context() :
