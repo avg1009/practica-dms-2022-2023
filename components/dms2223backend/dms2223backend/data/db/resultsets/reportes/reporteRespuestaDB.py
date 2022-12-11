@@ -9,7 +9,7 @@ from dms2223backend.data.db.exc import ReporteExisteError
 from dms2223common.data.reportstatus import ReportStatus
 
 
-class Respuestas():
+class ReporteRespuestas():
     """ Class responsible of table-level users operations.
     """
     @staticmethod
