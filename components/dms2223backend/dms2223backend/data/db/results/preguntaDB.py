@@ -15,7 +15,7 @@ class Pregunta(ResultBase):
         self.creador:str = creador
         self.titulo: str = titulo
         self.descripcion: str = descripcion
-        self.fechaCreacion:datetime = datetime.now()
+        #self.fechaCreacion:datetime = datetime.now()
         self.visible:bool = True
 
     @staticmethod
@@ -35,7 +35,7 @@ class Pregunta(ResultBase):
             Column('creador',String(32),nullable=False ),
             Column('titulo', String(100), nullable=False),
             Column('descripcion', String(500), nullable=False),
-            Column('fechaCreación', TIMESTAMP, nullable=False),
+            #Column('fechaCreación', TIMESTAMP, nullable=False),
             Column('visible',Boolean,nullable=False)
         )
 

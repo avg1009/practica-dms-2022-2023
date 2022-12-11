@@ -7,8 +7,8 @@ import dms2223common.data.Pregunta as common
 class PreguntaService():
 
     @staticmethod
-    def create_pregunta(titulo: str, descripcion: str, creador:str) -> common.Pregunta:
-        session: Session = Schema.new_session()
+    def create_pregunta(titulo: str, descripcion: str, creador:str, schema: Schema) -> common.Pregunta:
+        session: Session = schema.new_session()
         out: common.Pregunta = None
         try:
             new_pregunta: Pregunta = Preguntas.create(session, titulo, descripcion, creador)
@@ -16,34 +16,34 @@ class PreguntaService():
         except Exception as ex:
             raise ex
         finally:
-            Schema.remove_session()
+            schema.remove_session()
         return out
     
     @staticmethod
-    def create_pregunta_from_common(pregunta: common.Pregunta) -> common.Pregunta:
-        return PreguntaService.create_pregunta(pregunta.getTitulo(), pregunta.getDescripcion(), pregunta.getCreador())
+    def create_pregunta_from_common(pregunta: common.Pregunta, schema: Schema) -> common.Pregunta:
+        return PreguntaService.create_pregunta(pregunta.getTitulo(), pregunta.getDescripcion(), pregunta.getCreador(), schema)
 
     @staticmethod
-    def exists_preguna(id:int):
-        session: Session = Schema.new_session()
+    def exists_preguna(id:int, schema: Schema):
+        session: Session = schema.new_session()
         pregunta_exists: bool = Preguntas.get_pregunta(session, id)
-        Schema.remove_session()
+        schema.remove_session()
         return pregunta_exists
 
     @staticmethod
-    def list_preguntas() -> List[common.Pregunta]:
+    def list_preguntas(schema: Schema) -> List[common.Pregunta]:
         out: List[common.Pregunta] = []
-        session: Session = Schema.new_session()
+        session: Session = schema.new_session()
         preguntas: List[Pregunta] = Preguntas.list_all(session)
         for pregunta in preguntas:
             out.append(common.Pregunta(pregunta.creador,pregunta.titulo,pregunta.descripcion,pregunta.id))
-        Schema.remove_session()
+        schema.remove_session()
         return out
 
     @staticmethod
-    def get_pregunta(id : int) -> common.Pregunta:
-        session : Session = Schema.new_session()
+    def get_pregunta(id : int, schema: Schema) -> common.Pregunta:
+        session : Session = schema.new_session()
         pregunta : Pregunta = Preguntas.get_pregunta(session, id)
         out= common.Pregunta(pregunta.creador,pregunta.titulo,pregunta.descripcion,pregunta.id)
-        Schema.remove_session()
+        schema.remove_session()
         return out

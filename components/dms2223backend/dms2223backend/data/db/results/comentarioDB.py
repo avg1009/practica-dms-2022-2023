@@ -17,7 +17,7 @@ class Comentario(ResultBase):
         self.id_respuesta:int = id_respuesta
         self.creador:str = creador
         self.descripcion: str= descripcion
-        self.fechaCreacion:datetime = datetime.now()
+        #self.fechaCreacion:datetime = datetime.now()
         self.visible:bool= True
         self.sentimiento: Sentiment =sentimiento 
 
@@ -40,7 +40,7 @@ class Comentario(ResultBase):
             Column('id_respuesta', Integer, ForeignKey('respuestas.id'), nullable=False),
             Column('creador',String(32),nullable=False ),          
             Column('descripcion', String(500), nullable=False),
-            Column('fechaCreación', TIMESTAMP, nullable=False),
+            #Column('fechaCreación', TIMESTAMP, nullable=False),
             Column('visible',Boolean,nullable=False),
             Column('sentimiento',Enum(Sentiment),default = Sentiment.NEUTRAL.name,nullable=False)  
         )

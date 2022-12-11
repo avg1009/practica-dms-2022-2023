@@ -8,8 +8,8 @@ from dms2223common.data.sentiment import Sentiment
 class ComentarioService:
 
     @staticmethod
-    def create_comentario(descripcion: str, id_respuesta: int, creador:str, sentimiento: Sentiment) -> common.Comentario:
-        session: Session = Schema.new_session()
+    def create_comentario(descripcion: str, id_respuesta: int, creador:str, sentimiento: Sentiment, schema: Schema) -> common.Comentario:
+        session: Session = schema.new_session()
         out: common.Comentario = None
         try:
             new_comentario: Comentario = Comentarios.create(session, descripcion, id_respuesta, creador, sentimiento)
@@ -17,35 +17,35 @@ class ComentarioService:
         except Exception as ex:
             raise ex
         finally:
-            Schema.remove_session()
+            schema.remove_session()
         return out
 
     @staticmethod
-    def create_comentario_from_common(comentario: common.Comentario, id_respuesta: int) -> common.Comentario:
-        return ComentarioService.create_comentario(comentario.getDescripcion(), id_respuesta, comentario.getCreador(), comentario.getSentimiento)
+    def create_comentario_from_common(comentario: common.Comentario, id_respuesta: int, schema: Schema) -> common.Comentario:
+        return ComentarioService.create_comentario(comentario.getDescripcion(), id_respuesta, comentario.getCreador(), comentario.getSentimiento(), schema)
 
     @staticmethod
-    def exists_comentario(id:int) -> bool:
-        session: Session = Schema.new_session()
+    def exists_comentario(id:int, schema: Schema) -> bool:
+        session: Session = schema.new_session()
         comentario_exists: bool = Comentarios.get_comentario(session,id)
-        Schema.remove_session()
+        schema.remove_session()
         return comentario_exists
 
     @staticmethod
-    def list_comentarios(id_respuesta: int) -> List[common.Comentario]:
+    def list_comentarios(id_respuesta: int, schema: Schema) -> List[common.Comentario]:
         out: List[common.Comentario] = []
-        session: Session = Schema.new_session()
+        session: Session = schema.new_session()
         comentarios: List[Comentario] = Comentarios.list_all(session)
         for comentario in comentarios:
             if comentario.id_respuesta== id_respuesta:
                 out.append(common.Comentario(comentario.creador,comentario.descripcion,comentario.sentimiento,comentario.id))
-        Schema.remove_session()
+        schema.remove_session()
         return out
 
     @staticmethod
-    def get_comentario(id : int) -> common.Comentario:
-        session : Session = Schema.new_session()
+    def get_comentario(id : int, schema: Schema) -> common.Comentario:
+        session : Session = schema.new_session()
         comentario : Comentario = Comentarios.get_comentario(session, id)
         out: common.Comentario = common.Comentario(comentario.creador,comentario.descripcion,comentario.sentimiento,comentario.id)
-        Schema.remove_session()
+        schema.remove_session()
         return out

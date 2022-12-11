@@ -18,7 +18,7 @@ class Respuesta(ResultBase):
         self.id:int 
         self.id_pregunta:int = id_pregunta
         self.creador:str = creador
-        self.fechaCreacion:datetime = datetime.now()
+        #self.fechaCreacion:datetime = datetime.now()
         self.descripcion:str = descripcion
         self.visible:bool = True
   
@@ -39,7 +39,7 @@ class Respuesta(ResultBase):
             Column('id', Integer, autoincrement='auto', primary_key=True),
             Column('id_pregunta', Integer, ForeignKey('preguntas.id'), nullable=False),
             Column('creador',String(32),nullable=False ), 
-            Column('fechaCreación', TIMESTAMP, nullable=False),          
+            #Column('fechaCreación', TIMESTAMP, nullable=False),          
             Column('descripcion', String(500), nullable=False),
             Column('visible',Boolean,nullable=False),
            
