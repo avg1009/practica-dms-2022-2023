@@ -12,7 +12,7 @@ class Preguntas():
     """ Class responsible of table-level users operations.
     """
     @staticmethod
-    def create(session: Session, titulo: str, descripcion: str, creador:str) -> Pregunta:
+    def create(session: Session, creador:str, titulo: str, descripcion: str) -> Pregunta:
         """ Creates a new question record.
 
         Note:
@@ -33,7 +33,7 @@ class Preguntas():
         if not titulo or not descripcion:
             raise ValueError('A title and a description are required.')
         try:
-            nueva_pregunta = Pregunta(titulo, descripcion, creador)
+            nueva_pregunta = Pregunta(creador,titulo, descripcion)
             session.add(nueva_pregunta)
             session.commit()
             return nueva_pregunta

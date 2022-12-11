@@ -40,7 +40,7 @@ class RespuestaService:
             if respuesta.id_pregunta== id_pregunta:
                 out.append(common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id))
         schema.remove_session()
-        return id_pregunta,out
+        return out
     
     @staticmethod
     def get_respuesta(id : int, schema: Schema) -> common.Respuesta:

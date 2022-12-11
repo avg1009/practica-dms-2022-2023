@@ -10,7 +10,7 @@ class Pregunta(ResultBase):
     """ Definition and storage of discussion records.
     """
 
-    def __init__(self, titulo:str, descripcion:str, creador:str):
+    def __init__(self, creador:str ,titulo:str, descripcion:str):
         self.id: int
         self.creador:str = creador
         self.titulo: str = titulo

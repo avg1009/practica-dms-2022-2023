@@ -11,7 +11,7 @@ class PreguntaService():
         session: Session = schema.new_session()
         out: common.Pregunta = None
         try:
-            new_pregunta: Pregunta = Preguntas.create(session, titulo, descripcion, creador)
+            new_pregunta: Pregunta = Preguntas.create(session, creador, titulo, descripcion)
             out= common.Pregunta(new_pregunta.creador,new_pregunta.titulo,new_pregunta.descripcion,new_pregunta.id)
         except Exception as ex:
             raise ex
