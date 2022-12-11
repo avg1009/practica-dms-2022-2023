@@ -1,7 +1,11 @@
-from typing import Dict
-from sqlalchemy import Table, MetaData, Column, String , Integer, TIME, DATE ,ForeignKey,Boolean # type: ignore
+from ast import List
+import datetime
+from typing import Dict, Optional
+from sqlalchemy import Table,TIMESTAMP, MetaData, Column, String , Integer ,ForeignKey,Boolean # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
+from dms2223common.data.sentiment import Sentiment
+from datetime import datetime
 # from dms2223backend.data.db.results.reporteDB import Reporte
 #from dms2223backend.data.db.results.votosDB import Votos
 
@@ -9,28 +13,15 @@ class Comentario(ResultBase):
     """ Definition and storage of comment records.
     """
 
-    def __init__(self, descripcion: str, id_respuesta: int):
-        """ Constructor method.
-        Initializes a answer record.
-        Args:
-            - id_pregunta (int): A int with the question's id.
-            - content (str): A string with the answer of a question
-        """
-        
-        self.descripcion: str = descripcion
-        self.id_respuesta: int = id_respuesta    # @staticmethod
-    # def _mapping_properties() -> Dict:
-    #     """ Gets the mapping properties dictionary.
-    #     Returns:
-    #         - Dict: A dictionary with the mapping properties.
-    #     """
-    #     return {
-    #         'comentarios': relationship(Comentario, backref='respuesta'),
-    #         'votos': relationship(Votos , backref = 'respuesta'),
-    #         'reporte': relationship(Reporte , backref = 'respuesta'), 
-    #         #no se que poner en backref
-    #     }
-        self.id:int
+    def __init__(self, creador:str, descripcion:str, sentimiento: Sentiment,id_respuesta:int):
+        self.id:int 
+        self.id_respuesta:int = id_respuesta
+        self.creador:str = creador
+        self.descripcion: str= descripcion
+        self.fechaCreacion:datetime = datetime.now()
+        self.visible:bool= True
+        self.sentimiento: Sentiment =sentimiento 
+
         
         
     @staticmethod
@@ -48,22 +39,18 @@ class Comentario(ResultBase):
             metadata,
             Column('id', Integer, autoincrement='auto', primary_key=True), 
             Column('id_respuesta', Integer, ForeignKey('respuestas.id'), nullable=False),
-            Column('creador',String(32),ForeignKey('username'),nullable=False ),          
+            Column('creador',String(32),nullable=False ),          
             Column('descripcion', String(500), nullable=False),
-            Column('id_respuesta', Integer, ForeignKey('respuestas.id'), nullable=False),
-            Column('fechaCreación', DATE, nullable=False),
-            Column('horaCreacion', TIME, nullable=False),
+            Column('fechaCreación', TIMESTAMP, nullable=False),
             Column('visible',Boolean,nullable=False),
-            Column('sentimiento',String,nullable=False)
-            
-
-            
+            Column('sentimiento',Integer,nullable=False)  
         )
     # @staticmethod
     # def _mapping_properties() -> Dict:
     #     # Definimos la "relación" entre comentarios y votos
     #     return {
-    #         'votos': relationship(Votos, backref='id'),
-    #         'reportes': relationship(Reporte, backref='id') #añadir votos y backref
+    #         #'comentarios': relationship(Respuesta, backref='pregunta')
+    #         #'votos': relationship(Votos, backref='id'),
+    #         #'reportes': relationship(Reporte, backref='id') #añadir votos y backref
     #     }
 
