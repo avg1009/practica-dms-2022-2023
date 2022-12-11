@@ -24,7 +24,7 @@ class PreguntaService():
         return PreguntaService.create_pregunta(pregunta.getTitulo(), pregunta.getDescripcion(), pregunta.getCreador(), schema)
 
     @staticmethod
-    def exists_preguna(id:int, schema: Schema):
+    def exists_pregunta(id:int, schema: Schema):
         session: Session = schema.new_session()
         pregunta_exists: bool = Preguntas.get_pregunta(session, id)
         schema.remove_session()

@@ -31,16 +31,6 @@ class RespuestaService:
         schema.remove_session()
         return respuesta_exists
 
-    # @staticmethod
-    # def list_respuestas():
-    #     out: List[common.Respuesta] = []
-    #     session: Session = Schema.new_session()
-    #     respuestas: List[Respuesta] = Respuestas.list_all(session)
-    #     for respuesta in respuestas:
-    #         out.append(common.Respuesta("",respuesta.descripcion,respuesta.id))
-    #     Schema.remove_session()
-    #     return out
-
     @staticmethod
     def list_respuestas(id_pregunta: int, schema: Schema) -> List[common.Respuesta]:
         out: List[common.Respuesta] = []

@@ -18,7 +18,7 @@ def post_pregunta(titulo: str, descripcion: str):
 def get_pregunta(qid: int):
     with current_app.app_context() :
 
-        if (PreguntaService.exists_preguna(qid)) :
+        if (PreguntaService.exists_pregunta(qid)) :
             return PreguntaService.get_pregunta(qid), HTTPStatus.NOT_FOUND.value
         else:
             return ('No se ha encontrado el argumento', HTTPStatus.NOT_FOUND.value)
