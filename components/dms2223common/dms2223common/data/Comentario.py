@@ -53,7 +53,7 @@ class Comentario:
     def addVotantes(self,votante):
         self.__votantes.append(votante)
 
-    def to_dict(self) -> Dict:
+    def to_json(self) -> Dict:
         dict = {}
         dict["id"]=self.__id
         dict["creador"]=self.__creador

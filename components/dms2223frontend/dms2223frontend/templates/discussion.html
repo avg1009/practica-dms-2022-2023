@@ -15,7 +15,7 @@
 
             </dl>
         </form>
-        {% for pregunta in preguntas.values() %}
+        {% for pregunta in preguntas %}
             {% if pregunta.getVisible() %}
                 <div class="questiondiv">
                     <a class="questiontext" href="/discussion/{{ pregunta.getId() }}" name="pregunta">{{pregunta.getTitulo()}}</a><br>

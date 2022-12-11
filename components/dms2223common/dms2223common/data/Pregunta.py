@@ -69,9 +69,17 @@ class Pregunta:
         if respuestas:
             res=[]
             for r in self.__respuestas:
-                res.append(r.to_dict())
+                res.append(r.to_json())
             dict["respuestas"]=res
         dict["reporte"]=self.__reporte
 
-        return json.dumps(dict)
+        return dict
 
+    def from_json(dict):
+        pregunta = Pregunta(dict["creador"],dict["titulo"],dict["descripcion"],dict["id"])
+        pregunta.__fechaCreacion=dict["fecha_creacion"]
+        pregunta.__visible=dict["visibles"]
+        pregunta.__respuestas=dict["respuestas"]
+        pregunta.__reporte=dict["reporte"]
+
+        return pregunta

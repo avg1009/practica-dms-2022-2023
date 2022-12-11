@@ -1,8 +1,10 @@
 """ DiscussionEndpoints class module.
 """
-from typing import Text, Union
+from typing import List, Text, Union
 from flask import redirect, request, flash, url_for, session, render_template
 from werkzeug.wrappers import Response
+from dms2223common.data.rest.responsedata import ResponseData
+from dms2223frontend.data.rest.backendservice import BackendService
 from dms2223frontend.presentation.web.moderatorendpoints import reportes
 from dms2223common.data import Role
 from dms2223common.data.reportstatus import ReportStatus
@@ -14,19 +16,11 @@ from dms2223common.data.Comentario import Comentario
 from dms2223common.data.sentiment import Sentiment
 from dms2223common.data.Reporte import Reporte
 
-#TODO
-
-preguntas = {
-    1: Pregunta("Autor 1","Titulo 1","Descripcion 1",1),
-    2: Pregunta("Autor 2","Titulo 2","Descripcion 2",2),
-    3: Pregunta("Autor 3","Titulo 3","Descripcion 3",3)
-}
-
 class DiscussionEndpoints():
     """ Monostate class responsible of handling the discussion web endpoint requests.
     """
     @staticmethod
-    def get_discussion(auth_service: AuthService) -> Union[Response, Text]:
+    def get_discussion(auth_service: AuthService,backend_service: BackendService) -> Union[Response, Text]:
         """ Handles the GET requests to the discussion root endpoint.
 
         Args:
@@ -41,10 +35,16 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
         name = session['user']
         
+        response:ResponseData = backend_service.list_questions(session.get('token'))
+        lista = response.get_content()
+        preguntas: List[Pregunta] = []
+        for p in lista:
+            preguntas.append(Pregunta.from_json(p))
+
         return render_template('discussion.html', name=name, roles=session['roles'], preguntas=preguntas)
 
     @staticmethod
-    def post_discussion(auth_service: AuthService) -> Union[Response,Text]:
+    def post_discussion(auth_service: AuthService,backend_service:BackendService) -> Union[Response,Text]:
 
 
         if not WebAuth.test_token(auth_service):
@@ -53,21 +53,29 @@ class DiscussionEndpoints():
             return redirect(url_for('get_home'))
         name = session['user']
         
+        
 
         if request.form['titulo'] == "" or request.form['descripcion'] == "":
             flash('Introduce pregunta', 'error')
             return redirect(url_for('get_discussion'))
         
-        pregunta: Pregunta = Pregunta(session['user'],request.form['titulo'],request.form['descripcion'],0)
+        pregunta: Pregunta = Pregunta(session['user'],request.form['titulo'],request.form['descripcion'])
+        response:ResponseData = backend_service.create_question(session.get('token'),pregunta)
+        pregunta = Pregunta.from_json(response.get_content())
         id = pregunta.getId()
         if id is None:
             return redirect(url_for('get_discussion'))
-        preguntas[id]=pregunta
+        
+        response:ResponseData = backend_service.list_questions(session.get('token'))
+        lista = response.get_content()
+        preguntas: List[Pregunta] = []
+        for p in lista:
+            preguntas.append(Pregunta.from_json(p))
         return render_template('discussion.html', name=name, roles=session['roles'], preguntas=preguntas)
 
     
     @staticmethod
-    def get_question(auth_service: AuthService, id_pregunta: int) -> Union[Response, Text]:
+    def get_question(auth_service: AuthService,backend_service:BackendService, id_pregunta: int) -> Union[Response, Text]:
         """ Handles the GET requests to the discussion root endpoint.
 
         Args:
@@ -83,7 +91,9 @@ class DiscussionEndpoints():
 
         name:str = session['user']
         
-        pregunta = preguntas.get(id_pregunta)
+        
+        response:ResponseData = backend_service.get_question(session.get('token'),id_pregunta)
+        pregunta = Pregunta.from_json(response.get_content())
 
         if pregunta is None or not pregunta.getVisible():
             return redirect(url_for("get_discussion"))
@@ -91,7 +101,7 @@ class DiscussionEndpoints():
         return render_template('question.html', name=name, roles=session['roles'], pregunta=pregunta)
 
     @staticmethod
-    def post_answer(auth_service: AuthService,id_pregunta: int) -> Union[Response,Text]:
+    def post_answer(auth_service: AuthService,backend_service:BackendService,id_pregunta: int) -> Union[Response,Text]:
 
 
         if not WebAuth.test_token(auth_service):
@@ -99,20 +109,22 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        pregunta = preguntas.get(id_pregunta)
+        response:ResponseData = backend_service.get_question(session.get('token'),id_pregunta)
+        pregunta = Pregunta.from_json(response.get_content())
         if pregunta is None:
             return redirect(url_for("get_discussion"))
 
         if request.form['descripcion'] == "":
             flash('Introduce respuesta', 'error')
         else:
-            pregunta.addRespuesta(Respuesta(session['user'],request.form['descripcion'],0))
+            respuesta = Respuesta(session["user"],request.form["descripcion"])
+            backend_service.post_answer(session["token"],id_pregunta,respuesta)
         
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
 
     @staticmethod
-    def post_comment(auth_service: AuthService,id_pregunta: int,id_respuesta: int) -> Union[Response,Text]:
+    def post_comment(auth_service: AuthService,backend_service:BackendService,id_pregunta: int,id_respuesta: int) -> Union[Response,Text]:
 
 
         if not WebAuth.test_token(auth_service):
@@ -120,21 +132,21 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        pregunta = preguntas.get(id_pregunta)
+        response:ResponseData = backend_service.get_question(session.get('token'),id_pregunta)
+        pregunta = Pregunta.from_json(response.get_content())
 
         if pregunta is None:
             return redirect(url_for("get_discussion"))
 
-        respuesta = pregunta.getRespuestas().get(id_respuesta)
-
-        if request.form['descripcion'] != "" and request.form['sentimiento'] != "" and respuesta is not None:
+        if request.form['descripcion'] != "" and request.form['sentimiento'] != "":
             sentiment = next((x for x in Sentiment if x == int(request.form['sentimiento'])))
-            respuesta.addComentario(Comentario(session['user'],request.form['descripcion'], sentiment ,0))
+            comentario = Comentario(session['user'],request.form['descripcion'], sentiment)
+            backend_service.post_comment(session["token"],id_respuesta,comentario)
         
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
     @staticmethod
-    def vote_answers(auth_service: AuthService,id_pregunta: int, id_respuesta: int)-> Union[Response,Text]:
+    def vote_answers(auth_service: AuthService,backend_service:BackendService,id_pregunta: int, id_respuesta: int)-> Union[Response,Text]:
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
         if Role.DISCUSSION.name not in session['roles']:
@@ -142,7 +154,8 @@ class DiscussionEndpoints():
 
         name:str = session['user']
 
-        pregunta = preguntas.get(id_pregunta)
+        response:ResponseData = backend_service.get_question(session.get('token'),id_pregunta)
+        pregunta = Pregunta.from_json(response.get_content())
 
         if pregunta is None:
             return redirect(url_for("get_discussion"))
@@ -154,12 +167,12 @@ class DiscussionEndpoints():
         if(name in respuesta.getVotantes()):
             return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
         
-        respuesta.addVotantes(name)
-        respuesta.votar()
+        #respuesta.addVotantes(name)
+        #respuesta.votar()
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
     @staticmethod
-    def vote_comments(auth_service: AuthService,id_pregunta: int, id_respuesta: int, id_comentario: int)-> Union[Response,Text]:
+    def vote_comments(auth_service: AuthService,backend_service:BackendService,id_pregunta: int, id_respuesta: int, id_comentario: int)-> Union[Response,Text]:
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
         if Role.DISCUSSION.name not in session['roles']:
@@ -167,7 +180,8 @@ class DiscussionEndpoints():
 
         name:str = session['user']
 
-        pregunta = preguntas.get(id_pregunta)
+        response:ResponseData = backend_service.get_question(session.get('token'),id_pregunta)
+        pregunta = Pregunta.from_json(response.get_content())
 
         if pregunta is None:
             return redirect(url_for("get_discussion"))
@@ -183,8 +197,8 @@ class DiscussionEndpoints():
         if(name in comentario.getVotantes()):
             return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
         
-        comentario.addVotantes(name)
-        comentario.votar()
+        #comentario.addVotantes(name)
+        #comentario.votar()
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
     @staticmethod
@@ -196,7 +210,8 @@ class DiscussionEndpoints():
 
         name:str = session['user']
 
-        pregunta = preguntas.get(id_pregunta)
+        response:ResponseData = backend_service.get_question(session.get('token'),id_pregunta)
+        pregunta = Pregunta.from_json(response.get_content())
 
         if pregunta is None:
             return redirect(url_for("get_discussion"))
@@ -217,7 +232,7 @@ class DiscussionEndpoints():
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
     @staticmethod
-    def report_comments(auth_service: AuthService,id_pregunta: int, id_respuesta: int, id_comentario: int)-> Union[Response,Text]:
+    def report_comments(auth_service: AuthService,backend_service:BackendService,id_pregunta: int, id_respuesta: int, id_comentario: int)-> Union[Response,Text]:
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
         if Role.DISCUSSION.name not in session['roles']:
@@ -225,7 +240,8 @@ class DiscussionEndpoints():
 
         name:str = session['user']
 
-        pregunta = preguntas.get(id_pregunta)
+        response:ResponseData = backend_service.get_question(session.get('token'),id_pregunta)
+        pregunta = Pregunta.from_json(response.get_content())
 
         if pregunta is None:
             return redirect(url_for("get_discussion"))
@@ -251,7 +267,7 @@ class DiscussionEndpoints():
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
     @staticmethod
-    def report_questions(auth_service: AuthService,id_pregunta: int)-> Union[Response,Text]:
+    def report_questions(auth_service: AuthService,backend_service:BackendService,id_pregunta: int)-> Union[Response,Text]:
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
         if Role.DISCUSSION.name not in session['roles']:
@@ -259,7 +275,8 @@ class DiscussionEndpoints():
 
         name:str = session['user']
 
-        pregunta = preguntas.get(id_pregunta)
+        response:ResponseData = backend_service.get_question(session.get('token'),id_pregunta)
+        pregunta = Pregunta.from_json(response.get_content())
 
         if pregunta is None:
             return redirect(url_for("get_discussion"))

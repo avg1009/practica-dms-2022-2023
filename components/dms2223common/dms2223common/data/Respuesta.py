@@ -56,7 +56,7 @@ class Respuesta :
     def addVotantes(self,votante:str):
         self.__votantes.append(votante)
     
-    def to_dict(self,comentarios=True) -> Dict:
+    def to_json(self,comentarios=True) -> Dict:
         dict={}
         dict["id"]=self.__id
         dict["creador"]=self.__creador
@@ -67,11 +67,8 @@ class Respuesta :
         if comentarios:
             com=[]
             for c in self.__comentarios:
-                com.append(c.to_dict())
+                com.append(c.to_json())
             dict["comentarios"]=com
         dict["votantes"]=self.__votantes
 
         return dict
-
-    def to_json(self):
-        return json.dumps(self.to_dict(False))

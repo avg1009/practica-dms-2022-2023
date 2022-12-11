@@ -73,9 +73,7 @@ paths:
       tags:
         - discussion
         - questions
-      security:
-        - user_token: []
-          api_key: []
+      
     post:
       summary: Creates a new question
       description: |
