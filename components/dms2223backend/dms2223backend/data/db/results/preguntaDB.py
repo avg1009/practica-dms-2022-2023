@@ -11,12 +11,12 @@ class Pregunta(ResultBase):
     """ Definition and storage of discussion records.
     """
 
-    def __init__(self, creador:str ,titulo:str, descripcion:str):
+    def __init__(self, creador:str ,titulo:str, descripcion:str, fecha: str):
         self.id: int
         self.creador:str = creador
         self.titulo: str = titulo
         self.descripcion: str = descripcion
-        #self.fechaCreacion:datetime = datetime.now()
+        self.fechaCreacion: str = fecha
         self.visible:bool = True
 
     @staticmethod
@@ -36,7 +36,7 @@ class Pregunta(ResultBase):
             Column('creador',String(32),nullable=False ),
             Column('titulo', String(100), nullable=False),
             Column('descripcion', String(500), nullable=False),
-            #Column('fechaCreación', TIMESTAMP, nullable=False),
+            Column('fechaCreacion', String(100), nullable=False),
             Column('visible',Boolean,nullable=False)
         )
 

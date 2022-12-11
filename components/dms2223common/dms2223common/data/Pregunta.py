@@ -6,12 +6,12 @@ class Pregunta:
 
     
     
-    def __init__(self, creador:str, titulo:str, descripcion:str,id:Optional[int]=None):
+    def __init__(self, creador:str, titulo:str, descripcion:str, id:Optional[int]=None, fecha:Optional[str]=datetime.now().isoformat()):
         self.__id:Optional[int] = id
         self.__creador:str = creador
         self.__titulo: str = titulo
         self.__descripcion: str = descripcion
-        self.__fechaCreacion:datetime = datetime.now()
+        self.__fechaCreacion:datetime = datetime.fromisoformat(fecha)
         self.__visible:bool = True
         self.__respuestas:List[Respuesta] = []
         self.__reporte = False
