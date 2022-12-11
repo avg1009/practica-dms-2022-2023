@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List
 from sqlalchemy.orm.session import Session
 from dms2223backend.data.db.schema import Schema  # type: ignore
 from dms2223backend.data.db.results import Respuesta
@@ -35,12 +35,12 @@ class RespuestaService:
     def list_respuestas(id_pregunta: int, schema: Schema) -> List[common.Respuesta]:
         out: List[common.Respuesta] = []
         session: Session = schema.new_session()
-        respuestas: List[Respuesta] = Respuestas.list_all(session)
+        respuestas: List[Respuesta] = Respuestas.list_all(session,id_pregunta)
         for respuesta in respuestas:
             if respuesta.id_pregunta== id_pregunta:
                 out.append(common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id))
         schema.remove_session()
-        return out
+        return id_pregunta,out
     
     @staticmethod
     def get_respuesta(id : int, schema: Schema) -> common.Respuesta:

@@ -45,7 +45,7 @@ class Comentarios():
                 ) from ex
 
     @staticmethod
-    def list_all(session: Session) -> List[Comentario]:
+    def list_all(session: Session,id_respuesta:int) -> List[Comentario]:
         """Lists every user.
 
         Args:
@@ -55,20 +55,7 @@ class Comentarios():
             - List[User]: A list of `User` registers.
         """
         query = session.query(Comentario)
-        return query.all()
-
-    # @staticmethod
-    # def list_all_of_answer(session: Session, id_respuesta: int) -> List[Comentario]:
-    #     """Lists every user.
-
-    #     Args:
-    #         - session (Session): The session object.
-
-    #     Returns:
-    #         - List[User]: A list of `User` registers.
-    #     """
-    #     query = session.query(Comentario).where(id_respuesta = id_respuesta)
-    #     return query.all()
+        return query.where(Comentario.id_respuesta == id_respuesta)
 
     @staticmethod
     def get_comentario(session: Session, id: int) -> Optional[Comentario]:

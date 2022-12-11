@@ -12,7 +12,7 @@ class Respuesta :
         self.__descripcion:str = descripcion
         self.__visible:bool = True
         self.__votos:int = 0
-        self.__comentarios:Dict[int,Comentario] = {}
+        self.__comentarios:List[Comentario] = []
         self.__votantes:List[str] =[]
 
     def getId(self) -> Optional[int]:
@@ -55,3 +55,18 @@ class Respuesta :
     def addVotantes(self,votante:str):
         self.__votantes.append(votante)
     
+    def to_dict(self) -> Dict:
+        dict={}
+        dict["id"]=self.__id
+        dict["creador"]=self.__creador
+        dict["fecha_creacion"]=self.__fechaCreacion
+        dict["descripcion"]=self.__descripcion
+        dict["visible"]=self.__visible
+        dict["votos"]=self.__votos
+        com=[]
+        for c in self.__comentarios:
+            com.append(c.to_dict())
+        dict["respuestas"]=com
+        dict["votantes"]=self.__votantes
+
+        return dict

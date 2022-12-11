@@ -1,5 +1,6 @@
 from datetime import datetime
-from typing import Optional,Dict
+from typing import List, Optional,Dict
+import json
 
 from dms2223common.data.Respuesta import Respuesta
 class Pregunta:
@@ -13,7 +14,7 @@ class Pregunta:
         self.__descripcion: str = descripcion
         self.__fechaCreacion:datetime = datetime.now()
         self.__visible:bool = True
-        self.__respuestas:Dict[int,Respuesta] = {}
+        self.__respuestas:List[Respuesta] = []
         self.__reporte = False
 
     def getId(self) -> Optional[int]:
@@ -56,3 +57,21 @@ class Pregunta:
 
     def reportar(self):
         self.__reporte = True
+
+    def to_json(self,respuestas:bool) -> str:
+        dict={}
+        dict["id"]=self.__id
+        dict["creador"]=self.__creador
+        dict["titulo"]=self.__titulo
+        dict["descripcion"]=self.__descripcion
+        dict["fecha_creacion"]=self.__fechaCreacion
+        dict["visibles"]=self.__visible
+        if respuestas:
+            res=[]
+            for r in self.__respuestas:
+                res.append(r.to_dict())
+            dict["respuestas"]=res
+        dict["reporte"]=self.__reporte
+
+        return json.dumps(dict)
+

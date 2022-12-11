@@ -35,7 +35,7 @@ class ComentarioService:
     def list_comentarios(id_respuesta: int, schema: Schema) -> List[common.Comentario]:
         out: List[common.Comentario] = []
         session: Session = schema.new_session()
-        comentarios: List[Comentario] = Comentarios.list_all(session)
+        comentarios: List[Comentario] = Comentarios.list_all(session,id_respuesta)
         for comentario in comentarios:
             if comentario.id_respuesta== id_respuesta:
                 out.append(common.Comentario(comentario.creador,comentario.descripcion,comentario.sentimiento,comentario.id))

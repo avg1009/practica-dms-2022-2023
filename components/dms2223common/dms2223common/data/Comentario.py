@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional,List
+from typing import Dict, Optional,List
 
 from dms2223common.data.sentiment import Sentiment
 class Comentario:
@@ -51,3 +51,15 @@ class Comentario:
 
     def addVotantes(self,votante):
         self.__votantes.append(votante)
+
+    def to_dict(self) -> Dict:
+        dict = {}
+        dict["id"]=self.__id
+        dict["creador"]=self.__creador
+        dict["descripcion"]=self.__descripcion
+        dict["fecha_creacion"]=self.__fechaCreacion
+        dict["visible"]=self.__visible
+        dict["votos"]=self.__votos
+        dict["sentimiento"]=self.__sentimiento
+        dict["votantes"]=self.__votantes
+        return dict

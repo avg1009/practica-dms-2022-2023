@@ -44,7 +44,7 @@ class Respuestas():
                 ) from ex
 
     @staticmethod
-    def list_all(session: Session) -> List[Respuesta]:
+    def list_all(session: Session,id_pregunta:int) -> List[Respuesta]:
         """Lists every user.
 
         Args:
@@ -54,7 +54,7 @@ class Respuestas():
             - List[User]: A list of `User` registers.
         """
         query = session.query(Respuesta)
-        return query.all()
+        return query.where(Respuesta.id_pregunta==id_pregunta)
 
     @staticmethod
     def get_respuesta(session: Session, id: int) -> Optional[Respuesta]:
