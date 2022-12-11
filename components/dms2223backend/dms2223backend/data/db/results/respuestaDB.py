@@ -4,8 +4,8 @@ from sqlalchemy import Table, MetaData, Column, String ,Boolean, Integer, TIMEST
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2223backend.data.db.results.resultbase import ResultBase
 from dms2223backend.data.db.results.comentarioDB import Comentario
-
-
+from dms2223backend.data.db.results.reportes.reporteRespuestaDB import ReporteRespuesta
+from dms2223backend.data.db.results.votos.votosRespuestasDB import VotosRespuestas
 class Respuesta(ResultBase):
     """ Definition and storage of answer records.
     """
@@ -54,7 +54,7 @@ class Respuesta(ResultBase):
         """
         return {
             'comentarios': relationship(Comentario, backref='respuesta'),
-           # 'votos': relationship(Votos , backref = 'respuesta'),
-           # 'reporte': relationship(Reporte , backref = 'respuesta'), 
-            #no se que poner en backref
+            'votosRespuestas': relationship(VotosRespuestas, backref='id'),
+            'reporteRespuestas': relationship(ReporteRespuesta, backref='id')
+        
         }
