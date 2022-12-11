@@ -18,7 +18,7 @@ class BackendService():
         host: str, port: int,
         api_base_path: str = '/api/v1',
         apikey_header: str = 'X-ApiKey-Backend',
-        apikey_secret: str = ''
+        apikey_secret: str = 'This is another frontend API key'
         ):
         """ Constructor method.
 

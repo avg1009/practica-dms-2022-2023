@@ -1,6 +1,5 @@
 from datetime import datetime
 from typing import List, Optional,Dict
-import json
 
 from dms2223common.data.Respuesta import Respuesta
 class Pregunta:
@@ -38,14 +37,14 @@ class Pregunta:
     def cambiarVisible(self):
         self.__visible = not self.__visible
     
-    def getRespuestas(self) -> Dict[int,Respuesta]:
+    def getRespuestas(self) -> List[Respuesta]:
         return self.__respuestas
     
     def addRespuesta(self,respuesta:Respuesta):
         id = respuesta.getId()
         if id is not None:
             
-            self.__respuestas[id]=respuesta
+            self.__respuestas.append(respuesta)
     
     def removeRespuesta(self,respuesta:Respuesta):
         id = respuesta.getId()
@@ -64,7 +63,7 @@ class Pregunta:
         dict["creador"]=self.__creador
         dict["titulo"]=self.__titulo
         dict["descripcion"]=self.__descripcion
-        dict["fecha_creacion"]=self.__fechaCreacion
+        dict["fecha_creacion"]=self.__fechaCreacion.isoformat()
         dict["visibles"]=self.__visible
         if respuestas:
             res=[]
@@ -75,11 +74,15 @@ class Pregunta:
 
         return dict
 
-    def from_json(dict):
+    def from_json(dict:Dict):
         pregunta = Pregunta(dict["creador"],dict["titulo"],dict["descripcion"],dict["id"])
-        pregunta.__fechaCreacion=dict["fecha_creacion"]
+        pregunta.__fechaCreacion=datetime.fromisoformat(dict["fecha_creacion"])
         pregunta.__visible=dict["visibles"]
-        pregunta.__respuestas=dict["respuestas"]
+        respuestas: List[Dict] = dict["respuestas"]
+        for r in respuestas:
+            respuesta = Respuesta.from_json(r)
+            
+            pregunta.addRespuesta(respuesta)
         pregunta.__reporte=dict["reporte"]
 
         return pregunta

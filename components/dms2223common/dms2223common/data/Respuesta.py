@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import Optional,Dict,List
 from dms2223common.data.Comentario import Comentario
 
-import json
 
 class Respuesta :
 
@@ -45,7 +44,7 @@ class Respuesta :
     def addComentario(self, comentario: Comentario):
         id = comentario.getId()
         if id is not None:
-            self.__comentarios[id]=comentario
+            self.__comentarios.append(comentario)
 
     def getComentarios(self) -> Dict[int,Comentario]:
         return self.__comentarios
@@ -60,7 +59,7 @@ class Respuesta :
         dict={}
         dict["id"]=self.__id
         dict["creador"]=self.__creador
-        dict["fecha_creacion"]=self.__fechaCreacion
+        dict["fecha_creacion"]=self.__fechaCreacion.isoformat()
         dict["descripcion"]=self.__descripcion
         dict["visible"]=self.__visible
         dict["votos"]=self.__votos
@@ -72,3 +71,15 @@ class Respuesta :
         dict["votantes"]=self.__votantes
 
         return dict
+
+    def from_json(dict):
+        respuesta = Respuesta(dict["creador"],dict["descripcion"],dict["id"])
+        respuesta.__fechaCreacion=datetime.fromisoformat(dict["fecha_creacion"])
+        respuesta.__visible=dict["visible"]
+        respuesta.__votos=dict["votos"]
+        for c in dict["comentarios"]:
+            comentario = Comentario.from_json(c)
+            respuesta.addComentario(comentario)
+        respuesta.__votantes=dict["votantes"]
+
+        return respuesta

@@ -61,7 +61,7 @@
                         <p class="alignright">{{ submit_button('bluebg', 'Crear') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
                     </form>
                 </div>           
-                {% for comentario in respuesta.getComentarios().values() %}
+                {% for comentario in respuesta.getComentarios() %}
                     {% if comentario.getVisible() %}
                         {% if comentario.getSentimiento() == 1 %}
                             <div class="commentdiv1">

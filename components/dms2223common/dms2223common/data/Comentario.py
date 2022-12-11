@@ -58,12 +58,19 @@ class Comentario:
         dict["id"]=self.__id
         dict["creador"]=self.__creador
         dict["descripcion"]=self.__descripcion
-        dict["fecha_creacion"]=self.__fechaCreacion
+        dict["fecha_creacion"]=self.__fechaCreacion.isoformat()
         dict["visible"]=self.__visible
         dict["votos"]=self.__votos
-        dict["sentimiento"]=self.__sentimiento
+        dict["sentimiento"]=self.__sentimiento.value
         dict["votantes"]=self.__votantes
         return dict
 
-    def to_json(self):
-        return json.dumps(self.to_dict())
+    def from_json(dict):
+        comentario = Comentario(dict["creador"],dict["descripcion"],dict["sentimiento"] ,dict["id"])
+        
+        comentario.__fechaCreacion=datetime.fromisoformat(dict["fecha_creacion"])
+        comentario.__visible=dict["visible"]
+        comentario.__votos=dict["votos"]
+        
+        comentario.__votantes=dict["votantes"]
+        return comentario

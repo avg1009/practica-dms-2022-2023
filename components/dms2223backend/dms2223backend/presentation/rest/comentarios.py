@@ -4,7 +4,7 @@ from flask import current_app
 from dms2223backend.service import ComentarioService
 from dms2223backend.service import RespuestaService
 import dms2223common.data.Comentario as common
-from dms2223backend.service import VotoService
+#from dms2223backend.service import VotoService
 
 def get_comentarios(aid) :
     with current_app.app_context() :
@@ -27,13 +27,13 @@ def get_comentarios(cid : int) :
         else :
             return ('No se ha encontrado el argumento', HTTPStatus.NOT_FOUND.value)
 
-# def post_voto(descripcion: str, cid: int):
-#     with current_app.app_context() :
-#         try:
-#             if (VotoService.exists_voto_comentario(cid)) : 
-#                 return VotoService.create_voto_comentario(descripcion, cid), HTTPStatus.CREATED.value
-#             else :
-#                 return ('Ya se ha votado este comentario', HTTPStatus.ALREADY_REPORTED.value)
-#         except Exception:
-#             return ('No se ha creado el argumento', HTTPStatus.NOT_FOUND.value)
-#     pass
+def post_voto(descripcion: str, cid: int):
+    with current_app.app_context() :
+        try:
+            #if (VotoService.exists_voto_comentario(cid)) : 
+            #    return VotoService.create_voto_comentario(descripcion, cid), HTTPStatus.CREATED.value
+            #else :
+                return ('Ya se ha votado este comentario', HTTPStatus.ALREADY_REPORTED.value)
+        except Exception:
+            return ('No se ha creado el argumento', HTTPStatus.NOT_FOUND.value)
+    pass
