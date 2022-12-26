@@ -17,7 +17,7 @@ def post_pregunta(body: dict):
     with current_app.app_context() :
         try:
             
-            pregunta=common.Pregunta.from_json(body)
+            pregunta=common.Pregunta.from_json(body,True)
             return PreguntaService.create_pregunta_from_common(pregunta, current_app.db).to_json(), HTTPStatus.CREATED.value
         except Exception:
             return ('No se ha creado el argumento', HTTPStatus.NOT_FOUND.value)

@@ -90,8 +90,10 @@ paths:
             schema:
               $ref: "#/components/schemas/QuestionCreationModel"
             example:
-              title: "Recommended size for the work groups?"
-              body: "Which is the recommended size for the work groups in your opinion?"
+              titulo: "Recommended size for the work groups?"
+              descripcion: "Which is the recommended size for the work groups in your opinion?"
+              autor: "juan"
+              fecha_creacion: "algo"
       responses:
         "201":
           description: Question created.
@@ -860,13 +862,19 @@ components:
     QuestionCreationModel:
       type: object
       properties:
-        title:
+        titulo:
           type: string
-        body:
+        descripcion:
+          type: string
+        creador:
+          type: string
+        fecha_creacion:
           type: string
       required:
-        - title
-        - body
+        - titulo
+        - descripcion
+        - creador
+        - fecha_creacion
     QuestionsListModel:
       type: array
       items:

@@ -57,32 +57,38 @@ class Pregunta:
     def reportar(self):
         self.__reporte = True
 
-    def to_json(self,respuestas=True):
+    def to_json(self,creacion=False):
         dict={}
-        dict["id"]=self.__id
+        
         dict["creador"]=self.__creador
         dict["titulo"]=self.__titulo
         dict["descripcion"]=self.__descripcion
         dict["fecha_creacion"]=self.__fechaCreacion.isoformat()
-        dict["visibles"]=self.__visible
-        if respuestas:
+        
+        if not creacion:
+            dict["id"]=self.__id
+            dict["visibles"]=self.__visible
             res=[]
             for r in self.__respuestas:
                 res.append(r.to_json())
             dict["respuestas"]=res
-        dict["reporte"]=self.__reporte
+            dict["reporte"]=self.__reporte
 
         return dict
 
-    def from_json(dict:Dict):
-        pregunta = Pregunta(dict["creador"],dict["titulo"],dict["descripcion"],dict["id"])
-        pregunta.__fechaCreacion=datetime.fromisoformat(dict["fecha_creacion"])
-        pregunta.__visible=dict["visibles"]
-        respuestas: List[Dict] = dict["respuestas"]
-        for r in respuestas:
-            respuesta = Respuesta.from_json(r)
-            
-            pregunta.addRespuesta(respuesta)
-        pregunta.__reporte=dict["reporte"]
+    def from_json(dict:Dict, creacion=False):
+        if not creacion:
+            pregunta = Pregunta(dict["creador"],dict["titulo"],dict["descripcion"],dict["id"])
+            pregunta.__fechaCreacion=datetime.fromisoformat(dict["fecha_creacion"])
+            pregunta.__visible=dict["visibles"]
+            respuestas: List[Dict] = dict["respuestas"]
+            for r in respuestas:
+                respuesta = Respuesta.from_json(r)
+                
+                pregunta.addRespuesta(respuesta)
+            pregunta.__reporte=dict["reporte"]
+        else:
+            pregunta = Pregunta(dict["creador"],dict["titulo"],dict["descripcion"])
+            pregunta.__fechaCreacion=datetime.fromisoformat(dict["fecha_creacion"])
 
         return pregunta
