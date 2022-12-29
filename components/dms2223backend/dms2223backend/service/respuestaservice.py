@@ -1,9 +1,11 @@
+from datetime import datetime
 from typing import List
 from sqlalchemy.orm.session import Session
 from dms2223backend.data.db.schema import Schema  # type: ignore
 from dms2223backend.data.db.results import Respuesta
 from dms2223backend.data.db.resultsets import Respuestas
 import dms2223common.data.Respuesta as common
+from flask import current_app
 class RespuestaService:
 
     @staticmethod
@@ -12,8 +14,9 @@ class RespuestaService:
         out: common.Respuesta
         try:
             new_respuesta: Respuesta = Respuestas.create(session, descripcion, id_pregunta, creador,fecha)
-            out= common.Respuesta(new_respuesta.creador,new_respuesta.descripcion,new_respuesta.id,new_respuesta.fechaCreacion)
+            out= common.Respuesta(new_respuesta.creador,new_respuesta.descripcion,new_respuesta.id,datetime.fromisoformat(new_respuesta.fechaCreacion))
         except Exception as ex:
+            current_app.logger.error(str(ex))
             raise ex
         finally:
             schema.remove_session()
@@ -21,13 +24,16 @@ class RespuestaService:
 
     @staticmethod
     def create_respuesta_from_common(respuesta: common.Respuesta, id_pregunta: int,schema: Schema) -> common.Respuesta:
-        return RespuestaService.create_respuesta(respuesta.getDescripcion(), id_pregunta, respuesta.getCreador(),respuesta.getFechaCreacion(), schema)
+        return RespuestaService.create_respuesta(respuesta.getDescripcion(), id_pregunta, respuesta.getCreador(),respuesta.getFechaCreacion().isoformat(), schema)
 
 
     @staticmethod
     def exists_respuesta(id:int, schema: Schema):
         session: Session = schema.new_session()
-        respuesta_exists: bool = Respuestas.get_respuesta(session,id)
+        respuesta = Respuestas.get_respuesta(session,id)
+        respuesta_exists=True
+        if respuesta is None:
+            respuesta_exists=False
         schema.remove_session()
         return respuesta_exists
 
@@ -38,7 +44,7 @@ class RespuestaService:
         respuestas: List[Respuesta] = Respuestas.list_all(session,id_pregunta)
         for respuesta in respuestas:
             if respuesta.id_pregunta== id_pregunta:
-                out.append(common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id,respuesta.fechaCreacion))
+                out.append(common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id,datetime.fromisoformat(respuesta.fechaCreacion)))
         schema.remove_session()
         return out
     
@@ -46,6 +52,6 @@ class RespuestaService:
     def get_respuesta(id : int, schema: Schema) -> common.Respuesta:
         session : Session = schema.new_session()
         respuesta : Respuesta = Respuestas.get_respuesta(session, id)
-        out: common.Respuesta = common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id,respuesta.fechaCreacion)
+        out: common.Respuesta = common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id,datetime.fromisoformat(respuesta.fechaCreacion))
         schema.remove_session()
         return out

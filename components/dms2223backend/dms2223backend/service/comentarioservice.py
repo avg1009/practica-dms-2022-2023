@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 from sqlalchemy.orm.session import Session
 from dms2223backend.data.db.schema import Schema  # type: ignore
@@ -15,7 +16,7 @@ class ComentarioService:
         out: common.Comentario = None
         try:
             new_comentario: Comentario = Comentarios.create(session, descripcion, id_respuesta, creador, sentimiento,fecha)
-            out = common.Comentario(new_comentario.creador,new_comentario.descripcion,new_comentario.sentimiento,new_comentario.id,new_comentario.fechaCreacion)
+            out = common.Comentario(new_comentario.creador,new_comentario.descripcion,new_comentario.sentimiento,new_comentario.id,datetime.fromisoformat(new_comentario.fechaCreacion))
         except Exception as ex:
             raise ex
         finally:
@@ -24,7 +25,7 @@ class ComentarioService:
 
     @staticmethod
     def create_comentario_from_common(comentario: common.Comentario, id_respuesta: int, schema: Schema) -> common.Comentario:
-        return ComentarioService.create_comentario(comentario.getDescripcion(), id_respuesta, comentario.getCreador(), comentario.getSentimiento(), comentario.getFechaCreacion(), schema)
+        return ComentarioService.create_comentario(comentario.getDescripcion(), id_respuesta, comentario.getCreador(), comentario.getSentimiento(), comentario.getFechaCreacion().isoformat(), schema)
 
     @staticmethod
     def exists_comentario(id:int, schema: Schema) -> bool:
@@ -40,7 +41,7 @@ class ComentarioService:
         comentarios: List[Comentario] = Comentarios.list_all(session,id_respuesta)
         for comentario in comentarios:
             if comentario.id_respuesta== id_respuesta:
-                out.append(common.Comentario(comentario.creador,comentario.descripcion,comentario.sentimiento,comentario.id,comentario.fechaCreacion))
+                out.append(common.Comentario(comentario.creador,comentario.descripcion,comentario.sentimiento,comentario.id,datetime.fromisoformat(comentario.fechaCreacion)))
         schema.remove_session()
         return out
 

@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Dict
 from sqlalchemy.orm.session import Session
 from dms2223backend.data.db.schema import Schema  # type: ignore
@@ -12,7 +13,7 @@ class PreguntaService():
         out: common.Pregunta = None
         try:
             new_pregunta: Pregunta = Preguntas.create(session, creador, titulo, descripcion, fecha)
-            out= common.Pregunta(new_pregunta.creador,new_pregunta.titulo,new_pregunta.descripcion,new_pregunta.id, new_pregunta.fechaCreacion)
+            out= common.Pregunta(new_pregunta.creador,new_pregunta.titulo,new_pregunta.descripcion,new_pregunta.id, datetime.fromisoformat(new_pregunta.fechaCreacion))
         except Exception as ex:
             raise ex
         finally:
@@ -36,7 +37,7 @@ class PreguntaService():
         session: Session = schema.new_session()
         preguntas: List[Pregunta] = Preguntas.list_all(session)
         for pregunta in preguntas:
-            out.append(common.Pregunta(pregunta.creador,pregunta.titulo,pregunta.descripcion,pregunta.id, pregunta.fechaCreacion))
+            out.append(common.Pregunta(pregunta.creador,pregunta.titulo,pregunta.descripcion,pregunta.id, datetime.fromisoformat(pregunta.fechaCreacion)))
         schema.remove_session()
         return out
 
@@ -44,6 +45,6 @@ class PreguntaService():
     def get_pregunta(id : int, schema: Schema) -> common.Pregunta:
         session : Session = schema.new_session()
         pregunta : Pregunta = Preguntas.get_pregunta(session, id)
-        out= common.Pregunta(pregunta.creador,pregunta.titulo,pregunta.descripcion,pregunta.id, pregunta.fechaCreacion)
+        out= common.Pregunta(pregunta.creador,pregunta.titulo,pregunta.descripcion,pregunta.id, datetime.fromisoformat(pregunta.fechaCreacion))
         schema.remove_session()
         return out

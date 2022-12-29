@@ -1,7 +1,7 @@
 """ DiscussionEndpoints class module.
 """
 from typing import List, Text, Union
-from flask import redirect, request, flash, url_for, session, render_template
+from flask import redirect, request, flash, url_for, session, render_template,current_app
 from werkzeug.wrappers import Response
 from dms2223common.data.rest.responsedata import ResponseData
 from dms2223frontend.data.rest.backendservice import BackendService
@@ -66,7 +66,7 @@ class DiscussionEndpoints():
         if id is None:
             return redirect(url_for('get_discussion'))
         
-        response:ResponseData = backend_service.list_questions(session.get('token'))
+        response = backend_service.list_questions(session.get('token'))
         lista = response.get_content()
         preguntas: List[Pregunta] = []
         for p in lista:
@@ -139,7 +139,7 @@ class DiscussionEndpoints():
             return redirect(url_for("get_discussion"))
 
         if request.form['descripcion'] != "" and request.form['sentimiento'] != "":
-            sentiment = next((x for x in Sentiment if x == int(request.form['sentimiento'])))
+            sentiment = next((x for x in Sentiment if x.value == int(request.form['sentimiento'])))
             comentario = Comentario(session['user'],request.form['descripcion'], sentiment)
             backend_service.post_comment(session["token"],id_respuesta,comentario)
         
@@ -210,7 +210,7 @@ class DiscussionEndpoints():
 
         name:str = session['user']
 
-        response:ResponseData = backend_service.get_question(session.get('token'),id_pregunta)
+        response:ResponseData = BackendService.get_question(session.get('token'),id_pregunta)
         pregunta = Pregunta.from_json(response.get_content())
 
         if pregunta is None:

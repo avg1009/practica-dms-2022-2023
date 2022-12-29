@@ -2,13 +2,12 @@ from datetime import datetime
 from typing import Optional,Dict,List
 from dms2223common.data.Comentario import Comentario
 
-
 class Respuesta :
 
-    def __init__(self, creador:str, descripcion:str,id:Optional[int]=None,fecha:Optional[str]=datetime.now().isoformat()):
+    def __init__(self, creador:str, descripcion:str,id:Optional[int]=None,fecha:Optional[datetime]=datetime.now()):
         self.__id:Optional[int] = id
         self.__creador:str = creador
-        self.__fechaCreacion:datetime = datetime.fromisoformat(fecha)
+        self.__fechaCreacion:datetime = fecha
         self.__descripcion:str = descripcion
         self.__visible:bool = True
         self.__votos:int = 0
@@ -55,31 +54,33 @@ class Respuesta :
     def addVotantes(self,votante:str):
         self.__votantes.append(votante)
     
-    def to_json(self,comentarios=True) -> Dict:
+    def to_json(self,creacion=False) -> Dict:
         dict={}
-        dict["id"]=self.__id
         dict["creador"]=self.__creador
         dict["fecha_creacion"]=self.__fechaCreacion.isoformat()
         dict["descripcion"]=self.__descripcion
-        dict["visible"]=self.__visible
-        dict["votos"]=self.__votos
-        if comentarios:
+        
+        if not creacion:
+            dict["id"]=self.__id
+            dict["visible"]=self.__visible
+            dict["votos"]=self.__votos
             com=[]
             for c in self.__comentarios:
                 com.append(c.to_json())
             dict["comentarios"]=com
-        dict["votantes"]=self.__votantes
+            dict["votantes"]=self.__votantes
 
         return dict
 
-    def from_json(dict):
-        respuesta = Respuesta(dict["creador"],dict["descripcion"],dict["id"])
-        respuesta.__fechaCreacion=datetime.fromisoformat(dict["fecha_creacion"])
-        respuesta.__visible=dict["visible"]
-        respuesta.__votos=dict["votos"]
-        for c in dict["comentarios"]:
-            comentario = Comentario.from_json(c)
-            respuesta.addComentario(comentario)
-        respuesta.__votantes=dict["votantes"]
-
+    def from_json(dict: dict,creacion=False):
+        if not creacion:
+            respuesta = Respuesta(dict["creador"],dict["descripcion"],dict["id"],datetime.fromisoformat(dict["fecha_creacion"]))
+            respuesta.__visible=dict["visible"]
+            respuesta.__votos=dict["votos"]
+            for c in dict["comentarios"]:
+                comentario = Comentario.from_json(c)
+                respuesta.addComentario(comentario)
+            respuesta.__votantes=dict["votantes"]
+        else:
+            respuesta = Respuesta(dict["creador"],dict["descripcion"],fecha=datetime.fromisoformat(dict["fecha_creacion"]))
         return respuesta

@@ -6,12 +6,12 @@ class Pregunta:
 
     
     
-    def __init__(self, creador:str, titulo:str, descripcion:str, id:Optional[int]=None, fecha:Optional[str]=datetime.now().isoformat()):
+    def __init__(self, creador:str, titulo:str, descripcion:str, id:Optional[int]=None, fecha:datetime=datetime.now()):
         self.__id:Optional[int] = id
         self.__creador:str = creador
         self.__titulo: str = titulo
         self.__descripcion: str = descripcion
-        self.__fechaCreacion:datetime = datetime.fromisoformat(fecha)
+        self.__fechaCreacion:datetime = fecha
         self.__visible:bool = True
         self.__respuestas:List[Respuesta] = []
         self.__reporte = False
@@ -88,7 +88,6 @@ class Pregunta:
                 pregunta.addRespuesta(respuesta)
             pregunta.__reporte=dict["reporte"]
         else:
-            pregunta = Pregunta(dict["creador"],dict["titulo"],dict["descripcion"])
-            pregunta.__fechaCreacion=datetime.fromisoformat(dict["fecha_creacion"])
+            pregunta = Pregunta(dict["creador"],dict["titulo"],dict["descripcion"],fecha=datetime.fromisoformat(dict["fecha_creacion"]))
 
         return pregunta

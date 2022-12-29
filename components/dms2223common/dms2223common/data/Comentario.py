@@ -7,11 +7,11 @@ class Comentario:
 
     
 
-    def __init__(self, creador:str, descripcion:str, sentimiento: Sentiment,id:Optional[int] = None,fecha:Optional[str]=datetime.now().isoformat()):
+    def __init__(self, creador:str, descripcion:str, sentimiento: Sentiment,id:Optional[int] = None,fecha:datetime=datetime.now()):
         self.__id:Optional[int] = id
         self.__creador:str = creador
         self.__descripcion: str= descripcion
-        self.__fechaCreacion:datetime = datetime.fromisoformat(fecha)
+        self.__fechaCreacion:datetime = fecha
         self.__visible:bool= True
         self.__votos:int= 0
         self.__sentimiento: Sentiment =sentimiento
@@ -53,24 +53,29 @@ class Comentario:
     def addVotantes(self,votante):
         self.__votantes.append(votante)
 
-    def to_json(self) -> Dict:
+    def to_json(self,creacion=False) -> Dict:
         dict = {}
-        dict["id"]=self.__id
+        
         dict["creador"]=self.__creador
         dict["descripcion"]=self.__descripcion
+        dict["sentimiento"]=self.__sentimiento.name
         dict["fecha_creacion"]=self.__fechaCreacion.isoformat()
-        dict["visible"]=self.__visible
-        dict["votos"]=self.__votos
-        dict["sentimiento"]=self.__sentimiento.value
-        dict["votantes"]=self.__votantes
+        if not creacion:
+            dict["id"]=self.__id
+            dict["visible"]=self.__visible
+            dict["votos"]=self.__votos
+            dict["votantes"]=self.__votantes
         return dict
 
-    def from_json(dict):
-        comentario = Comentario(dict["creador"],dict["descripcion"],dict["sentimiento"] ,dict["id"])
-        
-        comentario.__fechaCreacion=datetime.fromisoformat(dict["fecha_creacion"])
-        comentario.__visible=dict["visible"]
-        comentario.__votos=dict["votos"]
-        
-        comentario.__votantes=dict["votantes"]
+    def from_json(dict,creacion=False):
+        if not creacion:
+            sentiment = next(x for x in Sentiment if x.name == dict["sentimiento"])
+            comentario = Comentario(dict["creador"],dict["descripcion"],sentiment ,dict["id"],datetime.fromisoformat(dict["fecha_creacion"]))
+            comentario.__visible=dict["visible"]
+            comentario.__votos=dict["votos"]
+            comentario.__votantes=dict["votantes"]
+        else:
+            sentiment = next(x for x in Sentiment if x.name == dict["sentimiento"])
+            
+            comentario = Comentario(dict["creador"],dict["descripcion"],sentiment,fecha=datetime.fromisoformat(dict["fecha_creacion"]))
         return comentario

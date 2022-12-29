@@ -1,10 +1,11 @@
+import traceback
 from typing import List, Dict
 from http import HTTPStatus
 from flask import current_app
 from dms2223backend.service.comentarioservice import ComentarioService
 from dms2223backend.service import RespuestaService
 from dms2223backend.service import PreguntaService
-import dms2223common.data.Respuesta as common
+from dms2223common.data.Respuesta import Respuesta
 #from dms2223backend.service import VotoService
 
 def get_respuestas(qid: int) :
@@ -23,12 +24,14 @@ def get_respuestas(qid: int) :
         else:
             return ("La pregunta no existe", HTTPStatus.NOT_FOUND.value)
 
-def post_respuesta(respuesta: common.Respuesta, qid: int):
+def post_respuesta(body: dict, qid: int):
     with current_app.app_context() :
         try:
-            return RespuestaService.create_respuesta_from_common(respuesta, qid ,current_app.db), HTTPStatus.CREATED.value
-        except Exception:
-            return ('No se ha creado el argumento', HTTPStatus.NOT_FOUND.value)
+            respuesta = Respuesta.from_json(body,True)
+            return RespuestaService.create_respuesta_from_common(respuesta, qid ,current_app.db).to_json(), HTTPStatus.CREATED.value
+        except Exception as e:
+            current_app.logger.error(traceback.format_exception(e))
+            return (str(e), HTTPStatus.NOT_FOUND.value)
 
 def get_respuesta(aid : int) :
     with current_app.app_context() :

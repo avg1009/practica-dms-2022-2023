@@ -81,7 +81,7 @@ class BackendService():
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
             self.__base_url() + '/questions',
-            json=pregunta.to_json(False),
+            json=pregunta.to_json(True),
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
@@ -118,7 +118,7 @@ class BackendService():
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
             self.__base_url() + f"/questions/{id}/answers",
-            json=answer.to_json(),
+            json=answer.to_json(True),
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
@@ -189,7 +189,7 @@ class BackendService():
     def upvote_answer(self,token: Optional[str],id:int):
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
-            self.__base_url() + f"/answer/{id}/votes",
+            self.__base_url() + f"/answers/{id}/votes",
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
@@ -207,8 +207,8 @@ class BackendService():
         
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
-            self.__base_url() + f"/answer/{id}/comments",
-            json=comment.to_json(),
+            self.__base_url() + f"/answers/{id}/comments",
+            json=comment.to_json(True),
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
@@ -226,7 +226,7 @@ class BackendService():
 
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
-            self.__base_url() + f"/answer/{id}/reports",
+            self.__base_url() + f"/answers/{id}/reports",
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret

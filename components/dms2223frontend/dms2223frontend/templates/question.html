@@ -1,8 +1,7 @@
 {% extends "base_logged_in.html" %}
 {% from "macros/buttons.html" import submit_button, button %}
-{% block title %}{% block subtitle %}{% endblock %}Discussion{% endblock %}
-{% block contentheading %} {{ pregunta.titulo }} {% endblock %}
-{% block contentsubheading %} {{ pregunta.descripcion }} {% endblock %}
+{% block contentheading %} {{ pregunta.getTitulo() }} {% endblock %}
+{% block contentsubheading %} {{ pregunta.getDescripcion() }} {% endblock %}
 {% block maincontent %}
     {% block answercontent %}
         <div class="answerquestiondiv">
@@ -63,13 +62,13 @@
                 </div>           
                 {% for comentario in respuesta.getComentarios() %}
                     {% if comentario.getVisible() %}
-                        {% if comentario.getSentimiento() == 1 %}
+                        {% if comentario.getSentimiento().value == 1 %}
                             <div class="commentdiv1">
-                        {% elif comentario.getSentimiento() == 2 %}
+                        {% elif comentario.getSentimiento().value == 2 %}
                             <div class="commentdiv2">
-                        {% elif comentario.getSentimiento() == 3 %}
+                        {% elif comentario.getSentimiento().value == 3 %}
                             <div class="commentdiv3">
-                        {% endif %} 
+                        {% endif %}
                             <p class="commenttext">{{comentario.getDescripcion()}}</p><br>
                             <p class="commenttext">{{comentario.getCreador()}}</p>
                             <p class="votetext">votos: {{comentario.getVotos()}}</p>

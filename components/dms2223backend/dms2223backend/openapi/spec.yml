@@ -266,15 +266,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/AnswerFullModel"
               example:
-                id: 1
-                qid: 1
                 timestamp: 1665575089
-                body: I would suggest four members.
-                owner:
-                  username: user3
-                votes: 0
-                user_votes: {}
-                comments: []
+                descripcion: I would suggest four members.
+                creador: user3
         "404":
           description: The question does not exist.
           content:
@@ -489,8 +483,10 @@ paths:
             schema:
               $ref: "#/components/schemas/CommentCreationModel"
             example:
-              body: Evaluation criteria may be relaxed due to the tight number of members
-              sentiment: POSITIVE
+              descripcion: Evaluation criteria may be relaxed due to the tight number of members
+              creador: alguien
+              sentimiento: POSITIVE
+              fecha_creacion: "2022-12-28T17:10:40"
       responses:
         "201":
           description: The created comment.
@@ -499,15 +495,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/CommentFullModel"
               example:
-                id: 2
-                aid: 1
                 timestamp: 1665575389
-                body: Evaluation criteria may be relaxed due to the tight number of members
-                sentiment: POSITIVE
-                owner:
-                  username: user4
-                votes: 0
-                user_votes: {}
+                descripcion: Evaluation criteria may be relaxed due to the tight number of members
+                sentimiento: POSITIVE
+                creador: user4
         "404":
           description: The answer does not exist.
           content:
@@ -919,10 +910,16 @@ components:
     AnswerCreationModel:
       type: object
       properties:
-        body:
+        descripcion:
+          type: string
+        creador:
+          type: string
+        fecha_creacion:
           type: string
       required:
-        - body
+        - descripcion
+        - creador
+        - fecha_creacion
     AnswersListModel:
       type: array
       items:
@@ -965,18 +962,23 @@ components:
     CommentCreationModel:
       type: object
       properties:
-        body:
+        descripcion:
           type: string
-        sentiment:
+        sentimiento:
           type: string
           enum:
             - POSITIVE
             - NEUTRAL
             - NEGATIVE
           default: NEUTRAL
+        fecha_creacion:
+          type: string
+        creador:
+          type: string
       required:
-        - body
-        - sentiment
+        - descripcion
+        - sentimiento
+        - fecha_creacion
     CommentsListModel:
       type: array
       items:
