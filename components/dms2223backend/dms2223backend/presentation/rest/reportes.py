@@ -10,6 +10,7 @@ import dms2223common.data.Pregunta as common
 import dms2223common.data.Comentario as common
 import dms2223common.data.Reporte as common
 from dms2223common.data.reportstatus import ReportStatus
+#TODO
 def post_reporte_pregunta(reporte: common.Reporte, pregunta: common.Pregunta):
     with current_app.app_context() :
         if preguntaservice.PreguntaService.exits_pregunta(pregunta.getId(),current_app.db):
