@@ -298,7 +298,7 @@ paths:
         content:
           "application/json":
             schema:
-              $ref: "#/components/schemas/QuestionReportCreationModel"
+              $ref: "#/components/schemas/ReportCreationModel"
             example:
               reason: Promotes hate speech
       responses:
@@ -325,111 +325,6 @@ paths:
               example: "The question with qid 5 does not exist."
       tags:
         - discussion
-        - moderation
-        - questions
-        - reports
-      security:
-        - user_token: []
-          api_key: []
-  /questions/reports:
-    get:
-      summary: Get a list of question reports.
-      description: |
-        This operation gets a listing of question reports.
-
-        Several parameters can be used to filter out the reports according to
-        their status.
-      operationId: dms2223backend.presentation.rest.reportes.get_reportes_preguntas
-      parameters:
-        - name: pending
-          description: |
-            Set to `false` to exclude the pending reports from the listing.
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: true
-        - name: accepted
-          description: |
-            Set to `false` to exclude the accepted reports from the listing.
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: true
-        - name: rejected
-          description: |
-            Set to `false` to exclude the rejected reports from the listing.
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: true
-      responses:
-        "200":
-          description: Listing of question reports
-          content:
-            "application/json":
-              schema:
-                $ref: "#/components/schemas/QuestionReportsListModel"
-              example:
-                - id: 1
-                  qid: 2
-                  reason: Promotes hate speech
-                  status: ACCEPTED
-                  owner:
-                    username: user4
-                  timestamp: 1665922785
-                - id: 2
-                  qid: 4
-                  reason: Not a question
-                  status: REJECTED
-                  owner:
-                    username: user5
-                  timestamp: 1665922785
-                - id: 3
-                  qid: 4
-                  reason: Question is too vague
-                  status: PENDING
-                  owner:
-                    username: user5
-                  timestamp: 1665922785
-      tags:
-        - moderation
-        - questions
-        - reports
-      security:
-        - user_token: []
-          api_key: []
-  /questions/reports/{qrid}:
-    put:
-      summary: Change the status of a question report
-      description: |
-        Use this operation to change the status of a question report.
-
-        When a report on a question is accepted, the linked question should be
-        hidden so neither the question nor its answers and comments are visible.
-      operationId: dms2223backend.presentation.rest.reportes.set_status_pregunta
-      parameters:
-        - $ref: "#/components/parameters/QuestionReportIdPathParam"
-      requestBody:
-        content:
-          "application/json":
-            schema:
-              $ref: "#/components/schemas/ReportStatusChangeModel"
-            example:
-              status: ACCEPTED
-      responses:
-        "204":
-          $ref: "#/components/responses/ReportStatusChanged"
-        "404":
-          description: The question report does not exist.
-          content:
-            "text/plain":
-              schema:
-                type: string
-              example: "The question report with qrid 25 does not exist."
-      tags:
         - moderation
         - questions
         - reports
@@ -528,7 +423,7 @@ paths:
         content:
           "application/json":
             schema:
-              $ref: "#/components/schemas/AnswerReportCreationModel"
+              $ref: "#/components/schemas/ReportCreationModel"
             example:
               reason: Unrelated to the question
       responses:
@@ -555,97 +450,6 @@ paths:
               example: "The answer with aid 50 does not exist."
       tags:
         - discussion
-        - moderation
-        - answers
-        - reports
-      security:
-        - user_token: []
-          api_key: []
-  /answers/reports:
-    get:
-      summary: Get a list of answer reports.
-      description: |
-        This operation gets a listing of answer reports.
-
-        Several parameters can be used to filter out the reports according to
-        their status.
-      operationId: dms2223backend.presentation.rest.reportes.get_reportes_respuestas
-      parameters:
-        - name: pending
-          description: |
-            Set to `false` to exclude the pending reports from the listing.
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: true
-        - name: accepted
-          description: |
-            Set to `false` to exclude the accepted reports from the listing.
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: true
-        - name: rejected
-          description: |
-            Set to `false` to exclude the rejected reports from the listing.
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: true
-      responses:
-        "200":
-          description: Listing of answer reports
-          content:
-            "application/json":
-              schema:
-                $ref: "#/components/schemas/AnswerReportsListModel"
-              example:
-                - id: 1
-                  aid: 7
-                  reason: Unrelated to the question
-                  status: ACCEPTED
-                  owner:
-                    username: user4
-                  timestamp: 1665922785
-      tags:
-        - moderation
-        - answers
-        - reports
-      security:
-        - user_token: []
-          api_key: []
-  /answers/reports/{arid}:
-    put:
-      summary: Change the status of an answer report
-      description: |
-        Use this operation to change the status of an answer report.
-
-        When a report on an answer is accepted, the linked answer should be
-        hidden so neither the answer nor its comments are visible.
-      operationId: dms2223backend.presentation.rest.reportes.set_status_respuesta
-      parameters:
-        - $ref: "#/components/parameters/AnswerReportIdPathParam"
-      requestBody:
-        content:
-          "application/json":
-            schema:
-              $ref: "#/components/schemas/ReportStatusChangeModel"
-            example:
-              status: REJECTED
-      responses:
-        "204":
-          $ref: "#/components/responses/ReportStatusChanged"
-        "404":
-          description: The answer report does not exist.
-          content:
-            "text/plain":
-              schema:
-                type: string
-              example: "The answer report with arid 25 does not exist."
-      tags:
         - moderation
         - answers
         - reports
@@ -697,7 +501,7 @@ paths:
         content:
           "application/json":
             schema:
-              $ref: "#/components/schemas/CommentReportCreationModel"
+              $ref: "#/components/schemas/ReportCreationModel"
             example:
               reason: Ambiguous sentiment
       responses:
@@ -730,43 +534,15 @@ paths:
       security:
         - user_token: []
           api_key: []
-  /comments/reports:
+  /reports:
     get:
       summary: Get a list of comment reports.
       description: |
-        This operation gets a listing of comment reports.
-
-        Several parameters can be used to filter out the reports according to
-        their status.
-      operationId: dms2223backend.presentation.rest.reportes.get_reportes_comentarios
-      parameters:
-        - name: pending
-          description: |
-            Set to `false` to exclude the pending reports from the listing.
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: true
-        - name: accepted
-          description: |
-            Set to `false` to exclude the accepted reports from the listing.
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: true
-        - name: rejected
-          description: |
-            Set to `false` to exclude the rejected reports from the listing.
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: true
+        This operation gets a listing of reports.
+      operationId: dms2223backend.presentation.rest.reportes.get_reportes
       responses:
         "200":
-          description: Listing of comment reports
+          description: Listing of reports
           content:
             "application/json":
               schema:
@@ -786,17 +562,14 @@ paths:
       security:
         - user_token: []
           api_key: []
-  /comments/reports/{crid}:
+  /reports/{qrid}:
     put:
-      summary: Change the status of a comment report
+      summary: Change the status of a report
       description: |
-        Use this operation to change the status of a comment report.
-
-        When a report on a comment is accepted, the linked comment should be
-        hidden so it will not be visible.
-      operationId: dms2223backend.presentation.rest.reportes.set_status_comentario
+        Use this operation to change the status of a report.
+      operationId: dms2223backend.presentation.rest.reportes.set_status_pregunta
       parameters:
-        - $ref: "#/components/parameters/CommentReportIdPathParam"
+        - $ref: "#/components/parameters/ReportIdPathParam"
       requestBody:
         content:
           "application/json":
@@ -808,15 +581,15 @@ paths:
         "204":
           $ref: "#/components/responses/ReportStatusChanged"
         "404":
-          description: The comment report does not exist.
+          description: The question report does not exist.
           content:
             "text/plain":
               schema:
                 type: string
-              example: "The comment report with crid 25 does not exist."
+              example: "The question report with qrid 25 does not exist."
       tags:
         - moderation
-        - comments
+        - questions
         - reports
       security:
         - user_token: []
@@ -1009,13 +782,28 @@ components:
         - status
         - owner
         - timestamp
-    QuestionReportCreationModel:
+    ReportCreationModel:
       type: object
       properties:
-        reason:
+        descripcion:
+          type: string
+        autor:
+          type: string
+        elemento:
+          type: integer
+        fechaReporte:
+          type: string
+        estado:
+          type: string
+        tipo:
           type: string
       required:
-        - reason
+        - descripcion
+        - autor
+        - elemento
+        - fechaReporte
+        - estado
+        - tipo
     QuestionReportsListModel:
       type: array
       items:
@@ -1046,13 +834,6 @@ components:
         - status
         - owner
         - timestamp
-    AnswerReportCreationModel:
-      type: object
-      properties:
-        reason:
-          type: string
-      required:
-        - reason
     AnswerReportsListModel:
       type: array
       items:
@@ -1083,13 +864,6 @@ components:
         - status
         - owner
         - timestamp
-    CommentReportCreationModel:
-      type: object
-      properties:
-        reason:
-          type: string
-      required:
-        - reason
     CommentReportsListModel:
       type: array
       items:
@@ -1130,23 +904,9 @@ components:
       schema:
         type: integer
       required: true
-    QuestionReportIdPathParam:
-      name: qrid
-      description: Question report identifier.
-      in: path
-      schema:
-        type: integer
-      required: true
-    AnswerReportIdPathParam:
-      name: arid
-      description: Answer report identifier.
-      in: path
-      schema:
-        type: integer
-      required: true
-    CommentReportIdPathParam:
-      name: crid
-      description: Comment report identifier.
+    ReportIdPathParam:
+      name: rid
+      description: report identifier.
       in: path
       schema:
         type: integer

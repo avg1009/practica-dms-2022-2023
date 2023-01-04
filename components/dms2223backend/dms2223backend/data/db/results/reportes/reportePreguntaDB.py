@@ -23,13 +23,10 @@ class ReportePregunta(ResultBase):
         self.id_pregunta : int = id_pregunta
         self.descripcion: str = descripcion
         self.creador:str = creador
-        self.fecha :str = fecha
+        self.fechaCreacion :str = fecha
         self.estado: ReportStatus = estado
         self.tipoElemento = "pregunta"
  
-
-        
-        
         
     @staticmethod
     def _table_definition(metadata: MetaData) -> Table:

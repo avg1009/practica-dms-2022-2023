@@ -285,8 +285,10 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(descripcion,name,pregunta,ReportStatus.PENDING,0)
+        reporte = Reporte(descripcion,name,pregunta,ReportStatus.PENDING)
 
+        response = backend_service.question_report(session.get("token"),pregunta.getId(),reporte)
+        reporte = Reporte.from_json(response.get_content(),False)
         id = reporte.getId()
         if id is not None:
             reportes[id] = reporte

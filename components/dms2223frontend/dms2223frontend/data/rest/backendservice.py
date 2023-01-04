@@ -8,6 +8,7 @@ from dms2223common.data.Comentario import Comentario
 from dms2223common.data.Pregunta import Pregunta
 from dms2223common.data.Respuesta import Respuesta
 from dms2223common.data.rest import ResponseData
+from dms2223common.data.Reporte import Reporte
 
 
 class BackendService():
@@ -112,6 +113,42 @@ class BackendService():
         else:
             response_data.add_message(response.content.decode('ascii'))
         return response_data
+    
+    def get_answer(self,token: Optional[str],id:int):
+
+        response_data: ResponseData = ResponseData()
+        response: requests.Response = requests.get(
+            self.__base_url() + f"/answer/{id}/answers",
+            headers={
+                'Authorization': f'Bearer {token}',
+                self.__apikey_header: self.__apikey_secret
+            },
+            timeout=60
+        )
+        response_data.set_successful(response.ok)
+        if response_data.is_successful():
+            response_data.set_content(response.json())
+        else:
+            response_data.add_message(response.content.decode('ascii'))
+        return response_data
+
+    def get_comment(self,token: Optional[str],id:int):
+
+        response_data: ResponseData = ResponseData()
+        response: requests.Response = requests.get(
+            self.__base_url() + f"/comment/{id}/answers",
+            headers={
+                'Authorization': f'Bearer {token}',
+                self.__apikey_header: self.__apikey_secret
+            },
+            timeout=60
+        )
+        response_data.set_successful(response.ok)
+        if response_data.is_successful():
+            response_data.set_content(response.json())
+        else:
+            response_data.add_message(response.content.decode('ascii'))
+        return response_data
 
     def post_answer(self,token: Optional[str],id:int,answer: Respuesta):
         
@@ -132,7 +169,7 @@ class BackendService():
             response_data.add_message(response.content.decode('ascii'))
         return response_data
 
-    def question_report(self,token: Optional[str],id:int):
+    def question_report(self,token: Optional[str],id:int,reporte: Reporte):
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
             self.__base_url() + f"/questions/{id}/reports",
@@ -140,6 +177,7 @@ class BackendService():
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
             },
+            json=reporte.to_json(True),
             timeout=60
         )
         response_data.set_successful(response.ok)
@@ -153,7 +191,7 @@ class BackendService():
 
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.get(
-            self.__base_url() + '/questions/reports',
+            self.__base_url() + '/reports',
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret

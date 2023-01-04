@@ -45,7 +45,7 @@ class ReporteComentarios():
                 ) from ex
 
     @staticmethod
-    def list_all(session: Session,id_comentario:int) -> List[ReporteComentario]:
+    def list_all(session: Session) -> List[ReporteComentario]:
         """Lists every user.
 
         Args:
@@ -55,7 +55,7 @@ class ReporteComentarios():
             - List[User]: A list of `User` registers.
         """
         query = session.query(ReporteComentario)
-        return query.where(ReporteComentario.id_comentario==id_comentario)
+        return query.where(ReporteComentario.estado=="PENDING")
 
     @staticmethod
     def get_reporte(session: Session, id: int) -> Optional[ReporteComentario]:

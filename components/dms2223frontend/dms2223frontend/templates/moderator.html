@@ -9,17 +9,15 @@
             </dl>
         </form> 
 
-        {% for reporte in reportes.values() %}
-            {% if reporte.getEstado() == 1 %}
-                <div class="reportdiv">
-                    Descripcion reporte: <a class="reportlink" href="/moderator/{{ reporte.getId() }}" name="reporte">{{reporte.getDescripcion()}}</a>
-                    <p class="reporttext">Autor reporte: {{reporte.getAutor()}}</p>
-                    <p class="reporttext">Id {{reporte.getTipoElemento()}}: {{reporte.getElemento().getId()}}<br>
-                    Descripcion {{reporte.getTipoElemento()}}: {{reporte.getElemento().getDescripcion()}}<br>
-                    Autor {{reporte.getTipoElemento()}}: {{reporte.getElemento().getCreador()}}<br>
-                    {{reporte.getFechaReporte()}}</p>
-                </div>
-            {% endif %}
+        {% for reporte in reportes %}
+            <div class="reportdiv">
+                Descripcion reporte: <a class="reportlink" href="/moderator/{{ reporte.getId() }}" name="reporte">{{reporte.getDescripcion()}}</a>
+                <p class="reporttext">Autor reporte: {{reporte.getAutor()}}</p>
+                <p class="reporttext">Id {{reporte.getTipoElemento()}}: {{reporte.getElemento().getId()}}<br>
+                Descripcion {{reporte.getTipoElemento()}}: {{reporte.getElemento().getDescripcion()}}<br>
+                Autor {{reporte.getTipoElemento()}}: {{reporte.getElemento().getCreador()}}<br>
+                {{reporte.getFechaReporte()}}</p>
+            </div>
         {% endfor %}
 
         

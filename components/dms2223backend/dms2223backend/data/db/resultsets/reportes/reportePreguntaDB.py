@@ -8,7 +8,6 @@ from dms2223backend.data.db.exc import ReporteNoExisteError
 from dms2223backend.data.db.exc import ReporteExisteError
 from dms2223common.data.reportstatus import ReportStatus
 
-
 class ReportePreguntas():
     """ Class responsible of table-level users operations.
     """
@@ -45,7 +44,7 @@ class ReportePreguntas():
                 ) from ex
 
     @staticmethod
-    def list_all(session: Session,id_pregunta:int) -> List[ReportePregunta]:
+    def list_all(session: Session) -> List[ReportePregunta]:
         """Lists every user.
 
         Args:
@@ -55,7 +54,7 @@ class ReportePreguntas():
             - List[User]: A list of `User` registers.
         """
         query = session.query(ReportePregunta)
-        return query.where(ReportePregunta.id_pregunta==id_pregunta)
+        return query.where(ReportePregunta.estado=="PENDING")
 
     @staticmethod
     def get_reporte(session: Session, id: int) -> Optional[ReportePregunta]:
