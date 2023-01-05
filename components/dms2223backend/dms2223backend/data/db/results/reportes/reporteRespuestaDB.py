@@ -22,7 +22,7 @@ class ReporteRespuesta(ResultBase):
         self.id_respuesta : int = id_respuesta
         self.descripcion: str = descripcion
         self.creador:str = creador
-        self.fecha:str = fecha
+        self.fechaCreacion:str = fecha
         self.estado: ReportStatus = estado
         self.tipoElemento = "respuesta"
         

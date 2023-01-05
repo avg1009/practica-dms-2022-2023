@@ -49,6 +49,6 @@ class ComentarioService:
     def get_comentario(id : int, schema: Schema) -> common.Comentario:
         session : Session = schema.new_session()
         comentario : Comentario = Comentarios.get_comentario(session, id)
-        out: common.Comentario = common.Comentario(comentario.creador,comentario.descripcion,comentario.sentimiento,comentario.id,comentario.fechaCreacion)
+        out: common.Comentario = common.Comentario(comentario.creador,comentario.descripcion,comentario.sentimiento,comentario.id,datetime.fromisoformat(comentario.fechaCreacion))
         schema.remove_session()
         return out

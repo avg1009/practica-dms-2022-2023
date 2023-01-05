@@ -5,7 +5,6 @@ from flask import redirect, request, flash, url_for, session, render_template,cu
 from werkzeug.wrappers import Response
 from dms2223common.data.rest.responsedata import ResponseData
 from dms2223frontend.data.rest.backendservice import BackendService
-from dms2223frontend.presentation.web.moderatorendpoints import reportes
 from dms2223common.data import Role
 from dms2223common.data.reportstatus import ReportStatus
 from dms2223frontend.data.rest.authservice import AuthService
@@ -202,7 +201,7 @@ class DiscussionEndpoints():
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
     @staticmethod
-    def report_answers(auth_service: AuthService,id_pregunta: int, id_respuesta: int)-> Union[Response,Text]:
+    def report_answers(auth_service: AuthService, backend_service: BackendService ,id_pregunta: int, id_respuesta: int)-> Union[Response,Text]:
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
         if Role.DISCUSSION.name not in session['roles']:
@@ -210,13 +209,13 @@ class DiscussionEndpoints():
 
         name:str = session['user']
 
-        response:ResponseData = BackendService.get_question(session.get('token'),id_pregunta)
+        response:ResponseData = backend_service.get_question(session.get('token'),id_pregunta)
         pregunta = Pregunta.from_json(response.get_content())
 
         if pregunta is None:
             return redirect(url_for("get_discussion"))
 
-        respuesta = pregunta.getRespuestas().get(id_respuesta)
+        respuesta = [x for x in pregunta.getRespuestas() if x.getId() == id_respuesta][0]
 
         if respuesta is None:
             return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
@@ -225,9 +224,9 @@ class DiscussionEndpoints():
         if descripcion is None:
             return redirect(url_for("get_discussion"))
         reporte = Reporte(descripcion,name,respuesta,ReportStatus.PENDING,0)
-        id = reporte.getId()
-        if id is not None:
-            reportes[id] = reporte
+
+        response = backend_service.report_answer(session.get("token"),respuesta.getId(),reporte)
+        reporte = Reporte.from_json(response.get_content(),False)
         
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
@@ -246,12 +245,12 @@ class DiscussionEndpoints():
         if pregunta is None:
             return redirect(url_for("get_discussion"))
 
-        respuesta = pregunta.getRespuestas().get(id_respuesta)
+        respuesta = [x for x in pregunta.getRespuestas() if x.getId() == id_respuesta][0]
 
         if respuesta is None:
             return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
         
-        comentario= respuesta.getComentarios().get(id_comentario)
+        comentario= [x for x in respuesta.getComentarios() if x.getId() == id_comentario][0]
         if comentario is None:
             return redirect(url_for("get_question",id_pregunta=pregunta.getId())) 
                
@@ -259,10 +258,9 @@ class DiscussionEndpoints():
 
         if descripcion is None:
             return redirect(url_for("get_discussion"))
-        reporte = Reporte(descripcion,name,comentario,ReportStatus.PENDING,0)
-        id = reporte.getId()
-        if id is not None:
-            reportes[id] = reporte
+        reporte = Reporte(descripcion,name,comentario,ReportStatus.PENDING)
+        response = backend_service.report_comments(session.get("token"),comentario.getId(),reporte)
+        reporte = Reporte.from_json(response.get_content(),False)
         
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
 
@@ -290,7 +288,5 @@ class DiscussionEndpoints():
         response = backend_service.question_report(session.get("token"),pregunta.getId(),reporte)
         reporte = Reporte.from_json(response.get_content(),False)
         id = reporte.getId()
-        if id is not None:
-            reportes[id] = reporte
 
         return redirect(url_for("get_question",id_pregunta=pregunta.getId()))

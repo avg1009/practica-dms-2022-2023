@@ -39,11 +39,12 @@ def set_status_pregunta(rid: int, estado: ReportStatus):
             return ("La pregunta no existe", HTTPStatus.NOT_FOUND.value)
     
 
-def post_reporte_respuesta(reporte: Reporte, respuesta: Respuesta):
+def post_reporte_respuesta(body: dict, aid: int):
     with current_app.app_context() :
-        if RespuestaService.exits_respuesta(respuesta.getId(),current_app.db):
+        if RespuestaService.exists_respuesta(aid,current_app.db):
+            respuesta = RespuestaService.get_respuesta(aid,current_app.db)
             return ReporteService.create_reporte_respuesta_from_common(
-                reporte,respuesta, current_app.db), HTTPStatus.OK.value
+                Reporte.from_json(body,respuesta,True), current_app.db).to_json(), HTTPStatus.OK.value
         else:
             return ("La pregunta no existe", HTTPStatus.NOT_FOUND.value)
 
@@ -56,11 +57,12 @@ def set_status_respuesta(rid: int,estado: ReportStatus):
             return ("La pregunta no existe", HTTPStatus.NOT_FOUND.value)
     
 
-def post_reporte_comentario(reporte: Reporte, comentario: Comentario):
+def post_reporte_comentario(body: dict, cid: int):
     with current_app.app_context() :
-        if ComentarioService.exits_comentario(comentario.getId(),current_app.db):
+        if ComentarioService.exists_comentario(cid,current_app.db):
+            comentario = ComentarioService.get_comentario(cid,current_app.db)
             return ReporteService.create_reporte_comentario_from_common(
-                reporte,comentario, current_app.db), HTTPStatus.OK.value
+                Reporte.from_json(body,comentario,True), current_app.db).to_json(), HTTPStatus.OK.value
         else:
             return ("La pregunta no existe", HTTPStatus.NOT_FOUND.value)
  

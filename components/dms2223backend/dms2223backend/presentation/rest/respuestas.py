@@ -36,7 +36,7 @@ def post_respuesta(body: dict, qid: int):
 def get_respuesta(aid : int) :
     with current_app.app_context() :
         if (RespuestaService.exists_respuesta(aid,current_app.db)) :
-            return RespuestaService.get_respuesta(aid,current_app.db),HTTPStatus.OK.value
+            return RespuestaService.get_respuesta(aid,current_app.db).to_json(),HTTPStatus.OK.value
         else :
             return ('No se ha encontrado el argumento', HTTPStatus.NOT_FOUND.value)
 

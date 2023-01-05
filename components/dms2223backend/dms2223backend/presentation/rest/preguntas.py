@@ -23,7 +23,6 @@ def post_pregunta(body: dict):
 
 def get_pregunta(qid: int):
     with current_app.app_context() :
-
         if (PreguntaService.exists_pregunta(qid,current_app.db)) :
             return PreguntaService.get_pregunta(qid,current_app.db), HTTPStatus.NOT_FOUND.value
         else:

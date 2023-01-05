@@ -13,7 +13,7 @@ from .webauth import WebAuth
 from dms2223common.data.reportstatus import ReportStatus
 from dms2223common.data.Reporte import Reporte
 from dms2223frontend.data.rest.backendservice import BackendService
-reportes: Dict[int,Reporte] = {}
+reportes: list[Reporte] = []
 class ModeratorEndpoints():
     """ Monostate class responsible of handing the moderator web endpoint requests.
     """
@@ -34,7 +34,7 @@ class ModeratorEndpoints():
         name:str = session['user']
         response = backend_service.list_reports(session.get("token"))
         lista = response.get_content()
-        reportes: list[Reporte] = []
+        #reportes: list[Reporte] = []
         for i in lista:
             if i["tipo"] == "pregunta":
                 response = backend_service.get_question(session.get("token"),i["elemento"])
@@ -59,7 +59,7 @@ class ModeratorEndpoints():
 
         name:str = session['user']
 
-        reporte = reportes.get(id_reporte)
+        reporte = [x for x in reportes if x.getId() == id_reporte][0]
 
         if reporte is None or reporte.getEstado() != 1:
             return redirect(url_for("get_moderator"))
@@ -74,7 +74,7 @@ class ModeratorEndpoints():
             return redirect(url_for('get_home'))
 
         
-        reporte = reportes.get(id_reporte)
+        reporte = [x for x in reportes if x.getId() == id_reporte][0]
 
         if reporte is None:
             return redirect(url_for("get_moderator"))

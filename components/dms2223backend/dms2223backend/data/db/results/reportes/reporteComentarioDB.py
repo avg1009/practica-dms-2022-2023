@@ -22,7 +22,7 @@ class ReporteComentario(ResultBase):
         self.id_comentario : int = id_comentario
         self.descripcion: str = descripcion
         self.creador:str = creador
-        self.fecha:str = fecha
+        self.fechaCreacion:str = fecha
         self.estado: ReportStatus = estado
         self.tipoElemento = "comentario"
     

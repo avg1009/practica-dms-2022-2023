@@ -118,7 +118,7 @@ class BackendService():
 
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.get(
-            self.__base_url() + f"/answer/{id}/answers",
+            self.__base_url() + f"/answers/{id}",
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
@@ -136,7 +136,7 @@ class BackendService():
 
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.get(
-            self.__base_url() + f"/comment/{id}/answers",
+            self.__base_url() + f"/comments/{id}",
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
@@ -260,7 +260,7 @@ class BackendService():
             response_data.add_message(response.content.decode('ascii'))
         return response_data
 
-    def report_answer(self,token: Optional[str],id:int):
+    def report_answer(self,token: Optional[str],id:int,reporte:Reporte):
 
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
@@ -269,6 +269,7 @@ class BackendService():
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
             },
+            json=reporte.to_json(True),
             timeout=60
         )
         response_data.set_successful(response.ok)
@@ -296,7 +297,7 @@ class BackendService():
             response_data.add_message(response.content.decode('ascii'))
         return response_data
 
-    def report_comments(self,token: Optional[str],id:int):
+    def report_comments(self,token: Optional[str],id:int,reporte:Reporte):
 
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
@@ -305,6 +306,7 @@ class BackendService():
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
             },
+            json=reporte.to_json(True),
             timeout=60
         )
         response_data.set_successful(response.ok)

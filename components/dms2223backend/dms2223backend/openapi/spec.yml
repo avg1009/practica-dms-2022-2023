@@ -331,6 +331,36 @@ paths:
       security:
         - user_token: []
           api_key: []
+  /answers/{aid}:
+    get:
+      summary: Get a single answer
+      operationId: dms2223backend.presentation.rest.respuestas.get_respuesta
+      parameters:
+        - $ref: "#/components/parameters/AnswerIdPathParam"
+      responses:
+        "200":
+          description: The answer
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/AnswerFullModel"
+              example:
+                timestamp: 1665575089
+                descripcion: I would suggest four members.
+                creador: user3
+        "404":
+          description: The answer does not exists
+          content:
+            "test/plain":
+              schema:
+                type: string
+      tags:
+        - moderation
+        - answers
+        - reports
+      security:
+        - user_token: []
+          api_key: []
   /answers/{aid}/votes:
     post:
       summary: Upvote an answer
@@ -450,6 +480,32 @@ paths:
               example: "The answer with aid 50 does not exist."
       tags:
         - discussion
+        - moderation
+        - answers
+        - reports
+      security:
+        - user_token: []
+          api_key: []
+  /comments/{cid}:
+    get:
+      summary: Get a single comment
+      operationId: dms2223backend.presentation.rest.comentarios.get_comentario
+      parameters:
+        - $ref: "#/components/parameters/CommentIdPathParam"
+      responses:
+        "200":
+          description: The answer
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/CommentFullModel"
+        "404":
+          description: The comment does not exists
+          content:
+            "test/plain":
+              schema:
+                type: string
+      tags:
         - moderation
         - answers
         - reports

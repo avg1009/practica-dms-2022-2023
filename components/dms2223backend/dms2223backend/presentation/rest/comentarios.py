@@ -23,10 +23,10 @@ def post_comentario_respuesta(body: dict, aid: int):
             current_app.logger.error(traceback.format_exception(e))
             return (str(e), HTTPStatus.NOT_FOUND.value)
 
-def get_comentarios(cid : int) :
+def get_comentario(cid : int) :
     with current_app.app_context() :
         if (ComentarioService.exists_comentario(cid,current_app.db)) :
-            return ComentarioService.get_comentario(cid,current_app.db), HTTPStatus.OK.value
+            return ComentarioService.get_comentario(cid,current_app.db).to_json(), HTTPStatus.OK.value
         else :
             return ('No se ha encontrado el argumento', HTTPStatus.NOT_FOUND.value)
 
