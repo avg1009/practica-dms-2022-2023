@@ -35,8 +35,8 @@ class Comentario:
     def getVisible(self) -> bool:
         return self.__visible
 
-    def votar(self):
-        self.__votos+=1
+    def setVotos(self,votos:int):
+        self.__votos = votos
     
     def getVotos(self) -> int:
         return self.__votos 

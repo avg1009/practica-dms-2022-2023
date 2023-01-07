@@ -151,24 +151,9 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        name:str = session['user']
 
-        response:ResponseData = backend_service.get_question(session.get('token'),id_pregunta)
-        pregunta = Pregunta.from_json(response.get_content())
-
-        if pregunta is None:
-            return redirect(url_for("get_discussion"))
-
-        respuesta = pregunta.getRespuestas().get(id_respuesta)
-
-        if respuesta is None:
-            return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
-        if(name in respuesta.getVotantes()):
-            return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
-        
-        #respuesta.addVotantes(name)
-        #respuesta.votar()
-        return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
+        response:ResponseData = backend_service.upvote_answer(session.get("token"),id_respuesta,session['user'])
+        return redirect(url_for("get_question",id_pregunta=id_pregunta))
 
     @staticmethod
     def vote_comments(auth_service: AuthService,backend_service:BackendService,id_pregunta: int, id_respuesta: int, id_comentario: int)-> Union[Response,Text]:
@@ -177,28 +162,9 @@ class DiscussionEndpoints():
         if Role.DISCUSSION.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        name:str = session['user']
-
-        response:ResponseData = backend_service.get_question(session.get('token'),id_pregunta)
-        pregunta = Pregunta.from_json(response.get_content())
-
-        if pregunta is None:
-            return redirect(url_for("get_discussion"))
-
-        respuesta = pregunta.getRespuestas().get(id_respuesta)
-
-        if respuesta is None:
-            return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
+        response: ResponseData = backend_service.upvote_comments(session.get("token"),id_comentario,session['user'])
         
-        comentario= respuesta.getComentarios().get(id_comentario)
-        if comentario is None:
-            return redirect(url_for("get_question",id_pregunta=pregunta.getId()))        
-        if(name in comentario.getVotantes()):
-            return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
-        
-        #comentario.addVotantes(name)
-        #comentario.votar()
-        return redirect(url_for("get_question",id_pregunta=pregunta.getId()))
+        return redirect(url_for("get_question",id_pregunta=id_pregunta))
 
     @staticmethod
     def report_answers(auth_service: AuthService, backend_service: BackendService ,id_pregunta: int, id_respuesta: int)-> Union[Response,Text]:

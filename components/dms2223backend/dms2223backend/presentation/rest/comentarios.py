@@ -1,15 +1,15 @@
 import traceback
-from typing import List, Dict
 from http import HTTPStatus
 from flask import current_app
+from dms2223backend.data.db.exc.votoexistserror import VotoExisteError
 from dms2223backend.service import ComentarioService
 from dms2223backend.service import RespuestaService
 from dms2223common.data.Comentario import Comentario
-#from dms2223backend.service import VotoService
+from dms2223backend.service import VotoService
 
 def get_comentarios(aid) :
     with current_app.app_context() :
-        if RespuestaService.exits_respuesta(aid,current_app.db):
+        if RespuestaService.exists_respuesta(aid,current_app.db):
             return ComentarioService.list_comentarios(aid,current_app.db), HTTPStatus.OK.value
         else:
             return ("La respuesta no existe", HTTPStatus.NOT_FOUND.value)
@@ -30,13 +30,12 @@ def get_comentario(cid : int) :
         else :
             return ('No se ha encontrado el argumento', HTTPStatus.NOT_FOUND.value)
 
-def post_voto(descripcion: str, cid: int):
+def post_voto(body: str, cid: int):
     with current_app.app_context() :
         try:
-            #if (VotoService.exists_voto_comentario(cid)) : 
-            #    return VotoService.create_voto_comentario(descripcion, cid), HTTPStatus.CREATED.value
-            #else :
-                return ('Ya se ha votado este comentario', HTTPStatus.ALREADY_REPORTED.value)
+            VotoService.create_voto_comentario(body, cid,current_app.db)
+            return ("",HTTPStatus.CREATED.value)
+        except VotoExisteError:
+            return ('El usuario ya a votado', HTTPStatus.CONFLICT.value)
         except Exception:
-            return ('No se ha creado el argumento', HTTPStatus.NOT_FOUND.value)
-    pass
+            return ('No existe el comentario', HTTPStatus.NOT_FOUND.value)

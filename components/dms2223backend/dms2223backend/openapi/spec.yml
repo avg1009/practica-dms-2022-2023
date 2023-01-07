@@ -370,6 +370,11 @@ paths:
         The user voting will be automatically retrieved from the user token
         against the authorization server.
       operationId: dms2223backend.presentation.rest.respuestas.post_voto
+      requestBody:
+        content:
+            "text/plain":
+              schema:
+                type: string
       parameters:
         - $ref: "#/components/parameters/AnswerIdPathParam"
       responses:
@@ -521,6 +526,11 @@ paths:
         The user voting will be automatically retrieved from the user token
         against the authorization server.
       operationId: dms2223backend.presentation.rest.comentarios.post_voto
+      requestBody:
+        content:
+            "text/plain":
+              schema:
+                type: string
       parameters:
         - $ref: "#/components/parameters/CommentIdPathParam"
       responses:

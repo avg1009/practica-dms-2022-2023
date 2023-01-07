@@ -35,6 +35,9 @@ class Respuesta :
 
     def getVotos(self) -> int:
         return self.__votos
+    
+    def setVotos(self, votos:int):
+        self.__votos=votos
 
     def votar(self):
         self.__votos+=1

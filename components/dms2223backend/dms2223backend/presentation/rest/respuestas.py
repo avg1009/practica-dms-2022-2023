@@ -1,12 +1,12 @@
 import traceback
-from typing import List, Dict
 from http import HTTPStatus
 from flask import current_app
+from dms2223backend.data.db.exc.votoexistserror import VotoExisteError
 from dms2223backend.service.comentarioservice import ComentarioService
 from dms2223backend.service import RespuestaService
 from dms2223backend.service import PreguntaService
 from dms2223common.data.Respuesta import Respuesta
-#from dms2223backend.service import VotoService
+from dms2223backend.service import VotoService
 
 def get_respuestas(qid: int) :
     with current_app.app_context() :
@@ -15,11 +15,12 @@ def get_respuestas(qid: int) :
             respuestas = RespuestaService.list_respuestas(qid,current_app.db)
             
             for respuesta in respuestas:
+                respuesta.setVotos(VotoService.count_votos_respuestas(current_app.db,respuesta.getId()))
                 comentarios = ComentarioService.list_comentarios(respuesta.getId(),current_app.db)
                 for comentario in comentarios:
+                    comentario.setVotos(VotoService.count_votos_comentarios(current_app.db,comentario.getId()))
                     respuesta.addComentario(comentario)
                 pregunta.addRespuesta(respuesta)
-                
             return pregunta.to_json(), HTTPStatus.OK.value
         else:
             return ("La pregunta no existe", HTTPStatus.NOT_FOUND.value)
@@ -40,13 +41,12 @@ def get_respuesta(aid : int) :
         else :
             return ('No se ha encontrado el argumento', HTTPStatus.NOT_FOUND.value)
 
-def post_voto( aid: int):
+def post_voto(body: str, aid: int):
     with current_app.app_context() :
         try:
-            #if (VotoService.exists_voto_respuesta(aid)) : 
-            #    return VotoService.create_voto_respuesta(aid), HTTPStatus.CREATED.value
-            #else :
-                return ('Ya se ha votado esta respuesta', HTTPStatus.ALREADY_REPORTED.value)
+            VotoService.create_voto_respuesta(body.decode("utf-8"),aid,current_app.db)
+            return ("",HTTPStatus.CREATED.value)
+        except VotoExisteError:
+            return ('El usuario ya a votado', HTTPStatus.CONFLICT.value)
         except Exception:
-            return ('No se ha creado el argumento', HTTPStatus.NOT_FOUND.value)
-    pass
+            return ('No existe el comentario', HTTPStatus.NOT_FOUND.value)

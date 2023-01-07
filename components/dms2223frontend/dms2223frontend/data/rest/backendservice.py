@@ -224,7 +224,7 @@ class BackendService():
             response_data.add_message(response.content.decode('ascii'))
         return response_data
 
-    def upvote_answer(self,token: Optional[str],id:int):
+    def upvote_answer(self,token: Optional[str],id:int,usuario:str):
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
             self.__base_url() + f"/answers/{id}/votes",
@@ -232,6 +232,7 @@ class BackendService():
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
             },
+            json=usuario,
             timeout=60
         )
         response_data.set_successful(response.ok)
@@ -279,7 +280,7 @@ class BackendService():
             response_data.add_message(response.content.decode('ascii'))
         return response_data
 
-    def upvote_comments(self,token: Optional[str],id:int):
+    def upvote_comments(self,token: Optional[str],id:int,usuario:str):
 
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
@@ -288,6 +289,7 @@ class BackendService():
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
             },
+            json=usuario,
             timeout=60
         )
         response_data.set_successful(response.ok)

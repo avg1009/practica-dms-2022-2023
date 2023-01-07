@@ -1,16 +1,12 @@
-from typing import List, Dict
 from http import HTTPStatus
 from flask import current_app
 from dms2223backend.service.reporteservice import ReporteService
 from dms2223backend.service.preguntaservice import PreguntaService
 from dms2223backend.service.respuestaservice import RespuestaService
 from dms2223backend.service.comentarioservice import ComentarioService
-from dms2223common.data.Respuesta import Respuesta
-from dms2223common.data.Pregunta import Pregunta
-from dms2223common.data.Comentario import Comentario
 from dms2223common.data.Reporte import Reporte
 from dms2223common.data.reportstatus import ReportStatus
-#TODO
+
 def post_reporte_pregunta(body: dict,qid:int):
     with current_app.app_context() :
         if PreguntaService.exists_pregunta(qid,current_app.db):

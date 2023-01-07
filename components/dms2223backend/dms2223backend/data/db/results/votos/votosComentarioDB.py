@@ -16,9 +16,7 @@ class VotosComentario(ResultBase):
             - id_pregunta (int): A int with the question's id.
             - content (str): A string with the answer of a question
         """
-        self.id:int
         self.usuario:str = usuario
-        self.fechaCreacion:datetime = datetime.now()
         self.id_comentario: int = id_comentario 
         
         
@@ -35,18 +33,7 @@ class VotosComentario(ResultBase):
         return Table(
             'votosComentarios',
             metadata,
-            Column('id', Integer, autoincrement='auto', primary_key=True),
-            Column('usuario',String(32),nullable=False ),          
-            Column('id_comentario', Integer, ForeignKey('comentarios.id'), nullable=False),
-            Column('fechaCreación', TIMESTAMP, nullable=False)
-        
-            
+            Column('usuario',String(32), primary_key=True),          
+            Column('id_comentario', Integer, ForeignKey('comentarios.id'), primary_key=True )
         )
-    # @staticmethod
-    # def _mapping_properties() -> Dict:
-    #     # Definimos la "relación" entre comentarios y votos
-    #     return {
-    #         'votos': relationship(Votos, backref='id'),
-    #         'reportes': relationship(Reporte, backref='id') #añadir votos y backref
-    #     }
 
