@@ -7,12 +7,12 @@ class Comentario:
 
     
 
-    def __init__(self, creador:str, descripcion:str, sentimiento: Sentiment,id:Optional[int] = None,fecha:datetime=datetime.now()):
+    def __init__(self, creador:str, descripcion:str, sentimiento: Sentiment,id:Optional[int] = None,fecha:datetime=datetime.now(),visible=True):
         self.__id:Optional[int] = id
         self.__creador:str = creador
         self.__descripcion: str= descripcion
         self.__fechaCreacion:datetime = fecha
-        self.__visible:bool= True
+        self.__visible:bool= visible
         self.__votos:int= 0
         self.__sentimiento: Sentiment =sentimiento
         self.__votantes:List[str] =[]

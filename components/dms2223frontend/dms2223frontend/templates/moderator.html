@@ -17,7 +17,12 @@
                 Descripcion {{reporte.getTipoElemento()}}: {{reporte.getElemento().getDescripcion()}}<br>
                 Autor {{reporte.getTipoElemento()}}: {{reporte.getElemento().getCreador()}}<br>
                 {{reporte.getFechaReporte()}}</p>
+                <form action="/moderator/{{ reporte.getId() }}" method="post">
+                    <input type = "radio" name = "opcion" value = "aceptar"/> aceptar
+                    <input type = "radio" name = "opcion" value= "rechazar" checked/> rechazar
+                    <p class="alignright">{{ submit_button('bluebg', 'Aceptar') }}</p>
+                </form>
+                    
             </div>
         {% endfor %}
-
 {% endblock %}

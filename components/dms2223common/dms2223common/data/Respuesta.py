@@ -4,12 +4,12 @@ from dms2223common.data.Comentario import Comentario
 
 class Respuesta :
 
-    def __init__(self, creador:str, descripcion:str,id:Optional[int]=None,fecha:Optional[datetime]=datetime.now()):
+    def __init__(self, creador:str, descripcion:str,id:Optional[int]=None,fecha:Optional[datetime]=datetime.now(),visible=True):
         self.__id:Optional[int] = id
         self.__creador:str = creador
         self.__fechaCreacion:datetime = fecha
         self.__descripcion:str = descripcion
-        self.__visible:bool = True
+        self.__visible:bool = visible
         self.__votos:int = 0
         self.__comentarios:List[Comentario] = []
         self.__votantes:List[str] =[]

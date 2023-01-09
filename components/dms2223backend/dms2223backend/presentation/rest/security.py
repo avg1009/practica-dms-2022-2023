@@ -21,8 +21,8 @@ def verify_api_key(token: str) -> Dict:
     """
     with current_app.app_context():
         cfg: backendconfiguration = current_app.cfg
-        current_app.logger.warn(token)
-        current_app.logger.warn(cfg.get_authorized_api_keys())
+        #current_app.logger.warn(token)
+        #current_app.logger.warn(cfg.get_authorized_api_keys())
         if not token in cfg.get_authorized_api_keys():
             raise Unauthorized('Invalid API key')
     return {}
@@ -42,8 +42,8 @@ def verify_token(token: str) -> Dict:
     with current_app.app_context():
         cfg = current_app.cfg.get_auth_service()
         base_url = f"http://{cfg['host']}:{cfg['port']}/api/v1"
-        current_app.logger.warn(base_url)
-        current_app.logger.warn(token)
+        #current_app.logger.warn(base_url)
+        #current_app.logger.warn(token)
         response: requests.Response = requests.get(
             base_url + '/auth',
             headers={

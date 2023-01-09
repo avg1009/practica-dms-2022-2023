@@ -77,3 +77,16 @@ class Respuestas():
                 'The question with title ' + id + ' don\'t exists.'
                 ) from ex
         return respuesta
+
+    @staticmethod
+    def update(session: Session,id:int):
+
+        if not id:
+            raise ValueError('An id is requiered.')
+        try:
+            session.query(Respuesta).filter(Respuesta.id == id).update({"visible": False})
+            session.commit()
+        except NoResultFound as ex:
+            raise RespuestaNoExisteError(
+                'The answer with title ' + id + ' don\'t exists.'
+                ) from ex

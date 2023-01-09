@@ -78,3 +78,16 @@ class Comentarios():
                 'The question with title ' + id + ' don\'t exists.'
                 ) from ex
         return comentario
+    
+    @staticmethod
+    def update(session: Session,id:int):
+
+        if not id:
+            raise ValueError('An id is requiered.')
+        try:
+            session.query(Comentario).filter(Comentario.id == id).update({"visible": False})
+            session.commit()
+        except NoResultFound as ex:
+            raise ComentarioNoExisteError(
+                'The question with title ' + id + ' don\'t exists.'
+                ) from ex

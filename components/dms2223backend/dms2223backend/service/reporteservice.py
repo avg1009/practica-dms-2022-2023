@@ -1,6 +1,9 @@
 from datetime import datetime
 from typing import List, Dict
 from sqlalchemy.orm.session import Session
+from dms2223backend.service.comentarioservice import ComentarioService
+from dms2223backend.service.respuestaservice import RespuestaService
+from dms2223backend.service.preguntaservice import PreguntaService
 from dms2223backend.data.db.schema import Schema  # type: ignore
 from dms2223backend.data.db.results.reportes import ReporteComentario
 from dms2223backend.data.db.results.reportes import ReportePregunta
@@ -20,8 +23,6 @@ import dms2223common.data.Respuesta as common
 import dms2223common.data.Comentario as common
 import dms2223common.data.Reporte as common
 from dms2223common.data.sentiment import Sentiment
-from flask import current_app
-#TODO
 class ReporteService:
 
     @staticmethod
@@ -165,3 +166,25 @@ class ReporteService:
         out: common.Reporte = common.Reporte(reporte_comentario.descripcion, reporte_comentario.creador, comentario, reporte_comentario.estado, reporte_comentario.id,datetime.fromisoformat(reporte_comentario.fechaCreacion))
         schema.remove_session()
         return out
+
+    @staticmethod
+    def update_reporte(id: int, estado: str, tipo: str,schema: Schema):
+        session: Session = schema.new_session()
+        if tipo == "pregunta":
+            ReportePreguntas.update_reporte(session,id,estado)
+            reporte = ReportePreguntas.get_reporte(session,id)
+            schema.remove_session()
+            if estado == ReportStatus.ACCEPTED.name:
+                PreguntaService.update_pregunta(reporte.id_pregunta,schema)
+        if tipo == "respuesta":
+            ReporteRespuestas.update_reporte(session,id,estado)
+            reporte = ReporteRespuestas.get_reporte(session,id)
+            schema.remove_session()
+            if estado == ReportStatus.ACCEPTED.name:
+                RespuestaService.update_respuesta(reporte.id_respuesta,schema)
+        if tipo == "comentario":
+            ReporteComentarios.update_reporte(session,id,estado)
+            reporte = ReporteComentarios.get_reporte(session,id)
+            schema.remove_session()
+            if estado == ReportStatus.ACCEPTED.name:
+                ComentarioService.update_comentario(reporte.id_comentario,schema)

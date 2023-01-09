@@ -5,7 +5,7 @@ from dms2223backend.service.preguntaservice import PreguntaService
 from dms2223backend.service.respuestaservice import RespuestaService
 from dms2223backend.service.comentarioservice import ComentarioService
 from dms2223common.data.Reporte import Reporte
-from dms2223common.data.reportstatus import ReportStatus
+import traceback
 
 def post_reporte_pregunta(body: dict,qid:int):
     with current_app.app_context() :
@@ -18,7 +18,6 @@ def post_reporte_pregunta(body: dict,qid:int):
 
 def get_reportes():
     with current_app.app_context() :
-        current_app.logger.debug(ReporteService.list_reportes(current_app.db))
         reportes = ReporteService.list_reportes(current_app.db)
         salida = []
         for reporte in reportes:
@@ -26,12 +25,12 @@ def get_reportes():
         return salida,HTTPStatus.OK.value
     
 
-def set_status_pregunta(rid: int, estado: ReportStatus):
+def set_status(body:dict):
     with current_app.app_context() :
-        if ReporteService.exist_reporte_pregunta(rid,current_app.db):
-            return ReporteService.update_reporte_pregunta_from_common(
-                rid, estado, current_app.db), HTTPStatus.NO_CONTENT.value
-        else:
+        try:
+            ReporteService.update_reporte(body["id"],body["status"],body["tipo"],current_app.db)
+            return ("Reporte actualizado", HTTPStatus.ACCEPTED.NO_CONTENT.value)
+        except Exception:
             return ("La pregunta no existe", HTTPStatus.NOT_FOUND.value)
     
 
@@ -44,28 +43,11 @@ def post_reporte_respuesta(body: dict, aid: int):
         else:
             return ("La pregunta no existe", HTTPStatus.NOT_FOUND.value)
 
-def set_status_respuesta(rid: int,estado: ReportStatus):
-    with current_app.app_context() :
-        if ReporteService.exist_reporte_respuesta(rid,current_app.db):
-            return ReporteService.update_reporte_respuesta_from_common(
-                rid, estado, current_app.db), HTTPStatus.NO_CONTENT.value
-        else:
-            return ("La pregunta no existe", HTTPStatus.NOT_FOUND.value)
-    
-
 def post_reporte_comentario(body: dict, cid: int):
     with current_app.app_context() :
         if ComentarioService.exists_comentario(cid,current_app.db):
             comentario = ComentarioService.get_comentario(cid,current_app.db)
             return ReporteService.create_reporte_comentario_from_common(
                 Reporte.from_json(body,comentario,True), current_app.db).to_json(), HTTPStatus.OK.value
-        else:
-            return ("La pregunta no existe", HTTPStatus.NOT_FOUND.value)
- 
-def set_status_comentario(rid: int,estado: ReportStatus):
-    with current_app.app_context() :
-        if ReporteService.exist_reporte_comentario(rid,current_app.db):
-            return ReporteService.update_reporte_comentario_from_common(
-                rid, estado, current_app.db), HTTPStatus.NO_CONTENT.value
         else:
             return ("La pregunta no existe", HTTPStatus.NOT_FOUND.value)
