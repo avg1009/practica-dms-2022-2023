@@ -20,11 +20,14 @@ Ahora podemos enviarle la información de las preguntas que tenemos que mostrar 
 ## Baneo temporal y Bloqueo de usuarios
 En la pestaña de reportes se añadirá tambien un botón que permitirá bloquear a ciertos usuarios durante un tiempo. también podriamos añadir una opción en los roles que sea bloqueado provocando que no tenga acceso a la aplicación.
 
-Para poder llevar esto a cabo seria importante añadir en la base de datos de usuario un parámetro que diga si está bloqueado o no, y pueda modificarse.
+Para poder llevar esto a cabo seria importante añadir en la base de datos de usuario un parámetro que diga si está bloqueado o no, y pueda modificarse, provocando que aunque ponga los credenciales correctos en el "log in" no le deje acceder.
+
+Ya a una linea más de futuro para evitar las multicuentas de usuarios bloqueados podemos bloquearlos via IP pero este apartado tiene que ver más con la seguridad de la propia web.
 
 
 ## Gestión básica de perfil
  * Añadir diferentes pestañas dónde el usuario pueda cambiar credenciales, eleccion modo oscuro modo claro, una bibliografia y una foto de perfil.
+ * Esto conlleva poder realizar modificaciones en la base de datos y sobreescribir los datos antiguos con los nuevos.
 ## Buscador de palabras clave
   * Primero con la interfaz deberemos recoger texto ayudandonos de los formularios de html de este modo podemos recoger las palabras clave
-  * De esta forma podemos consultar en la DB mediante la API ??????  los títulos de las preguntas que tengan el texto escrito en el formulario.
+  * De esta forma podemos consultar en la DB mediante la API los títulos de las preguntas que tengan el texto escrito en el formulario.
