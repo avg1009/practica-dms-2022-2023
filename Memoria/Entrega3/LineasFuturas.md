@@ -63,6 +63,6 @@ Ya a una linea más de futuro para evitar las multicuentas de usuarios bloqueado
  * Esta información podríamos almacenarla en una nueva tabla del Back End de información de usuario, ya que no es información util para el sistema de autenticación, pero es importante tenerla relaccionada con cada usuario del foro, para que todos puedas realizar su personalización propia y se cargue cada vez que entren al foro.
 
 
-## Buscador de palabras clave
+## Buscador de palabras clave.
   * Primero con la interfaz deberemos recoger texto ayudandonos de los formularios de html de este modo podemos recoger las palabras clave
   * De esta forma podemos consultar en la DB mediante la API los títulos de las preguntas que tengan el texto escrito en el formulario.
