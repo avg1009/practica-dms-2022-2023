@@ -14,7 +14,8 @@ A la hora de implementarlo tendriamos que seguir los siguientes pasos:
 
 Primero en el frontend deberá existir un botón de "Seguir" en los perfiles de los usuarios.
 
-Habrá que modificar la base de datos de los usuarios añadiendo una columna que almacene todos los usuarios que seguimos.
+Una opción sería modificar la base de datos actual de los usuarios añadiendo una columna que almacene todos los usuarios que seguimos, pero dicha base pertenece al servicio de autenticación, y esta información no es relevante para dicho servicio, si no para el uso interno de aplicación.
+Por ello, la mejor opción sería crear una base de datos en el back end relaccionada con los usuarios del servicio de autenticación, pero que contenga esta información adicional, la cual es útil a nivel de aplicación para relaccionar los usuarios. También sería necesario crear los servicios y la API REST para interaccionar con esta nueva tabla.
 
 Una vez tengamos la DB del usuario modificada con una consulta desde la API podremos conseguir la información de los usuarios que seguimos y las preguntas que han realizado, debido a que en la DB de preguntas tenemos el atributo "creador".
 
@@ -36,14 +37,17 @@ Se basa en el modelo clave-valor, los nodos tendrán relaciones entre sí y adem
 Los índices se crean sobre las etiquetas de los nodos, las relaciones y las propiedades.
 Las consultas básicas son: Búsqueda de nodos(POST,USUARIOS), relaciones mediante los índices.Navegación por el grafo (traversals). 
 
-Esto sería ya remodelar toda la base de datos y centrarlo más a una red social como puede ser Twitter, que a un foro. Es por esta razón, que no es adecuado realizar estos cambios, pero aún así nos ha parecido interesante incluirlo.
+Esto sería ya remodelar toda la base de datos y centrarlo más a una red social como puede ser Twitter, que a un foro. Es por esta razón, que no es adecuado realizar estos cambios, pero aún así nos ha parecido interesante incluirlo. 
+Tal y como está diseñada la aplicación, se podría implementar una versión básica, utilizando la nueva tabla del Back End de información del usuario, para relaccionar a los usuarios entre si. Una vez relaccionados, en el apartado reservado para mostrar información de los usuarios que sigues, se podría mostrar la lista de preguntas que ha realizado dicho usuario en el foro, mediante una consulta SQL a la base de datos de preguntas, filtrando por el usuario creador, y así obtener dicha información. 
+Esta versión sería limitada, ya que no permitiría tener una buena escalabilidad a futuro, como la que si tendríamos utilizando relacciones de grafos, las cuales nos permiten estudiar dichas relacciones en profundidas y en un futuro poder incluso implementar un sistema de recomendación de usuarios a seguir, en base a las relacciones de los usuarios que sigues.
+
 
 
 
 ## Baneo temporal y Bloqueo de usuarios
 En la pestaña de reportes se añadirá tambien un botón que permitirá bloquear a ciertos usuarios durante un tiempo. También podriamos añadir una opción en los roles que sea bloqueado provocando que no tenga acceso a la aplicación.
 
-Para poder llevar esto a cabo seria importante añadir en la base de datos de usuario un parámetro que diga si está bloqueado o no, y pueda modificarse, provocando que aunque ponga los credenciales correctos en el "log in" no le deje acceder.
+Para poder llevar esto a cabo seria importante añadir en la base de datos de usuario un parámetro que diga si está bloqueado o no, y pueda modificarse, provocando que aunque ponga los credenciales correctos en el "log in" no le deje acceder. Esta información si que es relevante para el sistema de autenticación, para validar o rechazar el "log in", por lo que dicha información sería conveniente almacenarla en la base de datos actual del sistema de autenticación.
 
 Ya a una linea más de futuro para evitar las multicuentas de usuarios bloqueados podemos bloquearlos via IP pero este apartado tiene que ver más con la seguridad de la propia web.
 
@@ -51,6 +55,9 @@ Ya a una linea más de futuro para evitar las multicuentas de usuarios bloqueado
 ## Gestión básica de perfil
  * Añadir diferentes pestañas dónde el usuario pueda cambiar credenciales, eleccion modo oscuro modo claro, una bibliografia y una foto de perfil.
  * Esto conlleva poder realizar modificaciones en la base de datos y sobreescribir los datos antiguos con los nuevos.
+ * Esta información podríamos almacenarla en una nueva tabla del Back End de información de usuario, ya que no es información util para el sistema de autenticación, pero es importante tenerla relaccionada con cada usuario del foro, para que todos puedas realizar su personalización propia y se cargue cada vez que entren al foro.
+
+
 ## Buscador de palabras clave
   * Primero con la interfaz deberemos recoger texto ayudandonos de los formularios de html de este modo podemos recoger las palabras clave
   * De esta forma podemos consultar en la DB mediante la API los títulos de las preguntas que tengan el texto escrito en el formulario.
