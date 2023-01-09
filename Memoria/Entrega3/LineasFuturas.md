@@ -8,6 +8,11 @@
 Teniendo en cuenta que nos hemos basado en un patrón de diseño de fachada, el añadir clases nos permitiría no tener que hacer grandes cambios estructurales. Además, este patrón permitiría cumplir el open close, ya que estaría cerrado a modificaciones, pero abierto a futuras extensiones.
 
 ## Relaciones entre usuarios
+
+![](https://i.imgur.com/yPEknRV.jpg)
+
+
+
 La idea principal es que los usuarios puedan seguir a otros,de este modo en nuestra feed principal o home nos aparezcan las últimas preguntas realizadas por los usuarios que seguimos en un orden cronológico.
 
 A la hora de implementarlo tendriamos que seguir los siguientes pasos:
