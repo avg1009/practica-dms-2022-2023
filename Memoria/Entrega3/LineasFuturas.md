@@ -5,7 +5,7 @@
 * Crear relaciones entre usuarios, es decir, poder seguir a un usuario y entonces en tu feed personal verás las preguntas que realizan los usuario que sigues.(listado de preguntas de gente que sigues)
 * Gestión básica de perfil de usuario cambiar credenciales, apodos, modo oscuro o modo claro, foto de perfil.
 
-Teniendo en cuenta que nos hemos basado en un patrón de diseño de fachada, el añadir clases nos permitiría no tener que hacer grandes cambios estructurales.
+Teniendo en cuenta que nos hemos basado en un patrón de diseño de fachada, el añadir clases nos permitiría no tener que hacer grandes cambios estructurales. Además, este patrón permitiría cumplir el open close, ya que estaría cerrado a modificaciones, pero abierto a futuras extensiones.
 
 ## Relaciones entre usuarios
 La idea principal es que los usuarios puedan seguir a otros,de este modo en nuestra feed principal o home nos aparezcan las últimas preguntas realizadas por los usuarios que seguimos en un orden cronológico.
