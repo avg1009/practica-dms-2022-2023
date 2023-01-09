@@ -6,7 +6,7 @@ from sqlalchemy.orm.exc import NoResultFound  # type: ignore
 from dms2223backend.data.db.results.preguntaDB import Pregunta
 from dms2223backend.data.db.exc import PreguntaExisteError
 from dms2223backend.data.db.exc import PreguntaNoExisteError
-
+from flask import current_app
 
 class Preguntas():
     """ Class responsible of table-level users operations.
@@ -77,3 +77,16 @@ class Preguntas():
                 'The question with title ' + id + ' don\'t exists.'
                 ) from ex
         return pregunta
+
+    @staticmethod
+    def update(session: Session,id:int):
+
+        if not id:
+            raise ValueError('An id is requiered.')
+        try:
+            session.query(Pregunta).filter(Pregunta.id == id).update({"visible": False})
+            session.commit()
+        except NoResultFound as ex:
+            raise PreguntaNoExisteError(
+                'The question with title ' + id + ' don\'t exists.'
+                ) from ex

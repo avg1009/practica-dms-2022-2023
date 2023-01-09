@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List, Dict
 from sqlalchemy.orm.session import Session
-from dms2223backend.data.db.schema import Schema  # type: ignore
+from dms2223backend.data.db.schema import Schema
 from dms2223backend.data.db.results import Pregunta
 from dms2223backend.data.db.resultsets import Preguntas
 import dms2223common.data.Pregunta as common
@@ -37,7 +37,7 @@ class PreguntaService():
         session: Session = schema.new_session()
         preguntas: List[Pregunta] = Preguntas.list_all(session)
         for pregunta in preguntas:
-            out.append(common.Pregunta(pregunta.creador,pregunta.titulo,pregunta.descripcion,pregunta.id, datetime.fromisoformat(pregunta.fechaCreacion)))
+            out.append(common.Pregunta(pregunta.creador,pregunta.titulo,pregunta.descripcion,pregunta.id, datetime.fromisoformat(pregunta.fechaCreacion),pregunta.visible))
         schema.remove_session()
         return out
 
@@ -45,6 +45,12 @@ class PreguntaService():
     def get_pregunta(id : int, schema: Schema) -> common.Pregunta:
         session : Session = schema.new_session()
         pregunta : Pregunta = Preguntas.get_pregunta(session, id)
-        out= common.Pregunta(pregunta.creador,pregunta.titulo,pregunta.descripcion,pregunta.id, datetime.fromisoformat(pregunta.fechaCreacion))
+        out= common.Pregunta(pregunta.creador,pregunta.titulo,pregunta.descripcion,pregunta.id, datetime.fromisoformat(pregunta.fechaCreacion),pregunta.visible)
         schema.remove_session()
         return out
+
+    @staticmethod
+    def update_pregunta(id:int,schema: Schema):
+        session: Session = schema.new_session()
+        Preguntas.update(session,id)
+        schema.remove_session()

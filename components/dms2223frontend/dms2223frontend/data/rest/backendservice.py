@@ -206,21 +206,20 @@ class BackendService():
             response_data.set_content([])
         return response_data
 
-    def change_report(self,token: Optional[str],id:int):
+    def change_report(self,token: Optional[str],report: Reporte):
 
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
-            self.__base_url() + f"/questions/reports/{id}",
+            self.__base_url() + f"/reports",
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
             },
+            json={"status":report.getEstado().name, "id":report.getId(), "tipo":report.getTipoElemento()},
             timeout=60
         )
         response_data.set_successful(response.ok)
-        if response_data.is_successful():
-            response_data.set_content(response.json())
-        else:
+        if not response_data.is_successful():
             response_data.add_message(response.content.decode('ascii'))
         return response_data
 

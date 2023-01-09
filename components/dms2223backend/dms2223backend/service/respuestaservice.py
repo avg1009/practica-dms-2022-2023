@@ -44,7 +44,7 @@ class RespuestaService:
         respuestas: List[Respuesta] = Respuestas.list_all(session,id_pregunta)
         for respuesta in respuestas:
             if respuesta.id_pregunta== id_pregunta:
-                out.append(common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id,datetime.fromisoformat(respuesta.fechaCreacion)))
+                out.append(common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id,datetime.fromisoformat(respuesta.fechaCreacion),respuesta.visible))
         schema.remove_session()
         return out
     
@@ -52,6 +52,12 @@ class RespuestaService:
     def get_respuesta(id : int, schema: Schema) -> common.Respuesta:
         session : Session = schema.new_session()
         respuesta : Respuesta = Respuestas.get_respuesta(session, id)
-        out: common.Respuesta = common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id,datetime.fromisoformat(respuesta.fechaCreacion))
+        out: common.Respuesta = common.Respuesta(respuesta.creador,respuesta.descripcion,respuesta.id,datetime.fromisoformat(respuesta.fechaCreacion),respuesta.visible)
         schema.remove_session()
         return out
+
+    @staticmethod
+    def update_respuesta(id: int, schema: Schema):
+        session: Session = schema.new_session()
+        Respuestas.update(session,id)
+        schema.remove_session()

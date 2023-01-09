@@ -1,11 +1,11 @@
 body {
-  background-color: #f45b69;
+  background-color: #141414;
   font-family: "Asap", sans-serif;
 }
 
 .login {
   overflow: hidden;
-  background-color: white;
+  background-color: #252525;
   padding: 40px 30px 30px 30px;
   border-radius: 10px;
   position: absolute;
@@ -72,13 +72,13 @@ body {
   margin-top: 10px;
   margin-left: -5px;
   border-radius: 5px;
-  background-color: #f45b69;
+  background-color: #5e72da;
   -webkit-transition: background-color 300ms;
   -moz-transition: background-color 300ms;
   transition: background-color 300ms;
 }
 .login > button:hover {
-  background-color: #f24353;
+  background-color: #fff;
 }
 
 @-webkit-keyframes wawes {

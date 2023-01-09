@@ -6,13 +6,13 @@ class Pregunta:
 
     
     
-    def __init__(self, creador:str, titulo:str, descripcion:str, id:Optional[int]=None, fecha:datetime=datetime.now()):
+    def __init__(self, creador:str, titulo:str, descripcion:str, id:Optional[int]=None, fecha:datetime=datetime.now(),visible=True):
         self.__id:Optional[int] = id
         self.__creador:str = creador
         self.__titulo: str = titulo
         self.__descripcion: str = descripcion
         self.__fechaCreacion:datetime = fecha
-        self.__visible:bool = True
+        self.__visible:bool = visible
         self.__respuestas:List[Respuesta] = []
         self.__reporte = False
 

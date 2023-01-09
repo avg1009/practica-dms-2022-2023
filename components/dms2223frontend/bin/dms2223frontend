@@ -95,12 +95,8 @@ def report_comments(pregunta_id,respuesta_id,comentario_id):
 def get_moderator():
     return ModeratorEndpoints.get_moderator(auth_service,backend_service)
 
-@app.route("/moderator/<int:id_reporte>", methods=['GET'])
-def get_report(id_reporte: int):
-    return ModeratorEndpoints.get_report(auth_service,backend_service,id_reporte)
-
 @app.route("/moderator/<int:id_reporte>", methods=['POST'])
-def post_report_question(id_reporte: int):
+def post_report(id_reporte: int):
     return ModeratorEndpoints.post_report(auth_service,backend_service,id_reporte)
 
 @app.route("/admin", methods=['GET'])

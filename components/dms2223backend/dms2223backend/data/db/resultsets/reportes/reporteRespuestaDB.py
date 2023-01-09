@@ -78,3 +78,18 @@ class ReporteRespuestas():
                 'The report with title ' + id + ' don\'t exists.'
                 ) from ex
         return reporte
+
+    @staticmethod
+    def update_reporte(session:Session,id:int,estado):
+
+
+        if not id:
+            raise ValueError("An id is requiered.")
+        try:
+            query = session.query(ReporteRespuesta).filter(ReporteRespuesta.id == id)
+            query.update({ReporteRespuesta.estado: estado})
+            session.commit()
+        except NoResultFound as ex:
+            raise ReporteNoExisteError(
+                f"The report with id {id} doesn't exists."
+            ) from ex

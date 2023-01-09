@@ -41,7 +41,7 @@ class ComentarioService:
         comentarios: List[Comentario] = Comentarios.list_all(session,id_respuesta)
         for comentario in comentarios:
             if comentario.id_respuesta== id_respuesta:
-                out.append(common.Comentario(comentario.creador,comentario.descripcion,comentario.sentimiento,comentario.id,datetime.fromisoformat(comentario.fechaCreacion)))
+                out.append(common.Comentario(comentario.creador,comentario.descripcion,comentario.sentimiento,comentario.id,datetime.fromisoformat(comentario.fechaCreacion),comentario.visible))
         schema.remove_session()
         return out
 
@@ -49,6 +49,12 @@ class ComentarioService:
     def get_comentario(id : int, schema: Schema) -> common.Comentario:
         session : Session = schema.new_session()
         comentario : Comentario = Comentarios.get_comentario(session, id)
-        out: common.Comentario = common.Comentario(comentario.creador,comentario.descripcion,comentario.sentimiento,comentario.id,datetime.fromisoformat(comentario.fechaCreacion))
+        out: common.Comentario = common.Comentario(comentario.creador,comentario.descripcion,comentario.sentimiento,comentario.id,datetime.fromisoformat(comentario.fechaCreacion),comentario.visible)
         schema.remove_session()
         return out
+
+    @staticmethod
+    def update_comentario(id:int,schema: Schema):
+        session: Session = schema.new_session()
+        Comentarios.update(session,id)
+        schema.remove_session()
