@@ -17,6 +17,24 @@ Una vez tengamos la DB del usuario modificada con una consulta desde la API podr
 
 Ahora podemos enviarle la información de las preguntas que tenemos que mostrar al frontend que aparecerán en "Home".
 
+FUMADA LOCA:
+Si queremos enfocar este proyecto a una especie de red social dónde los usuarios van a estar interactuando entre sí, creando diferentes post que a su vez pueden ser comentados por otros usuarios, sería mejor utilizar una base de datos NoSql orientada en grafos.
+
+Al decantarnos por una base de datos estructurada en grafos debemos cumplir las reglas ACID:
+
+* Atomicidad: Las preguntas o se crean o no, igual que los comentarios, no se pueden generar de forma parcial.
+* Consistencia: la BD siempre pasa por estados consistentes en estos casos las claves primarias de las preguntas.
+* Independencia: En nuestro caso todos los post serán de la misma manera no habrán cambios, todos tendrán que tener la misma estructura, al igual que los comentarios, por tanto todos tendrán la misma consistencia.
+* Durabilidad: una vez ejecutada una transacción, sus efectos deben permanecer a pesar de fallos en el servidor, tendremos que tener en cuenta que al ser una red social no nos podemos permitir caer y dejar la aplicación inoperativa durante x periodo de tiempo. 
+* Con todo lo expuesto anteriormente nos decantamos por NEO4J 
+Se basa en el modelo clave-valor, los nodos tendrán relaciones entre sí y además los nodos y estas relaciones tendrán descripciones. 
+Los índices se crean sobre las etiquetas de los nodos, las relaciones y las propiedades.
+Las consultas básicas son: Búsqueda de nodos(POST,USUARIOS), relaciones mediante los índices.Navegación por el grafo (traversals). 
+
+Esto sería ya remodelar toda la base de datos y centrarlo más a una red social como puede ser Twitter que a un foro
+
+
+
 ## Baneo temporal y Bloqueo de usuarios
 En la pestaña de reportes se añadirá tambien un botón que permitirá bloquear a ciertos usuarios durante un tiempo. también podriamos añadir una opción en los roles que sea bloqueado provocando que no tenga acceso a la aplicación.
 
