@@ -22,3 +22,5 @@ directa.
 - Reporte Service: contiene los métodos que hacen la conexión entre la base de datos correspondiente a los reportes (reporteComentarioDB, reportePreguntaDB, reporteRespuestaDB) permitiendo que se puedan ingresar y obtener datos
 - Respuesta Service: contiene los métodos que hacen la conexión entre la base de datos correspondiente a los respuesta (resuestaDB) permitiendo que se puedan ingresar y obtener datos 
 - Votos Service: contiene los métodos que hacen la conexión entre la base de datos correspondiente a los comentarios (votosComentarioDB y votosRespuestaDB) permitiendo que se puedan ingresar y obtener datos 
+
+En esta capa cabe destacar que se ha utilizado los constructores de las clases ya definidas previamente en dms2223common para evitar la reedición de código. Facilitando así futuras nuevas implementaciones en dichas clases ya que no afectarán significativamente a la capa de servicios evitando así sobreescribir código.
