@@ -4,6 +4,9 @@
 * Respecto a la anterior los usuarios también podrán bloquear usuarios para evitar acosos, amenazas y tener una comunidad limpia.
 * Crear relaciones entre usuarios, es decir, poder seguir a un usuario y entonces en tu feed personal verás las preguntas que realizan los usuario que sigues.(listado de preguntas de gente que sigues)
 * Gestión básica de perfil de usuario cambiar credenciales, apodos, modo oscuro o modo claro, foto de perfil.
+
+Teniendo en cuenta que nos hemos basado en un patrón de diseño de fachada, el añadir clases nos permitiría no tener que hacer grandes cambios estructurales.
+
 ## Relaciones entre usuarios
 La idea principal es que los usuarios puedan seguir a otros,de este modo en nuestra feed principal o home nos aparezcan las últimas preguntas realizadas por los usuarios que seguimos en un orden cronológico.
 
@@ -17,7 +20,9 @@ Una vez tengamos la DB del usuario modificada con una consulta desde la API podr
 
 Ahora podemos enviarle la información de las preguntas que tenemos que mostrar al frontend que aparecerán en "Home".
 
-FUMADA LOCA:
+
+Opción añadida, pero que conllevaría demasiados cambios en todo el proyecto y que por eso es algo que no sería conveniente aplicar tal como tenemos hecho el proyecto actualmente:
+
 Si queremos enfocar este proyecto a una especie de red social dónde los usuarios van a estar interactuando entre sí, creando diferentes post que a su vez pueden ser comentados por otros usuarios, sería mejor utilizar una base de datos NoSql orientada en grafos.
 
 Al decantarnos por una base de datos estructurada en grafos debemos cumplir las reglas ACID:
@@ -31,12 +36,12 @@ Se basa en el modelo clave-valor, los nodos tendrán relaciones entre sí y adem
 Los índices se crean sobre las etiquetas de los nodos, las relaciones y las propiedades.
 Las consultas básicas son: Búsqueda de nodos(POST,USUARIOS), relaciones mediante los índices.Navegación por el grafo (traversals). 
 
-Esto sería ya remodelar toda la base de datos y centrarlo más a una red social como puede ser Twitter que a un foro
+Esto sería ya remodelar toda la base de datos y centrarlo más a una red social como puede ser Twitter, que a un foro. Es por esta razón, que no es adecuado realizar estos cambios, pero aún así nos ha parecido interesante incluirlo.
 
 
 
 ## Baneo temporal y Bloqueo de usuarios
-En la pestaña de reportes se añadirá tambien un botón que permitirá bloquear a ciertos usuarios durante un tiempo. también podriamos añadir una opción en los roles que sea bloqueado provocando que no tenga acceso a la aplicación.
+En la pestaña de reportes se añadirá tambien un botón que permitirá bloquear a ciertos usuarios durante un tiempo. También podriamos añadir una opción en los roles que sea bloqueado provocando que no tenga acceso a la aplicación.
 
 Para poder llevar esto a cabo seria importante añadir en la base de datos de usuario un parámetro que diga si está bloqueado o no, y pueda modificarse, provocando que aunque ponga los credenciales correctos en el "log in" no le deje acceder.
 
