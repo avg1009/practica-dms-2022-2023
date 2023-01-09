@@ -5,9 +5,17 @@
 * Crear relaciones entre usuarios, es decir, poder seguir a un usuario y entonces en tu feed personal verás las preguntas que realizan los usuario que sigues.(listado de preguntas de gente que sigues)
 * Gestión básica de perfil de usuario cambiar credenciales, apodos, modo oscuro o modo claro, foto de perfil.
 ## Relaciones entre usuarios
-Para crear las relaciones entre usuarios deberá existir primero en el frontend un botón que al pulsarlo transmita al back que sigue a un usuario y segundo hay que modificar la DB con una columna nueva en usuarios que tenga una lista de los usuarios que sigue.
+La idea principal es que los usuarios puedan seguir a otros,de este modo en nuestra feed principal o home nos aparezcan las últimas preguntas realizadas por los usuarios que seguimos en un orden cronológico.
 
-Una vez tengamos la DB del usuario modificada con la lista de la gente que sigue, con una consulta a la DB desde la api dónde conociendo los usuarios que sigue el usuario, muestre las preguntas realizadas por dichos usuarios en una pestaña que sea "siguiendo".
+A la hora de implementarlo tendriamos que seguir los siguientes pasos:
+
+Primero en el frontend deberá existir un botón de "Seguir" en los perfiles de los usuarios.
+
+Habrá que modificar la base de datos de los usuarios añadiendo una columna que almacene todos los usuarios que seguimos.
+
+Una vez tengamos la DB del usuario modificada con una consulta desde la API podremos conseguir la información de los usuarios que seguimos y las preguntas que han realizado, debido a que en la DB de preguntas tenemos el atributo "creador".
+
+Ahora podemos enviarle la información de las preguntas que tenemos que mostrar al frontend que aparecerán en "Home".
 
 ## Baneo temporal y Bloqueo de usuarios
 En la pestaña de reportes se añadirá tambien un botón que permitirá bloquear a ciertos usuarios durante un tiempo. también podriamos añadir una opción en los roles que sea bloqueado provocando que no tenga acceso a la aplicación.
