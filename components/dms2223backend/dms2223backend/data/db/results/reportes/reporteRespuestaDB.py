@@ -15,8 +15,7 @@ class ReporteRespuesta(ResultBase):
         """ Constructor method.
         Initializes a answer record.
         Args:
-            - id_pregunta (int): A int with the question's id.
-            - content (str): A string with the answer of a question
+            - id_respuesta (int): A int with the question's id.
         """
         self.id:int
         self.id_respuesta : int = id_respuesta
