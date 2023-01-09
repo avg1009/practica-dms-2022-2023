@@ -13,10 +13,9 @@ class ReporteComentario(ResultBase):
 
     def __init__(self,descripcion:str, creador:str, estado:ReportStatus,id_comentario : int,fecha:str):
         """ Constructor method.
-        Initializes a answer record.
+        Initializes a report record.
         Args:
-            - id_pregunta (int): A int with the question's id.
-            - content (str): A string with the answer of a question
+            - id_comentario (int): A int with the question's id.
         """
         self.id:int
         self.id_comentario : int = id_comentario
